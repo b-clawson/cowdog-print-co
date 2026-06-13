@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cowdog Print Co. — Screen Printing Studio, Columbus WI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0D0B;
+    --rust:   #B8341B;
+    --cream:  #F0EBE0;
+    --warm:   #E8E0D0;
+    --text:   #1A1714;
+    --muted:  #7A6F65;
+    --rule:   rgba(26,23,20,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+    font-size: 12px !important;
+    letter-spacing: 0.14em;
+  }
+
+  .nav-cta:hover { background: #c93d22; color: var(--cream) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    min-height: 100vh;
+    padding: 60px 0 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .hero-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem 2.5rem 3rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 13vw, 160px);
+    line-height: 0.88;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-headline em {
+    color: var(--rust);
+    font-style: normal;
+  }
+
+  .hero-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(240,235,224,0.5);
+    max-width: 360px;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    flex-shrink: 0;
+  }
+
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.35);
+    margin-top: 4px;
+  }
+
+  /* ── SCROLL TICKER ── */
+  .ticker {
+    background: var(--rust);
+    overflow: hidden;
+    padding: 12px 0;
+    white-space: nowrap;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    gap: 0;
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    padding: 0 2rem;
+  }
+
+  .ticker-dot {
+    color: rgba(240,235,224,0.4);
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SHARED SECTION ── */
+  .section {
+    padding: 6rem 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 3rem;
+  }
+
+  .rule { border: none; border-top: 1px solid var(--rule); }
+
+  /* ── SERVICES (ledger layout) ── */
+  .services-wrap {
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 60px 1fr 200px;
+    gap: 2rem;
+    padding: 0.5rem 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .services-col-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .service-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 200px;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .service-row:last-child { border-bottom: none; }
+  .service-row:hover { background: var(--warm); }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    padding-top: 4px;
+  }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 480px;
+  }
+
+  .service-tag {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    padding-top: 6px;
+    text-align: right;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-wrap {
+    background: var(--warm);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 0;
+  }
+
+  .project-card {
+    background: var(--cream);
+    aspect-ratio: 4/5;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .project-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--warm);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .project-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-label {
+    position: relative;
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    padding: 1rem 1.25rem;
+    z-index: 1;
+  }
+
+  .project-label-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .project-label-type {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ── CONTACT / DARK SECTION ── */
+  .contact-wrap {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+    position: relative;
+  }
+
+  .contact-left .section-title { color: var(--cream); }
+  .contact-left .section-eyebrow { color: var(--rust); }
+
+  .contact-tagline {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(240,235,224,0.5);
+    line-height: 1.55;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-detail-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.3);
+    margin-bottom: 3px;
+  }
+
+  .contact-detail-value {
+    font-size: 15px;
+    color: rgba(240,235,224,0.7);
+  }
+
+  .contact-detail-value a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240,235,224,0.15);
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .contact-detail-value a:hover {
+    color: var(--cream);
+    border-color: rgba(240,235,224,0.4);
+  }
+
+  /* ── FORM ── */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.35);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: rgba(240,235,224,0.06);
+    border: 1px solid rgba(240,235,224,0.12);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+    width: 100%;
+    outline: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+    transition: border-color 0.15s;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(240,235,224,0.2); }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: rgba(240,235,224,0.35); }
+
+  .form-group select option { background: var(--ink); color: var(--cream); }
+
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .form-submit {
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    padding: 14px 36px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 6px;
+    transition: background 0.15s;
+  }
+
+  .form-submit:hover { background: #c93d22; }
+
+  .form-thanks {
+    display: none;
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .form-thanks h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-thanks p { color: rgba(240,235,224,0.5); font-size: 15px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: rgba(240,235,224,0.2);
+    letter-spacing: 0.08em;
+  }
+
+  footer a {
+    font-size: 12px;
+    color: rgba(240,235,224,0.2);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.15s;
+  }
+
+  footer a:hover { color: rgba(240,235,224,0.5); }
+
+
+  /* ── ACCORDION SERVICES ── */
+  .accordion-services {
+    border-top: 1px solid var(--rule);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .accs-row {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .accs-trigger {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.75rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+  }
+
+  .accs-trigger:hover { background: rgba(0,0,0,0.02); }
+  .accs-trigger:hover .accs-num { color: var(--rust); }
+
+  .accs-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    transition: color 0.15s;
+  }
+
+  .accs-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .accs-tag {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .accs-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s ease;
+    line-height: 1;
+  }
+
+  .accs-trigger[aria-expanded="true"] .accs-arrow {
+    transform: rotate(180deg);
+    color: var(--rust);
+  }
+
+  .accs-trigger[aria-expanded="true"] .accs-name {
+    color: var(--rust);
+  }
+
+  .accs-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .accs-panel.open {
+    grid-template-rows: 1fr;
+  }
+
+  .accs-panel-inner {
+    overflow: hidden;
+    padding-bottom: 0;
+    transition: padding-bottom 0.35s ease;
+  }
+
+  .accs-panel.open .accs-panel-inner {
+    padding-bottom: 2.5rem;
+  }
+
+  .accs-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin-bottom: 1.25rem;
+    padding-left: 75px;
+  }
+
+  .meta-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .meta-val {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .accs-desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 1.75rem;
+    padding-left: 75px;
+  }
+
+  /* ── PRICE TABLES ── */
+  .price-table-wrap {
+    padding-left: 75px;
+    overflow-x: auto;
+  }
+
+  .price-table-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    min-width: 480px;
+  }
+
+  .price-table thead tr {
+    background: var(--rust);
+  }
+
+  .price-table thead th {
+    color: var(--cream);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: normal;
+  }
+
+  .price-table thead th:first-child { width: 120px; }
+
+  .price-table tbody tr {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .price-table tbody tr:hover { background: var(--warm); }
+
+  .price-table tbody td {
+    padding: 10px 14px;
+    color: var(--text);
+  }
+
+  .price-table tbody td:first-child {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .price-table--2col thead th:last-child,
+  .price-table--2col tbody td:last-child {
+    text-align: right;
+  }
+
+  .price-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .price-note-box {
+    margin-top: 1rem;
+    border: 1px solid var(--rule);
+    padding: 1rem 1.25rem;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    background: var(--warm);
+  }
+
+  .price-note-box strong { color: var(--text); }
+
+  @media (max-width: 768px) {
+    .accordion-services { padding: 0 1.25rem; }
+    .accs-trigger { grid-template-columns: 36px 1fr auto; }
+    .accs-tag { display: none; }
+    .accs-meta, .accs-desc, .price-table-wrap { padding-left: 0; }
+  }
+
+
+  /* ── ESTIMATOR ── */
+  .estimator-wrap {
+    background: var(--warm);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .estimator-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .est-intro {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    margin-top: -1.5rem;
+  }
+
+  .estimator-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* Controls */
+  .est-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .est-field {}
+
+  .est-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .est-qty-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--rust);
+    letter-spacing: 0.04em;
+  }
+
+  /* Radio print type */
+  .est-radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .est-radio input { display: none; }
+
+  .est-radio-box {
+    display: block;
+    border: 1px solid var(--rule);
+    background: var(--cream);
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .est-radio input:checked + .est-radio-box {
+    border-color: var(--rust);
+    background: var(--cream);
+    outline: 2px solid var(--rust);
+    outline-offset: -1px;
+  }
+
+  .est-radio-name {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .est-radio-sub {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Slider */
+  .est-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--rust) 0%, var(--rust) 50%, rgba(26,23,20,0.15) 50%);
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
+
+  .est-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--rust);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--rust);
+  }
+
+  .est-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--rust);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--rust);
+  }
+
+  .est-slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Stepper */
+  .est-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: fit-content;
+    border: 1px solid var(--rule);
+    background: var(--cream);
+  }
+
+  .est-step-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+    line-height: 1;
+  }
+
+  .est-step-btn:hover { background: var(--warm); }
+
+  .est-step-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    width: 44px;
+    text-align: center;
+    color: var(--text);
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    line-height: 40px;
+  }
+
+  .est-field-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* Checkboxes */
+  .est-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .est-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .est-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--rust);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .est-check-cost {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Output panel */
+  .est-output-sticky {
+    position: sticky;
+    top: 80px;
+    background: var(--ink);
+    padding: 2rem;
+    color: var(--cream);
+  }
+
+  .est-output-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.35);
+    margin-bottom: 1.5rem;
+  }
+
+  .est-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .est-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13.5px;
+  }
+
+  .est-line-name { color: rgba(240,235,224,0.55); }
+  .est-line-val { color: var(--cream); font-variant-numeric: tabular-nums; }
+  .est-line.est-line-sub .est-line-name { font-size: 12px; padding-left: 1rem; }
+  .est-line.est-line-sub .est-line-val { font-size: 12px; color: rgba(240,235,224,0.5); }
+
+  .est-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.25rem 0 0.5rem;
+    border-top: 2px solid rgba(255,255,255,0.15);
+    margin-top: 0.25rem;
+  }
+
+  .est-total-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: rgba(240,235,224,0.5);
+  }
+
+  .est-total-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .est-per-piece {
+    font-size: 12px;
+    color: rgba(240,235,224,0.35);
+    text-align: right;
+    margin-bottom: 1.25rem;
+  }
+
+  .est-disclaimer {
+    font-size: 11.5px;
+    color: rgba(240,235,224,0.3);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1rem;
+  }
+
+  .est-cta {
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+  }
+
+  .est-cta:hover { background: #c93d22; }
+  .est-cta:disabled { background: rgba(255,255,255,0.1); color: rgba(240,235,224,0.25); cursor: not-allowed; }
+
+  @media (max-width: 768px) {
+    .estimator-grid { grid-template-columns: 1fr; }
+    .est-output-sticky { position: static; }
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .ticker-track { animation: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .hero-inner { padding: 3rem 1.25rem 2rem; }
+    .hero-stats { gap: 2rem; }
+    .section { padding: 4rem 1.25rem; }
+    .services-header { display: none; }
+    .service-row { grid-template-columns: 40px 1fr; padding: 1.5rem 1.25rem; }
+    .service-tag { display: none; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.25rem; }
+    .form-row-2 { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; padding: 1.25rem; }
+  }
+
+  @media (max-width: 500px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- Inline dog silhouette placeholder — swap with your actual logo SVG or img -->
+    <svg viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 22 C6 22 2 20 2 16 C2 12 5 10 5 10 L8 6 L12 4 L16 5 L18 4 L22 4 L26 6 L30 5 L34 8 L36 12 L36 16 L34 20 L30 22 L28 20 L24 22 L20 24 L16 24 L12 22 L8 24 Z" fill="#B8341B" opacity="0.9"/>
+      <path d="M30 5 L34 2 L36 4 L34 8 Z" fill="#B8341B"/>
+      <path d="M8 24 L6 28 L10 28 L12 24Z M20 24 L19 28 L23 28 L24 22Z" fill="#B8341B" opacity="0.7"/>
+    </svg>
+    Cowdog Print Co.
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Columbus, Wisconsin · Water-based inks · Est. 2022</span>
+    <h1 class="hero-headline">
+      YOUR IDEA.<br>
+      <em>PRINTED</em><br>
+      RIGHT.
+    </h1>
+    <div class="hero-footer">
+      <p class="hero-desc">Artist-run screen printing for small brands, bands, and independent makers. We know what it takes to do it right — and we love doing it.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Water-based ink</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">3+</div>
+          <div class="hero-stat-label">Years printing</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">WI</div>
+          <div class="hero-stat-label">Columbus studio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Custom Screen Printing</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Water-Based Inks</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Merch Strategy</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Design Consulting</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Retail Production</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Artist Collabs</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Columbus Showroom</span><span class="ticker-item ticker-dot">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Custom Screen Printing</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Water-Based Inks</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Merch Strategy</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Design Consulting</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Retail Production</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Artist Collabs</span><span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Columbus Showroom</span><span class="ticker-item ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="services-wrap" id="services">
+  <div class="section" style="padding-bottom: 0; padding-top: 5rem;">
+    <span class="section-eyebrow reveal">From idea to ink</span>
+    <h2 class="section-title reveal">What we do.</h2>
+  </div>
+
+  <!-- ACCORDION SERVICES -->
+  <div class="accordion-services">
+
+    <!-- 01 Screen Printing -->
+    <div class="accs-row reveal">
+      <button class="accs-trigger" aria-expanded="false">
+        <span class="accs-num">01</span>
+        <span class="accs-name">Screen Printing</span>
+        <span class="accs-tag">Print</span>
+        <span class="accs-arrow">↓</span>
+      </button>
+      <div class="accs-panel">
+        <div class="accs-panel-inner">
+          <div class="accs-meta">
+            <div><span class="meta-label">Options</span><span class="meta-val">Standard (15"×18") · Jumbo (17"×23")</span></div>
+            <div><span class="meta-label">Inks</span><span class="meta-val">100% water-based only</span></div>
+            <div><span class="meta-label">Min. Order</span><span class="meta-val">48 pieces</span></div>
+            <div><span class="meta-label">Turnaround</span><span class="meta-val">2–3 weeks</span></div>
+          </div>
+          <div class="accs-desc">Our bread and butter. We print on tees, sweatshirts, tote bags, posters, and more using 100% water-based inks — no plastisol, no shortcuts. Up to 6 colors per location, soft hand feel, prints that age beautifully. Standard and jumbo sizing available depending on how big you want to go.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Retail Production & Fulfillment -->
+    <div class="accs-row reveal">
+      <button class="accs-trigger" aria-expanded="false">
+        <span class="accs-num">02</span>
+        <span class="accs-name">Retail Production & Fulfillment</span>
+        <span class="accs-tag">Production</span>
+        <span class="accs-arrow">↓</span>
+      </button>
+      <div class="accs-panel">
+        <div class="accs-panel-inner">
+          <div class="accs-meta">
+            <div><span class="meta-label">Includes</span><span class="meta-val">Neck tags · Fold & poly · Hang tags · Fulfillment</span></div>
+            <div><span class="meta-label">Lead Time</span><span class="meta-val">+3 days to standard turnaround</span></div>
+          </div>
+          <div class="accs-desc">Running a label, restocking for a tour, or building inventory for a shop? We handle the full back end — printed neck tags, folding and bagging, hang tag application, and fulfillment. Everything is à la carte so you only pay for what you actually need. We keep quality consistent across runs so you're never scrambling before a launch.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Design & Merch Consulting -->
+    <div class="accs-row reveal">
+      <button class="accs-trigger" aria-expanded="false">
+        <span class="accs-num">03</span>
+        <span class="accs-name">Design & Merch Consulting</span>
+        <span class="accs-tag">Strategy</span>
+        <span class="accs-arrow">↓</span>
+      </button>
+      <div class="accs-panel">
+        <div class="accs-panel-inner">
+          <div class="accs-meta">
+            <div><span class="meta-label">Good for</span><span class="meta-val">First-time merch · New label launches · Rebrands</span></div>
+          </div>
+          <div class="accs-desc">Don't just print anything — make something people actually want to wear. We help you think through art direction, colorways, garment selection, and what your audience will actually buy. Whether you're starting from a rough sketch or a finished file, we'll make sure it's set up right before it ever hits a screen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Artist Collaborations -->
+    <div class="accs-row reveal">
+      <button class="accs-trigger" aria-expanded="false">
+        <span class="accs-num">04</span>
+        <span class="accs-name">Artist Collaborations</span>
+        <span class="accs-tag">Collab</span>
+        <span class="accs-arrow">↓</span>
+      </button>
+      <div class="accs-panel">
+        <div class="accs-panel-inner">
+          <div class="accs-meta">
+            <div><span class="meta-label">Good for</span><span class="meta-val">Limited drops · Independent artists · Musicians · Makers</span></div>
+          </div>
+          <div class="accs-desc">Some of our favorite work happens when we team up directly with artists on limited runs. Bring your designs — we'll handle the rest and make it look incredible. We've worked with illustrators, musicians, and independent brands who want merch that actually reflects their work, not something generic off a template.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion-services -->
+</div>
+
+<!-- ESTIMATOR -->
+<div class="estimator-wrap" id="estimate">
+  <div class="section estimator-section">
+    <span class="section-eyebrow reveal">No surprises</span>
+    <h2 class="section-title reveal">Get a ballpark<br>right now.</h2>
+    <p class="est-intro reveal">Pick your options and see a live estimate before you commit to anything. Blanks and shipping are quoted separately — this covers print and finishing only.</p>
+
+    <div class="estimator-grid reveal">
+
+      <!-- LEFT: Controls -->
+      <div class="est-controls">
+
+        <div class="est-field">
+          <label class="est-label">Print Type</label>
+          <div class="est-radio-group">
+            <label class="est-radio">
+              <input type="radio" name="print_type" value="standard" checked>
+              <span class="est-radio-box">
+                <span class="est-radio-name">Standard</span>
+                <span class="est-radio-sub">Up to 15"×18"</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="print_type" value="jumbo">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Jumbo</span>
+                <span class="est-radio-sub">Up to 17"×23"</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="est-field">
+          <label class="est-label" for="est-qty">Quantity <span class="est-qty-display" id="est-qty-display">100</span></label>
+          <input type="range" id="est-qty" class="est-slider" min="48" max="500" step="1" value="100">
+          <div class="est-slider-ticks">
+            <span>48</span><span>100</span><span>250</span><span>500+</span>
+          </div>
+        </div>
+
+        <div class="est-field">
+          <label class="est-label">Ink Colors <span class="est-qty-display" id="est-colors-display">2</span></label>
+          <div class="est-stepper">
+            <button class="est-step-btn" id="colors-down" aria-label="Fewer colors">−</button>
+            <span class="est-step-val" id="est-colors-val">2</span>
+            <button class="est-step-btn" id="colors-up" aria-label="More colors">+</button>
+          </div>
+          <p class="est-field-note">Per print location. Max 6.</p>
+        </div>
+
+        <div class="est-field">
+          <label class="est-label">Print Locations <span class="est-qty-display" id="est-locs-display">1</span></label>
+          <div class="est-stepper">
+            <button class="est-step-btn" id="locs-down" aria-label="Fewer locations">−</button>
+            <span class="est-step-val" id="est-locs-val">1</span>
+            <button class="est-step-btn" id="locs-up" aria-label="More locations">+</button>
+          </div>
+          <p class="est-field-note">Front, back, sleeve, etc.</p>
+        </div>
+
+        <div class="est-field">
+          <label class="est-label">Add-ons</label>
+          <div class="est-checks">
+            <label class="est-check"><input type="checkbox" name="addon" value="dark" data-cost="0" data-label="Dark garment (+1 color)"> Dark garment base <span class="est-check-cost">+1 color</span></label>
+            <label class="est-check"><input type="checkbox" name="addon" value="puff" data-cost="1.25" data-label="Puff ink (+$1.25/pc)"> Puff ink <span class="est-check-cost">+$1.25/pc</span></label>
+            <label class="est-check"><input type="checkbox" name="addon" value="specialty" data-cost="1.25" data-label="Specialty ink (+$1.25/pc)"> Specialty ink <span class="est-check-cost">+$1.25/pc</span></label>
+            <label class="est-check"><input type="checkbox" name="addon" value="rush" data-cost="0" data-label="Rush production (+30%)"> Rush production <span class="est-check-cost">+30%</span></label>
+          </div>
+        </div>
+
+        <div class="est-field">
+          <label class="est-label">Finishing (optional)</label>
+          <div class="est-checks">
+            <label class="est-check"><input type="checkbox" name="finishing" value="necktag" data-label="Printed neck tags"> Printed neck tags</label>
+            <label class="est-check"><input type="checkbox" name="finishing" value="foldpoly" data-label="Fold & poly bagging"> Fold & poly bagging</label>
+            <label class="est-check"><input type="checkbox" name="finishing" value="hangtag" data-label="Hang tags"> Hang tags</label>
+            <label class="est-check"><input type="checkbox" name="finishing" value="fulfillment" data-label="Fulfillment"> Fulfillment</label>
+          </div>
+        </div>
+
+      </div><!-- /est-controls -->
+
+      <!-- RIGHT: Output -->
+      <div class="est-output">
+        <div class="est-output-sticky">
+          <div class="est-output-label">Your estimate</div>
+
+          <div class="est-breakdown" id="est-breakdown">
+            <!-- filled by JS -->
+          </div>
+
+          <div class="est-total-row">
+            <div class="est-total-label">Est. total</div>
+            <div class="est-total-val" id="est-total">—</div>
+          </div>
+          <div class="est-per-piece" id="est-per-piece"></div>
+
+          <p class="est-disclaimer">Print costs only. Blanks, shipping, and taxes quoted separately. Final price confirmed after artwork review.</p>
+
+          <button class="est-cta" id="est-prefill-btn">Request This Quote →</button>
+        </div>
+      </div>
+
+    </div><!-- /estimator-grid -->
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="projects-wrap" id="projects">
+  <div class="section" style="padding-bottom: 2.5rem;">
+    <span class="section-eyebrow reveal">Rolling off the press</span>
+    <h2 class="section-title reveal">Recent work.</h2>
+  </div>
+  <div class="projects-grid reveal" style="max-width: 1100px; margin: 0 auto 6rem; border-left: 1px solid var(--rule); border-right: 1px solid var(--rule);">
+    <div class="project-card">
+      <img class="project-img" src="assets/dead-set.jpg" alt="Dead Set fishing brand tee">
+      <div class="project-label">
+        <div class="project-label-name">Dead Set</div>
+        <div class="project-label-type">Fishing Brand · Pensacola, FL</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <img class="project-img" src="assets/fly-kid-fly.jpg" alt="Fly Kid Fly coffee shop tee">
+      <div class="project-label">
+        <div class="project-label-name">Fly Kid Fly</div>
+        <div class="project-label-type">Coffee Shop · Charlotte, NC</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <img class="project-img" src="assets/august.jpg" alt="August streetwear tee">
+      <div class="project-label">
+        <div class="project-label-name">August</div>
+        <div class="project-label-type">Streetwear · Madison, WI</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-wrap" id="contact">
+  <div class="contact-grain"></div>
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <span class="section-eyebrow">Let's work together</span>
+      <h2 class="section-title">Tell us what<br>you're making.</h2>
+      <p class="contact-tagline">Whether you're starting with a rough sketch or a finished file — we'll help you print it right from the start.</p>
+      <div class="contact-details">
+        <div>
+          <div class="contact-detail-label">Showroom</div>
+          <div class="contact-detail-value">127 E. James St.<br>Columbus, WI 53925</div>
+        </div>
+        <div>
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href="mailto:info@cowdogprint.co">info@cowdogprint.co</a></div>
+        </div>
+        <div>
+          <div class="contact-detail-label">Instagram</div>
+          <div class="contact-detail-value"><a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">@cowdogprintco</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <form id="cd-form" name="cowdog-quote" netlify data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="cowdog-quote">
+        <p style="display:none"><input name="bot-field"></p>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="cd-name">Name*</label>
+            <input type="text" id="cd-name" name="name" placeholder="Who's dreaming this up?" required>
+          </div>
+          <div class="form-group">
+            <label for="cd-email">Email*</label>
+            <input type="email" id="cd-email" name="email" placeholder="Where to send your quote" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cd-org">Business or Organization</label>
+          <input type="text" id="cd-org" name="organization" placeholder="If you're representing one">
+        </div>
+        <div class="form-group">
+          <label for="cd-print">What are you looking to print?*</label>
+          <input type="text" id="cd-print" name="what_to_print" placeholder="T-shirts, posters, tote bags..." required>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="cd-qty">Estimated quantity*</label>
+            <select id="cd-qty" name="quantity" required>
+              <option value="" disabled selected>Ballpark is fine</option>
+              <option>Under 24</option>
+              <option>24–48</option>
+              <option>48–100</option>
+              <option>100–250</option>
+              <option>250+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cd-artwork">Artwork ready?*</label>
+            <select id="cd-artwork" name="artwork_ready" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Yes, ready to go</option>
+              <option>In progress</option>
+              <option>Need help with design</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cd-timeline">When do you need it?</label>
+          <input type="text" id="cd-timeline" name="timeline" placeholder="Date or general timeframe">
+        </div>
+        <div class="form-group">
+          <label for="cd-notes">Anything else?</label>
+          <textarea id="cd-notes" name="notes" placeholder="Special requests, ideas, or details we should know"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send It Over</button>
+      </form>
+      <div class="form-thanks" id="cd-thanks">
+        <h3>You're in.</h3>
+        <p>We'll be in touch soon. Keep making cool stuff.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Cowdog Print Co. · Columbus, WI</p>
+  <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">@cowdogprintco</a>
+</footer>
+
+<script>
+
+
+  // ── ESTIMATOR ──────────────────────────────────────────────────
+  const STANDARD = {
+    '48-74':  [6.40,6.80,7.20,7.60,8.00,8.40],
+    '75-99':  [5.90,6.25,6.60,6.95,7.30,7.65],
+    '100-249':[5.40,5.70,6.00,6.30,6.60,6.90],
+    '250-499':[4.00,4.15,4.30,4.45,4.60,4.75],
+    '500-999':[3.15,3.25,3.35,3.45,3.55,3.65],
+    '1000+'  :[2.45,2.53,2.61,2.69,2.77,2.85],
+  };
+
+  const JUMBO = {
+    '48-74':  [7.90,8.30,8.70,9.10,9.50,9.90],
+    '75-99':  [7.40,7.75,8.10,8.45,8.80,9.15],
+    '100-249':[6.90,7.20,7.50,7.80,8.10,8.40],
+    '250-499':[5.50,5.65,5.80,5.95,6.10,6.25],
+    '500-999':[4.65,4.75,4.85,4.95,5.05,5.15],
+    '1000+'  :[3.95,4.03,4.11,4.19,4.27,4.35],
+  };
+
+  const FINISHING = {
+    necktag:     {'48-74':2.00,'75-99':1.60,'100-249':1.35,'250-499':1.10,'500-999':1.00,'1000+':0.90},
+    foldpoly:    {'48-74':1.10,'75-99':1.10,'100-249':1.10,'250-499':1.05,'500-999':1.00,'1000+':0.90},
+    hangtag:     {'48-74':0.55,'75-99':0.55,'100-249':0.55,'250-499':0.50,'500-999':0.45,'1000+':0.40},
+    fulfillment: {'48-74':1.10,'75-99':1.10,'100-249':1.10,'250-499':1.05,'500-999':1.00,'1000+':0.90},
+  };
+
+  function getQtyBand(qty) {
+    if (qty < 75)  return '48-74';
+    if (qty < 100) return '75-99';
+    if (qty < 250) return '100-249';
+    if (qty < 500) return '250-499';
+    if (qty < 1000)return '500-999';
+    return '1000+';
+  }
+
+  function fmt(n) {
+    return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function fmtTotal(n) {
+    if (n >= 1000) return '$' + (n/1000).toFixed(1).replace(/\.0$/,'') + 'k';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  let estColors = 2, estLocs = 1;
+
+  const qtySlider   = document.getElementById('est-qty');
+  const qtyDisplay  = document.getElementById('est-qty-display');
+  const colorsVal   = document.getElementById('est-colors-val');
+  const colorsDisp  = document.getElementById('est-colors-display');
+  const locsVal     = document.getElementById('est-locs-val');
+  const locsDisp    = document.getElementById('est-locs-display');
+  const breakdown   = document.getElementById('est-breakdown');
+  const totalEl     = document.getElementById('est-total');
+  const perPieceEl  = document.getElementById('est-per-piece');
+  const prefillBtn  = document.getElementById('est-prefill-btn');
+
+  function updateSliderBg() {
+    const min = +qtySlider.min, max = +qtySlider.max, val = +qtySlider.value;
+    const pct = ((val - min) / (max - min)) * 100;
+    qtySlider.style.background = `linear-gradient(to right, var(--rust) 0%, var(--rust) ${pct}%, rgba(26,23,20,0.15) ${pct}%)`;
+  }
+
+  function calcEstimate() {
+    const qty   = +qtySlider.value;
+    const ptype = document.querySelector('input[name="print_type"]:checked').value;
+    const colors = estColors;
+    const locs   = estLocs;
+    const band   = getQtyBand(qty);
+    const table  = ptype === 'jumbo' ? JUMBO : STANDARD;
+
+    // Dark garment adds 1 effective color per location
+    const darkChecked = document.querySelector('input[value="dark"]').checked;
+    const effectiveColors = Math.min(colors + (darkChecked ? 1 : 0), 6);
+
+    // Base print cost
+    const basePPP = table[band][effectiveColors - 1]; // per piece per location
+
+    // Additional locations: first location included in base; extras add per-color cost
+    // We add $1.00/piece per color for each extra location
+    const extraLocCost = locs > 1 ? (locs - 1) * colors * 1.00 : 0;
+
+    // Screen setup: $35/color per location (one-time, divided across qty)
+    const screenSetup = colors * locs * 35;
+    const inkCharge   = colors * locs * 35;
+    const setupPPP    = (screenSetup + inkCharge) / qty;
+
+    // Puff / specialty inks
+    let addonPPP = 0;
+    const addonLines = [];
+    document.querySelectorAll('input[name="addon"]').forEach(cb => {
+      if (!cb.checked) return;
+      const cost = parseFloat(cb.dataset.cost);
+      if (cb.value === 'dark') {
+        addonLines.push({name:'Dark garment base', val:'(+1 color included)'});
+      } else if (cb.value === 'rush') {
+        // handled below
+      } else {
+        addonPPP += cost;
+        addonLines.push({name: cb.dataset.label, val: fmt(cost) + '/pc'});
+      }
+    });
+
+    // Finishing
+    let finishingPPP = 0;
+    const finishLines = [];
+    document.querySelectorAll('input[name="finishing"]').forEach(cb => {
+      if (!cb.checked) return;
+      const rate = FINISHING[cb.value][band];
+      finishingPPP += rate;
+      finishLines.push({name: cb.dataset.label, val: fmt(rate) + '/pc'});
+    });
+
+    // Subtotal before rush
+    let subtotalPPP = basePPP + extraLocCost + setupPPP + addonPPP + finishingPPP;
+
+    // Rush
+    const rushChecked = document.querySelector('input[value="rush"]').checked;
+    const rushAdd = rushChecked ? subtotalPPP * 0.30 : 0;
+    if (rushChecked) subtotalPPP += rushAdd;
+
+    const grandTotal = subtotalPPP * qty;
+
+    // Render breakdown
+    let html = '';
+    html += `<div class="est-line"><span class="est-line-name">${ptype === 'jumbo' ? 'Jumbo' : 'Standard'} print (${colors} color${colors>1?'s':''}, ×${locs} loc${locs>1?'s':''})</span><span class="est-line-val">${fmt(basePPP)}/pc</span></div>`;
+    if (extraLocCost > 0) html += `<div class="est-line est-line-sub"><span class="est-line-name">Extra location charge</span><span class="est-line-val">+${fmt(extraLocCost)}/pc</span></div>`;
+    html += `<div class="est-line est-line-sub"><span class="est-line-name">Screen setup + ink (${colors}×${locs} screens)</span><span class="est-line-val">+${fmt(setupPPP)}/pc</span></div>`;
+    addonLines.forEach(l => html += `<div class="est-line est-line-sub"><span class="est-line-name">${l.name}</span><span class="est-line-val">${l.val}</span></div>`);
+    finishLines.forEach(l => html += `<div class="est-line est-line-sub"><span class="est-line-name">${l.name}</span><span class="est-line-val">${l.val}</span></div>`);
+    if (rushChecked) html += `<div class="est-line est-line-sub"><span class="est-line-name">Rush production (+30%)</span><span class="est-line-val">+${fmt(rushAdd)}/pc</span></div>`;
+
+    breakdown.innerHTML = html;
+    totalEl.textContent = fmtTotal(grandTotal);
+    perPieceEl.textContent = fmt(subtotalPPP) + ' per piece × ' + qty + ' pcs';
+
+    // Store for prefill
+    prefillBtn.dataset.qty = qty;
+    prefillBtn.dataset.ptype = ptype;
+    prefillBtn.dataset.colors = colors;
+    prefillBtn.dataset.locs = locs;
+    prefillBtn.dataset.total = fmt(subtotalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
+
+    const finVals = [...document.querySelectorAll('input[name="finishing"]:checked')].map(c=>c.dataset.label).join(', ');
+    const addonVals = [...document.querySelectorAll('input[name="addon"]:checked')].map(c=>c.dataset.label).join(', ');
+    prefillBtn.dataset.finishing = finVals;
+    prefillBtn.dataset.addons = addonVals;
+
+    updateSliderBg();
+  }
+
+  // Wire up controls
+  qtySlider.addEventListener('input', () => {
+    qtyDisplay.textContent = qtySlider.value;
+    calcEstimate();
+  });
+
+  document.getElementById('colors-down').addEventListener('click', () => {
+    if (estColors > 1) { estColors--; colorsVal.textContent = estColors; colorsDisp.textContent = estColors; calcEstimate(); }
+  });
+  document.getElementById('colors-up').addEventListener('click', () => {
+    if (estColors < 6) { estColors++; colorsVal.textContent = estColors; colorsDisp.textContent = estColors; calcEstimate(); }
+  });
+  document.getElementById('locs-down').addEventListener('click', () => {
+    if (estLocs > 1) { estLocs--; locsVal.textContent = estLocs; locsDisp.textContent = estLocs; calcEstimate(); }
+  });
+  document.getElementById('locs-up').addEventListener('click', () => {
+    if (estLocs < 4) { estLocs++; locsVal.textContent = estLocs; locsDisp.textContent = estLocs; calcEstimate(); }
+  });
+
+  document.querySelectorAll('input[name="print_type"], input[name="addon"], input[name="finishing"]').forEach(el => {
+    el.addEventListener('change', calcEstimate);
+  });
+
+  // Prefill contact form and scroll to it
+  prefillBtn.addEventListener('click', () => {
+    const qty   = prefillBtn.dataset.qty;
+    const ptype = prefillBtn.dataset.ptype;
+    const colors = prefillBtn.dataset.colors;
+    const locs  = prefillBtn.dataset.locs;
+    const total = prefillBtn.dataset.total;
+    const fin   = prefillBtn.dataset.finishing;
+    const add   = prefillBtn.dataset.addons;
+
+    // Fill what-to-print with print type
+    const printField = document.getElementById('cd-print');
+    if (printField) printField.value = (ptype === 'jumbo' ? 'Jumbo' : 'Standard') + ' screen printing';
+
+    // Fill quantity dropdown to closest
+    const qtySelect = document.getElementById('cd-qty');
+    if (qtySelect) {
+      const n = parseInt(qty);
+      if (n < 24) qtySelect.value = 'Under 24';
+      else if (n < 48) qtySelect.value = '24–48';
+      else if (n < 100) qtySelect.value = '48–100';
+      else if (n < 250) qtySelect.value = '100–250';
+      else qtySelect.value = '250+';
+    }
+
+    // Fill notes with estimate summary
+    const notes = document.getElementById('cd-notes');
+    if (notes) {
+      let summary = `Estimate from site builder:
+`;
+      summary += `• ${ptype === 'jumbo' ? 'Jumbo' : 'Standard'} screen printing
+`;
+      summary += `• Quantity: ${qty}
+`;
+      summary += `• Colors: ${colors} | Locations: ${locs}
+`;
+      if (add) summary += `• Add-ons: ${add}
+`;
+      if (fin) summary += `• Finishing: ${fin}
+`;
+      summary += `• Ballpark: ${total}
+`;
+      summary += `(Print costs only, blanks + shipping quoted separately)`;
+      notes.value = summary;
+    }
+
+    // Scroll to contact
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+
+    // Flash the form
+    setTimeout(() => {
+      const formEl = document.getElementById('cd-form');
+      if (formEl) {
+        formEl.style.transition = 'box-shadow 0.3s';
+        formEl.style.boxShadow = '0 0 0 2px var(--rust)';
+        setTimeout(() => formEl.style.boxShadow = '', 1500);
+      }
+    }, 700);
+  });
+
+  // Init
+  calcEstimate();
+  updateSliderBg();
+
+  // Accordion
+  document.querySelectorAll('.accs-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const row = trigger.closest('.accs-row');
+      const panel = row.querySelector('.accs-panel');
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+      // Close all
+      document.querySelectorAll('.accs-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
+      document.querySelectorAll('.accs-panel').forEach(p => p.classList.remove('open'));
+
+      // Open clicked if it was closed
+      if (!isOpen) {
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.classList.add('open');
+      }
+    });
+  });
+
+  // Scroll reveals
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => observer.observe(r));
+
+  setTimeout(() => {
+    reveals.forEach(r => {
+      const rect = r.getBoundingClientRect();
+      if (rect.top < window.innerHeight) r.classList.add('visible');
+    });
+  }, 100);
+
+  // Nav active state on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'rgba(240,235,224,0.9)'
+        : 'rgba(240,235,224,0.55)';
+    });
+  }, { passive: true });
+
+  // Form submit
+  const form = document.getElementById('cd-form');
+  const thanks = document.getElementById('cd-thanks');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      });
+      if (res.ok || true) {
+        form.style.display = 'none';
+        thanks.style.display = 'block';
+      }
+    } catch {
+      form.style.display = 'none';
+      thanks.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
