@@ -52,13 +52,6 @@
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 10px;
-  }
-
-  .nav-logo svg {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
   }
 
   .nav-links {
@@ -331,6 +324,18 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card:hover {
+    transform: scale(1.02);
+  }
+
+  .project-card:visited {
+    color: inherit;
   }
 
   .project-placeholder {
@@ -814,10 +819,44 @@
     letter-spacing: 0.04em;
   }
 
-  /* Radio print type */
+  /* Tabs for print type */
+  .est-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+
+  .est-tab {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: var(--cream);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-right: 1px solid var(--rule);
+  }
+
+  .est-tab:last-child { border-right: none; }
+
+  .est-tab.active {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .est-tab:hover:not(.active) {
+    background: var(--warm);
+  }
+
+  /* Radio garment selection */
   .est-radio-group {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
   }
 
@@ -859,7 +898,7 @@
     -webkit-appearance: none;
     width: 100%;
     height: 3px;
-    background: linear-gradient(to right, var(--rust) 0%, var(--rust) 50%, rgba(26,23,20,0.15) 50%);
+    background: rgba(26,23,20,0.15);
     outline: none;
     cursor: pointer;
     margin-bottom: 0.5rem;
@@ -1109,13 +1148,7 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <!-- Inline dog silhouette placeholder — swap with your actual logo SVG or img -->
-    <svg viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6 22 C6 22 2 20 2 16 C2 12 5 10 5 10 L8 6 L12 4 L16 5 L18 4 L22 4 L26 6 L30 5 L34 8 L36 12 L36 16 L34 20 L30 22 L28 20 L24 22 L20 24 L16 24 L12 22 L8 24 Z" fill="#B8341B" opacity="0.9"/>
-      <path d="M30 5 L34 2 L36 4 L34 8 Z" fill="#B8341B"/>
-      <path d="M8 24 L6 28 L10 28 L12 24Z M20 24 L19 28 L23 28 L24 22Z" fill="#B8341B" opacity="0.7"/>
-    </svg>
-    Cowdog Print Co.
+    COWDOG PRINT CO.
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
@@ -1199,10 +1232,10 @@
           <div class="accs-meta">
             <div><span class="meta-label">Options</span><span class="meta-val">Standard (15"×18") · Jumbo (17"×23")</span></div>
             <div><span class="meta-label">Inks</span><span class="meta-val">100% water-based only</span></div>
-            <div><span class="meta-label">Min. Order</span><span class="meta-val">48 pieces</span></div>
+            <div><span class="meta-label">Suggested Min.</span><span class="meta-val">48+ pieces</span></div>
             <div><span class="meta-label">Turnaround</span><span class="meta-val">2–3 weeks</span></div>
           </div>
-          <div class="accs-desc">Our bread and butter. We print on tees, sweatshirts, tote bags, posters, and more using 100% water-based inks — no plastisol, no shortcuts. Up to 6 colors per location, soft hand feel, prints that age beautifully. Standard and jumbo sizing available depending on how big you want to go.</div>
+          <div class="accs-desc">Our bread and butter. We print on tees, sweatshirts, tote bags, posters, and more using 100% water-based inks — no plastisol, no shortcuts. Up to 6 colors per location, soft hand feel, prints that age beautifully. Standard and jumbo sizing available depending on how big you want to go. While we suggest 48+ pieces for the best pricing, we don't enforce strict minimums — we want to support creatives and small, indie businesses having the merch they've always dreamed of.</div>
         </div>
       </div>
     </div>
@@ -1270,38 +1303,69 @@
   <div class="section estimator-section">
     <span class="section-eyebrow reveal">No surprises</span>
     <h2 class="section-title reveal">Get a ballpark<br>right now.</h2>
-    <p class="est-intro reveal">Pick your options and see a live estimate before you commit to anything. Blanks and shipping are quoted separately — this covers print and finishing only.</p>
+    <p class="est-intro reveal">Pick your options and see a live estimate before you commit to anything. Includes estimated garment costs — shipping quoted separately. No strict minimums: we're here to help creatives and small businesses bring their merch ideas to life.</p>
 
     <div class="estimator-grid reveal">
 
       <!-- LEFT: Controls -->
       <div class="est-controls">
 
+        <!-- Print Type Tabs -->
+        <div class="est-tabs">
+          <button class="est-tab active" data-type="standard">STANDARD</button>
+          <button class="est-tab" data-type="jumbo">JUMBO</button>
+        </div>
+
         <div class="est-field">
-          <label class="est-label">Print Type</label>
+          <label class="est-label">Baseline Garment</label>
           <div class="est-radio-group">
             <label class="est-radio">
-              <input type="radio" name="print_type" value="standard" checked>
+              <input type="radio" name="garment_type" value="basic-tee" checked>
               <span class="est-radio-box">
-                <span class="est-radio-name">Standard</span>
-                <span class="est-radio-sub">Up to 15"×18"</span>
+                <span class="est-radio-name">Basic Tee</span>
+                <span class="est-radio-sub">$5–7/pc</span>
               </span>
             </label>
             <label class="est-radio">
-              <input type="radio" name="print_type" value="jumbo">
+              <input type="radio" name="garment_type" value="premium-tee">
               <span class="est-radio-box">
-                <span class="est-radio-name">Jumbo</span>
-                <span class="est-radio-sub">Up to 17"×23"</span>
+                <span class="est-radio-name">Premium Tee</span>
+                <span class="est-radio-sub">$10–12/pc</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="garment_type" value="long-sleeve">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Long Sleeve</span>
+                <span class="est-radio-sub">$12–16/pc</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="garment_type" value="crewneck">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Crewneck</span>
+                <span class="est-radio-sub">$18–28/pc</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="garment_type" value="hoodie">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Hoodie</span>
+                <span class="est-radio-sub">$20–30/pc</span>
               </span>
             </label>
           </div>
         </div>
 
         <div class="est-field">
-          <label class="est-label" for="est-qty">Quantity <span class="est-qty-display" id="est-qty-display">100</span></label>
-          <input type="range" id="est-qty" class="est-slider" min="48" max="500" step="1" value="100">
+          <label class="est-label" for="est-qty">Quantity</label>
+          <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
+            <input type="number" id="est-qty-input" min="0" value="100" style="width: 100px; padding: 8px 12px; border: 1px solid var(--rule); background: var(--cream); font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.04em; color: var(--text);">
+            <span style="font-size: 13px; color: var(--muted);">pieces</span>
+          </div>
+          <input type="range" id="est-qty" class="est-slider" min="0" max="100" step="1" value="13">
           <div class="est-slider-ticks">
-            <span>48</span><span>100</span><span>250</span><span>500+</span>
+            <span>48</span><span>100</span><span>250</span><span>500</span>
           </div>
         </div>
 
@@ -1362,7 +1426,7 @@
           </div>
           <div class="est-per-piece" id="est-per-piece"></div>
 
-          <p class="est-disclaimer">Print costs only. Blanks, shipping, and taxes quoted separately. Final price confirmed after artwork review.</p>
+          <p class="est-disclaimer">Includes estimated garment cost. Shipping and taxes quoted separately. Final price confirmed after artwork review.</p>
 
           <button class="est-cta" id="est-prefill-btn">Request This Quote →</button>
         </div>
@@ -1379,27 +1443,27 @@
     <h2 class="section-title reveal">Recent work.</h2>
   </div>
   <div class="projects-grid reveal" style="max-width: 1100px; margin: 0 auto 6rem; border-left: 1px solid var(--rule); border-right: 1px solid var(--rule);">
-    <div class="project-card">
+    <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener" class="project-card">
       <img class="project-img" src="assets/dead-set.jpg" alt="Dead Set fishing brand tee">
       <div class="project-label">
         <div class="project-label-name">Dead Set</div>
         <div class="project-label-type">Fishing Brand · Pensacola, FL</div>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener" class="project-card">
       <img class="project-img" src="assets/fly-kid-fly.jpg" alt="Fly Kid Fly coffee shop tee">
       <div class="project-label">
         <div class="project-label-name">Fly Kid Fly</div>
         <div class="project-label-type">Coffee Shop · Charlotte, NC</div>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener" class="project-card">
       <img class="project-img" src="assets/august.jpg" alt="August streetwear tee">
       <div class="project-label">
         <div class="project-label-name">August</div>
         <div class="project-label-type">Streetwear · Madison, WI</div>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
@@ -1516,6 +1580,14 @@
     '1000+'  :[3.95,4.03,4.11,4.19,4.27,4.35],
   };
 
+  const GARMENT_PRICES = {
+    'basic-tee': 6.00,      // midpoint of $5-7
+    'premium-tee': 11.00,   // midpoint of $10-12
+    'long-sleeve': 14.00,   // midpoint of $12-16
+    'crewneck': 23.00,      // midpoint of $18-28
+    'hoodie': 25.00         // midpoint of $20-30
+  };
+
   const FINISHING = {
     necktag:     {'48-74':2.00,'75-99':1.60,'100-249':1.35,'250-499':1.10,'500-999':1.00,'1000+':0.90},
     foldpoly:    {'48-74':1.10,'75-99':1.10,'100-249':1.10,'250-499':1.05,'500-999':1.00,'1000+':0.90},
@@ -1541,10 +1613,49 @@
     return '$' + Math.round(n).toLocaleString();
   }
 
-  let estColors = 2, estLocs = 1;
+  let estColors = 2, estLocs = 1, estPrintType = 'standard';
+
+  // Map slider position (0-100) to quantity with key stops at visual positions
+  const SLIDER_STOPS = [
+    {pos: 0, qty: 48},      // 0% position
+    {pos: 33, qty: 100},    // 33% position (first third)
+    {pos: 66, qty: 250},    // 66% position (two thirds)
+    {pos: 100, qty: 500}    // 100% position
+  ];
+
+  function sliderToQty(sliderVal) {
+    // Find which segment we're in
+    for (let i = 0; i < SLIDER_STOPS.length - 1; i++) {
+      const start = SLIDER_STOPS[i];
+      const end = SLIDER_STOPS[i + 1];
+      if (sliderVal >= start.pos && sliderVal <= end.pos) {
+        // Linear interpolation within this segment
+        const ratio = (sliderVal - start.pos) / (end.pos - start.pos);
+        const qty = start.qty + ratio * (end.qty - start.qty);
+        return Math.round(qty);
+      }
+    }
+    return 500;
+  }
+
+  function qtyToSlider(qty) {
+    // Find which segment we're in
+    for (let i = 0; i < SLIDER_STOPS.length - 1; i++) {
+      const start = SLIDER_STOPS[i];
+      const end = SLIDER_STOPS[i + 1];
+      if (qty >= start.qty && qty <= end.qty) {
+        // Linear interpolation within this segment
+        const ratio = (qty - start.qty) / (end.qty - start.qty);
+        const pos = start.pos + ratio * (end.pos - start.pos);
+        return Math.round(pos);
+      }
+    }
+    if (qty < 48) return 0;
+    return 100;
+  }
 
   const qtySlider   = document.getElementById('est-qty');
-  const qtyDisplay  = document.getElementById('est-qty-display');
+  const qtyInput    = document.getElementById('est-qty-input');
   const colorsVal   = document.getElementById('est-colors-val');
   const colorsDisp  = document.getElementById('est-colors-display');
   const locsVal     = document.getElementById('est-locs-val');
@@ -1561,12 +1672,18 @@
   }
 
   function calcEstimate() {
-    const qty   = +qtySlider.value;
-    const ptype = document.querySelector('input[name="print_type"]:checked').value;
+    const qty   = +qtyInput.value;
+    const ptype = estPrintType;
     const colors = estColors;
     const locs   = estLocs;
     const band   = getQtyBand(qty);
     const table  = ptype === 'jumbo' ? JUMBO : STANDARD;
+
+    // Garment cost
+    const garmentEl = document.querySelector('input[name="garment_type"]:checked');
+    if (!garmentEl) return; // Safety check
+    const garmentType = garmentEl.value;
+    const garmentCost = GARMENT_PRICES[garmentType];
 
     // Dark garment adds 1 effective color per location
     const darkChecked = document.querySelector('input[value="dark"]').checked;
@@ -1610,18 +1727,28 @@
       finishLines.push({name: cb.dataset.label, val: fmt(rate) + '/pc'});
     });
 
-    // Subtotal before rush
-    let subtotalPPP = basePPP + extraLocCost + setupPPP + addonPPP + finishingPPP;
+    // Subtotal before rush (print costs only)
+    let printPPP = basePPP + extraLocCost + setupPPP + addonPPP + finishingPPP;
 
     // Rush
     const rushChecked = document.querySelector('input[value="rush"]').checked;
-    const rushAdd = rushChecked ? subtotalPPP * 0.30 : 0;
-    if (rushChecked) subtotalPPP += rushAdd;
+    const rushAdd = rushChecked ? printPPP * 0.30 : 0;
+    if (rushChecked) printPPP += rushAdd;
 
-    const grandTotal = subtotalPPP * qty;
+    // Total per piece including garment
+    const totalPPP = garmentCost + printPPP;
+    const grandTotal = totalPPP * qty;
 
     // Render breakdown
     let html = '';
+    const garmentLabels = {
+      'basic-tee': 'Basic Tee',
+      'premium-tee': 'Premium Tee',
+      'long-sleeve': 'Long Sleeve',
+      'crewneck': 'Crewneck',
+      'hoodie': 'Hoodie'
+    };
+    html += `<div class="est-line"><span class="est-line-name">${garmentLabels[garmentType]} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
     html += `<div class="est-line"><span class="est-line-name">${ptype === 'jumbo' ? 'Jumbo' : 'Standard'} print (${colors} color${colors>1?'s':''}, ×${locs} loc${locs>1?'s':''})</span><span class="est-line-val">${fmt(basePPP)}/pc</span></div>`;
     if (extraLocCost > 0) html += `<div class="est-line est-line-sub"><span class="est-line-name">Extra location charge</span><span class="est-line-val">+${fmt(extraLocCost)}/pc</span></div>`;
     html += `<div class="est-line est-line-sub"><span class="est-line-name">Screen setup + ink (${colors}×${locs} screens)</span><span class="est-line-val">+${fmt(setupPPP)}/pc</span></div>`;
@@ -1631,14 +1758,14 @@
 
     breakdown.innerHTML = html;
     totalEl.textContent = fmtTotal(grandTotal);
-    perPieceEl.textContent = fmt(subtotalPPP) + ' per piece × ' + qty + ' pcs';
+    perPieceEl.textContent = fmt(totalPPP) + ' per piece × ' + qty + ' pcs';
 
     // Store for prefill
     prefillBtn.dataset.qty = qty;
     prefillBtn.dataset.ptype = ptype;
     prefillBtn.dataset.colors = colors;
     prefillBtn.dataset.locs = locs;
-    prefillBtn.dataset.total = fmt(subtotalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
+    prefillBtn.dataset.total = fmt(totalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
 
     const finVals = [...document.querySelectorAll('input[name="finishing"]:checked')].map(c=>c.dataset.label).join(', ');
     const addonVals = [...document.querySelectorAll('input[name="addon"]:checked')].map(c=>c.dataset.label).join(', ');
@@ -1649,8 +1776,30 @@
   }
 
   // Wire up controls
+  // Tabs
+  document.querySelectorAll('.est-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.est-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      estPrintType = tab.dataset.type;
+      calcEstimate();
+    });
+  });
+
+  // Quantity input and slider sync
+  qtyInput.addEventListener('input', () => {
+    let val = +qtyInput.value;
+    if (val >= 48 && val <= 500) {
+      qtySlider.value = qtyToSlider(val);
+      updateSliderBg();
+    }
+    calcEstimate();
+  });
+
   qtySlider.addEventListener('input', () => {
-    qtyDisplay.textContent = qtySlider.value;
+    const qty = sliderToQty(+qtySlider.value);
+    qtyInput.value = qty;
+    updateSliderBg();
     calcEstimate();
   });
 
@@ -1667,7 +1816,7 @@
     if (estLocs < 4) { estLocs++; locsVal.textContent = estLocs; locsDisp.textContent = estLocs; calcEstimate(); }
   });
 
-  document.querySelectorAll('input[name="print_type"], input[name="addon"], input[name="finishing"]').forEach(el => {
+  document.querySelectorAll('input[name="garment_type"], input[name="addon"], input[name="finishing"]').forEach(el => {
     el.addEventListener('change', calcEstimate);
   });
 
@@ -1699,9 +1848,21 @@
     // Fill notes with estimate summary
     const notes = document.getElementById('cd-notes');
     if (notes) {
+      // Get garment type
+      const garmentType = document.querySelector('input[name="garment_type"]:checked')?.value || 'basic-tee';
+      const garmentLabels = {
+        'basic-tee': 'Basic Tee',
+        'premium-tee': 'Premium Tee',
+        'long-sleeve': 'Long Sleeve',
+        'crewneck': 'Crewneck',
+        'hoodie': 'Hoodie'
+      };
+
       let summary = `Estimate from site builder:
 `;
       summary += `• ${ptype === 'jumbo' ? 'Jumbo' : 'Standard'} screen printing
+`;
+      summary += `• Garment: ${garmentLabels[garmentType]}
 `;
       summary += `• Quantity: ${qty}
 `;
@@ -1713,7 +1874,7 @@
 `;
       summary += `• Ballpark: ${total}
 `;
-      summary += `(Print costs only, blanks + shipping quoted separately)`;
+      summary += `(Includes estimated garment cost, shipping quoted separately)`;
       notes.value = summary;
     }
 
@@ -1731,7 +1892,9 @@
     }, 700);
   });
 
-  // Init
+  // Init - set initial slider position for qty 100
+  qtySlider.value = qtyToSlider(100);
+  qtyInput.value = 100;
   calcEstimate();
   updateSliderBg();
 
