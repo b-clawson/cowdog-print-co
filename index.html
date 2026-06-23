@@ -1951,24 +1951,28 @@
     });
   }, { passive: true });
 
-  // Form submit
+  // Form submit - Netlify Forms
   const form = document.getElementById('cd-form');
   const thanks = document.getElementById('cd-thanks');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     try {
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(new FormData(form)).toString()
       });
-      if (res.ok || true) {
+
+      if (res.ok) {
         form.style.display = 'none';
         thanks.style.display = 'block';
+      } else {
+        alert('There was a problem submitting your quote request. Please try again or email us directly at info@cowdogprint.co');
       }
-    } catch {
-      form.style.display = 'none';
-      thanks.style.display = 'block';
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('There was a problem submitting your quote request. Please try again or email us directly at info@cowdogprint.co');
     }
   });
 </script>
