@@ -1379,6 +1379,7 @@
         <div class="est-tabs">
           <button class="est-tab active" data-type="standard">STANDARD</button>
           <button class="est-tab" data-type="jumbo">JUMBO</button>
+          <button class="est-tab" data-type="embroidery">EMBROIDERY</button>
         </div>
 
         <div class="est-field">
@@ -1434,7 +1435,8 @@
           </div>
         </div>
 
-        <div class="est-field">
+        <!-- Screen Printing Controls -->
+        <div class="est-field est-screen-only">
           <label class="est-label">Ink Colors <span class="est-qty-display" id="est-colors-display">2</span></label>
           <div class="est-stepper">
             <button class="est-step-btn" id="colors-down" aria-label="Fewer colors">−</button>
@@ -1444,7 +1446,7 @@
           <p class="est-field-note">Per print location. Max 6.</p>
         </div>
 
-        <div class="est-field">
+        <div class="est-field est-screen-only">
           <label class="est-label">Print Locations <span class="est-qty-display" id="est-locs-display">1</span></label>
           <div class="est-stepper">
             <button class="est-step-btn" id="locs-down" aria-label="Fewer locations">−</button>
@@ -1452,6 +1454,34 @@
             <button class="est-step-btn" id="locs-up" aria-label="More locations">+</button>
           </div>
           <p class="est-field-note">Front, back, sleeve, etc.</p>
+        </div>
+
+        <!-- Embroidery Controls -->
+        <div class="est-field est-embroidery-only" style="display: none;">
+          <label class="est-label">Placement</label>
+          <div class="est-radio-group">
+            <label class="est-radio">
+              <input type="radio" name="embroidery_placement" value="left-chest" checked>
+              <span class="est-radio-box">
+                <span class="est-radio-name">Left Chest</span>
+                <span class="est-radio-sub">Up to 8K stitches</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="embroidery_placement" value="full-back">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Full Back</span>
+                <span class="est-radio-sub">Up to 15K stitches</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="embroidery_placement" value="hat">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Hat</span>
+                <span class="est-radio-sub">Up to 8K stitches</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <div class="est-field">
@@ -1648,6 +1678,44 @@
     '1000+'  :[3.95,4.03,4.11,4.19,4.27,4.35],
   };
 
+  const EMBROIDERY = {
+    'left-chest': {
+      '1-11':     12.00,
+      '12-23':    10.00,
+      '24-47':    8.00,
+      '48-99':    7.00,
+      '100-249':  6.00,
+      '250+':     5.00
+    },
+    'full-back': {
+      '1-11':     18.00,
+      '12-23':    15.00,
+      '24-47':    12.00,
+      '48-99':    10.00,
+      '100-249':  8.00,
+      '250+':     7.00
+    },
+    'hat': {
+      '1-11':     10.00,
+      '12-23':    8.00,
+      '24-47':    7.00,
+      '48-99':    6.00,
+      '100-249':  5.00,
+      '250+':     4.00
+    }
+  };
+
+  const DIGITIZING_FEE = 40.00;
+
+  function getEmbroideryQtyBand(qty) {
+    if (qty < 12) return '1-11';
+    if (qty < 24) return '12-23';
+    if (qty < 48) return '24-47';
+    if (qty < 100) return '48-99';
+    if (qty < 250) return '100-249';
+    return '250+';
+  }
+
   const GARMENT_PRICES = {
     'basic-tee': 6.00,      // midpoint of $5-7
     'premium-tee': 11.00,   // midpoint of $10-12
@@ -1742,6 +1810,14 @@
   function calcEstimate() {
     const qty   = +qtyInput.value;
     const ptype = estPrintType;
+
+    // Check if embroidery
+    if (ptype === 'embroidery') {
+      calcEmbroideryEstimate(qty);
+      return;
+    }
+
+    // Screen printing logic
     const colors = estColors;
     const locs   = estLocs;
     const band   = getQtyBand(qty);
@@ -1843,6 +1919,65 @@
     updateSliderBg();
   }
 
+  function calcEmbroideryEstimate(qty) {
+    const placementEl = document.querySelector('input[name="embroidery_placement"]:checked');
+    if (!placementEl) return;
+    const placement = placementEl.value;
+    const band = getEmbroideryQtyBand(qty);
+
+    // Base embroidery cost per piece
+    const embroideryPPP = EMBROIDERY[placement][band];
+
+    // Digitizing fee (waived at 100+)
+    const digitizingTotal = qty >= 100 ? 0 : DIGITIZING_FEE;
+    const digitizingPPP = digitizingTotal / qty;
+
+    // Garment cost
+    const garmentEl = document.querySelector('input[name="garment_type"]:checked');
+    if (!garmentEl) return;
+    const garmentType = garmentEl.value;
+    const garmentCost = GARMENT_PRICES[garmentType];
+
+    // Total per piece including garment
+    const totalPPP = garmentCost + embroideryPPP + digitizingPPP;
+    const grandTotal = (garmentCost + embroideryPPP) * qty + digitizingTotal;
+
+    // Render breakdown
+    let html = '';
+    const garmentLabels = {
+      'basic-tee': 'Basic Tee',
+      'premium-tee': 'Premium Tee',
+      'long-sleeve': 'Long Sleeve',
+      'crewneck': 'Crewneck',
+      'hoodie': 'Hoodie'
+    };
+    const placementLabels = {
+      'left-chest': 'Left Chest',
+      'full-back': 'Full Back',
+      'hat': 'Hat'
+    };
+
+    html += `<div class="est-line"><span class="est-line-name">${garmentLabels[garmentType]} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
+    html += `<div class="est-line"><span class="est-line-name">${placementLabels[placement]} embroidery</span><span class="est-line-val">${fmt(embroideryPPP)}/pc</span></div>`;
+    if (digitizingTotal > 0) {
+      html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee (one-time)</span><span class="est-line-val">+${fmt(digitizingPPP)}/pc</span></div>`;
+    } else {
+      html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee</span><span class="est-line-val">Waived at 100+</span></div>`;
+    }
+
+    breakdown.innerHTML = html;
+    totalEl.textContent = fmtTotal(grandTotal);
+    perPieceEl.textContent = fmt(totalPPP) + ' per piece × ' + qty + ' pcs';
+
+    // Store for prefill
+    prefillBtn.dataset.qty = qty;
+    prefillBtn.dataset.ptype = 'embroidery';
+    prefillBtn.dataset.placement = placement;
+    prefillBtn.dataset.total = fmt(totalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
+
+    updateSliderBg();
+  }
+
   // Wire up controls
   // Tabs
   document.querySelectorAll('.est-tab').forEach(tab => {
@@ -1850,6 +1985,12 @@
       document.querySelectorAll('.est-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       estPrintType = tab.dataset.type;
+
+      // Toggle controls based on type
+      const isEmbroidery = estPrintType === 'embroidery';
+      document.querySelectorAll('.est-screen-only').forEach(el => el.style.display = isEmbroidery ? 'none' : 'block');
+      document.querySelectorAll('.est-embroidery-only').forEach(el => el.style.display = isEmbroidery ? 'block' : 'none');
+
       calcEstimate();
     });
   });
@@ -1884,7 +2025,7 @@
     if (estLocs < 4) { estLocs++; locsVal.textContent = estLocs; locsDisp.textContent = estLocs; calcEstimate(); }
   });
 
-  document.querySelectorAll('input[name="garment_type"], input[name="addon"], input[name="finishing"]').forEach(el => {
+  document.querySelectorAll('input[name="garment_type"], input[name="addon"], input[name="finishing"], input[name="embroidery_placement"]').forEach(el => {
     el.addEventListener('change', calcEstimate);
   });
 
