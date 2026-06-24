@@ -1112,13 +1112,14 @@
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
 
-      // Estimate stitch time based on placement type
+      // Estimate stitch time based on placement type at 550 stitches per minute
       const stitchEstimate =
         (placementSize === 'hat' || placementSize === 'left-chest') ? 6000 :
         placementSize === 'full-front' ? 12000 : 22000;
-      const minPer1kStitches = 8;
-      const stitchHours = (qty * placements * stitchEstimate * minPer1kStitches) / (1000 * 60);
-      const productionHours = hoopHours + stitchHours;
+      const stitchesPerMinute = 550;
+      const machineMinutes = (qty * placements * stitchEstimate) / stitchesPerMinute;
+      const machineHours = machineMinutes / 60;
+      const productionHours = hoopHours + machineHours;
 
       const threadCost = (stitchEstimate * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
@@ -1226,9 +1227,10 @@
 
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
-      const minPer1kStitches = 8;
-      const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
-      const productionHours = hoopHours + stitchHours;
+      const stitchesPerMinute = 550;
+      const machineMinutes = (qty * placements * stitches) / stitchesPerMinute;
+      const machineHours = machineMinutes / 60;
+      const productionHours = hoopHours + machineHours;
 
       const threadCost = (stitches * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
