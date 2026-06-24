@@ -1375,11 +1375,31 @@
       <!-- LEFT: Controls -->
       <div class="est-controls">
 
-        <!-- Print Type Tabs -->
+        <!-- Service Type Tabs -->
         <div class="est-tabs">
-          <button class="est-tab active" data-type="standard">STANDARD</button>
-          <button class="est-tab" data-type="jumbo">JUMBO</button>
-          <button class="est-tab" data-type="embroidery">EMBROIDERY</button>
+          <button class="est-tab active" data-service="screen-print">SCREEN PRINT</button>
+          <button class="est-tab" data-service="embroidery">EMBROIDERY</button>
+        </div>
+
+        <!-- Screen Print Sub-Options -->
+        <div class="est-field est-screen-only">
+          <label class="est-label">Print Size</label>
+          <div class="est-radio-group" style="grid-template-columns: 1fr 1fr;">
+            <label class="est-radio">
+              <input type="radio" name="print_size" value="standard" checked>
+              <span class="est-radio-box">
+                <span class="est-radio-name">Standard</span>
+                <span class="est-radio-sub">Up to 15"×18"</span>
+              </span>
+            </label>
+            <label class="est-radio">
+              <input type="radio" name="print_size" value="jumbo">
+              <span class="est-radio-box">
+                <span class="est-radio-name">Jumbo</span>
+                <span class="est-radio-sub">Up to 17"×23"</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <div class="est-field">
@@ -1749,7 +1769,7 @@
     return '$' + Math.round(n).toLocaleString();
   }
 
-  let estColors = 2, estLocs = 1, estPrintType = 'standard';
+  let estColors = 2, estLocs = 1, estServiceType = 'screen-print', estPrintSize = 'standard';
 
   // Map slider position (0-100) to quantity with key stops at visual positions
   const SLIDER_STOPS = [
@@ -1809,10 +1829,9 @@
 
   function calcEstimate() {
     const qty   = +qtyInput.value;
-    const ptype = estPrintType;
 
     // Check if embroidery
-    if (ptype === 'embroidery') {
+    if (estServiceType === 'embroidery') {
       calcEmbroideryEstimate(qty);
       return;
     }
@@ -1821,7 +1840,7 @@
     const colors = estColors;
     const locs   = estLocs;
     const band   = getQtyBand(qty);
-    const table  = ptype === 'jumbo' ? JUMBO : STANDARD;
+    const table  = estPrintSize === 'jumbo' ? JUMBO : STANDARD;
 
     // Garment cost
     const garmentEl = document.querySelector('input[name="garment_type"]:checked');
@@ -1893,7 +1912,7 @@
       'hoodie': 'Hoodie'
     };
     html += `<div class="est-line"><span class="est-line-name">${garmentLabels[garmentType]} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
-    html += `<div class="est-line"><span class="est-line-name">${ptype === 'jumbo' ? 'Jumbo' : 'Standard'} print (${colors} color${colors>1?'s':''}, ×${locs} loc${locs>1?'s':''})</span><span class="est-line-val">${fmt(basePPP)}/pc</span></div>`;
+    html += `<div class="est-line"><span class="est-line-name">${estPrintSize === 'jumbo' ? 'Jumbo' : 'Standard'} print (${colors} color${colors>1?'s':''}, ×${locs} loc${locs>1?'s':''})</span><span class="est-line-val">${fmt(basePPP)}/pc</span></div>`;
     if (extraLocCost > 0) html += `<div class="est-line est-line-sub"><span class="est-line-name">Extra location charge</span><span class="est-line-val">+${fmt(extraLocCost)}/pc</span></div>`;
     html += `<div class="est-line est-line-sub"><span class="est-line-name">Screen setup + ink (${colors}×${locs} screens)</span><span class="est-line-val">+${fmt(setupPPP)}/pc</span></div>`;
     addonLines.forEach(l => html += `<div class="est-line est-line-sub"><span class="est-line-name">${l.name}</span><span class="est-line-val">${l.val}</span></div>`);
@@ -1906,7 +1925,7 @@
 
     // Store for prefill
     prefillBtn.dataset.qty = qty;
-    prefillBtn.dataset.ptype = ptype;
+    prefillBtn.dataset.ptype = estPrintSize;
     prefillBtn.dataset.colors = colors;
     prefillBtn.dataset.locs = locs;
     prefillBtn.dataset.total = fmt(totalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
@@ -1979,18 +1998,26 @@
   }
 
   // Wire up controls
-  // Tabs
+  // Service tabs (Screen Print / Embroidery)
   document.querySelectorAll('.est-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.est-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      estPrintType = tab.dataset.type;
+      estServiceType = tab.dataset.service;
 
-      // Toggle controls based on type
-      const isEmbroidery = estPrintType === 'embroidery';
+      // Toggle controls based on service
+      const isEmbroidery = estServiceType === 'embroidery';
       document.querySelectorAll('.est-screen-only').forEach(el => el.style.display = isEmbroidery ? 'none' : 'block');
       document.querySelectorAll('.est-embroidery-only').forEach(el => el.style.display = isEmbroidery ? 'block' : 'none');
 
+      calcEstimate();
+    });
+  });
+
+  // Print size (Standard/Jumbo) radio buttons
+  document.querySelectorAll('input[name="print_size"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      estPrintSize = radio.value;
       calcEstimate();
     });
   });
