@@ -109,7 +109,7 @@
   }
 
   .admin-header {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto 3rem;
     display: flex;
     align-items: center;
@@ -145,14 +145,14 @@
   }
 
   .admin-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 450px;
     gap: 2rem;
   }
 
-  /* ── CALCULATOR ── */
+  /* ── ADD ITEM PANEL ── */
   .calc-panel {
     background: white;
     padding: 2rem;
@@ -244,22 +244,168 @@
     cursor: pointer;
   }
 
-  /* Service-specific fields */
   .screen-only { display: none; }
   .embroidery-only { display: none; }
 
-  /* ── RESULTS PANEL ── */
-  .results-panel {
-    background: var(--ink);
-    padding: 2rem;
-    border-radius: 2px;
+  .add-item-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--rust);
     color: var(--cream);
+    border: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 1rem;
+  }
+
+  .add-item-btn:hover {
+    background: #c93d22;
+  }
+
+  /* ── JOB SUMMARY PANEL ── */
+  .summary-panel {
     height: fit-content;
     position: sticky;
     top: 2rem;
   }
 
-  .results-panel h2 {
+  .items-list {
+    background: white;
+    padding: 2rem;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 1.5rem;
+  }
+
+  .items-list h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .job-item {
+    padding: 1rem;
+    background: var(--warm);
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .job-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+  }
+
+  .job-item-title {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .job-item-cost {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--rust);
+  }
+
+  .job-item-details {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .remove-item-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    line-height: 1;
+  }
+
+  .remove-item-btn:hover {
+    color: var(--rust);
+  }
+
+  .no-items {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* ── ADD-ONS & FINISHING ── */
+  .addons-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 1.5rem;
+  }
+
+  .addons-section h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .addon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .addon-item:last-child {
+    border-bottom: none;
+  }
+
+  .addon-label {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .addon-input {
+    width: 80px;
+    padding: 6px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  /* ── INVOICE PANEL ── */
+  .invoice-panel {
+    background: var(--ink);
+    padding: 2rem;
+    border-radius: 2px;
+    color: var(--cream);
+  }
+
+  .invoice-panel h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 24px;
     letter-spacing: 0.08em;
@@ -268,53 +414,33 @@
     border-bottom: 1px solid rgba(255,255,255,0.12);
   }
 
-  .result-section {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .result-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  .result-section h3 {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(240,235,224,0.4);
-    margin-bottom: 1rem;
-  }
-
-  .result-line {
+  .invoice-line {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     font-size: 14px;
   }
 
-  .result-line span:first-child {
+  .invoice-line span:first-child {
     color: rgba(240,235,224,0.65);
   }
 
-  .result-line span:last-child {
+  .invoice-line span:last-child {
     font-weight: 500;
     color: var(--cream);
   }
 
-  .result-total {
+  .invoice-total {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    border-top: 2px solid rgba(255,255,255,0.2);
   }
 
-  .result-total-label {
+  .invoice-total-label {
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.14em;
@@ -322,18 +448,44 @@
     color: rgba(240,235,224,0.4);
   }
 
-  .result-total-value {
+  .invoice-total-value {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
+    font-size: 36px;
     letter-spacing: 0.04em;
     color: var(--cream);
   }
 
-  .result-per-piece {
-    font-size: 13px;
-    color: rgba(240,235,224,0.5);
-    text-align: right;
-    margin-top: 0.25rem;
+  .markup-control {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .markup-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .markup-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: rgba(255,255,255,0.05);
+    color: var(--cream);
+  }
+
+  .markup-input:focus {
+    outline: none;
+    border-color: var(--rust);
+    background: rgba(255,255,255,0.08);
   }
 
   .action-buttons {
@@ -369,81 +521,12 @@
     background: rgba(255,255,255,0.12);
   }
 
-  /* ── RECENT JOBS ── */
-  .recent-jobs {
-    background: white;
-    padding: 2rem;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    margin-top: 2rem;
-    grid-column: 1 / -1;
-  }
-
-  .recent-jobs h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .job-list {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .job-item {
-    padding: 1rem;
-    background: var(--warm);
-    border-radius: 2px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .job-item:hover {
-    background: #ddd5c5;
-  }
-
-  .job-info {
-    flex: 1;
-  }
-
-  .job-title {
-    font-weight: 500;
-    font-size: 15px;
-    margin-bottom: 0.25rem;
-  }
-
-  .job-details {
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  .job-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-  }
-
-  .no-jobs {
-    text-align: center;
-    padding: 2rem;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .admin-container {
       grid-template-columns: 1fr;
     }
 
-    .results-panel {
+    .summary-panel {
       position: static;
     }
   }
@@ -470,14 +553,20 @@
   </div>
 
   <div class="admin-container">
-    <!-- CALCULATOR PANEL -->
+    <!-- ADD ITEM PANEL -->
     <div class="calc-panel">
-      <h2>Job Details</h2>
+      <h2>Add Item to Job</h2>
 
       <!-- Service Tabs -->
       <div class="calc-tabs">
         <button class="calc-tab active" data-service="screen-print">SCREEN PRINT</button>
         <button class="calc-tab" data-service="embroidery">EMBROIDERY</button>
+      </div>
+
+      <!-- Item Description -->
+      <div class="calc-field">
+        <label class="calc-label">Item Description</label>
+        <input type="text" class="calc-input" id="item-desc" placeholder="e.g., Black Tee - Front Logo">
       </div>
 
       <!-- Quantity -->
@@ -492,7 +581,7 @@
         <input type="number" class="calc-input" id="garment-cost" value="3.50" min="0" step="0.01">
       </div>
 
-      <!-- Print Size (Screen Print) -->
+      <!-- SCREEN PRINT FIELDS -->
       <div class="calc-field screen-only">
         <label class="calc-label">Print Size</label>
         <select class="calc-select" id="print-size">
@@ -501,28 +590,25 @@
         </select>
       </div>
 
-      <!-- Garment Color (Screen Print) -->
       <div class="calc-field screen-only">
         <label class="calc-label">Garment Color</label>
         <select class="calc-select" id="garment-color">
           <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value="dark">Dark (adds underbase)</option>
         </select>
       </div>
 
-      <!-- Color Count (Screen Print) -->
       <div class="calc-field screen-only">
         <label class="calc-label">Ink Colors</label>
         <input type="number" class="calc-input" id="color-count" value="2" min="1" max="6">
       </div>
 
-      <!-- Placement Count (Screen Print) -->
       <div class="calc-field screen-only">
-        <label class="calc-label">Placement Locations</label>
+        <label class="calc-label">Print Locations</label>
         <input type="number" class="calc-input" id="placement-count" value="1" min="1">
       </div>
 
-      <!-- Embroidery Options -->
+      <!-- EMBROIDERY FIELDS -->
       <div class="calc-field embroidery-only">
         <label class="calc-label">Garment Type</label>
         <select class="calc-select" id="emb-garment">
@@ -549,114 +635,143 @@
         <input type="number" class="calc-input" id="emb-placements" value="1" min="1">
       </div>
 
-      <!-- Markup -->
-      <div class="calc-field">
-        <label class="calc-label">Markup Percentage</label>
-        <input type="number" class="calc-input" id="markup" value="40" min="0" max="100">
-      </div>
+      <button class="add-item-btn" onclick="addItemToJob()">Add Item to Job</button>
     </div>
 
-    <!-- RESULTS PANEL -->
-    <div class="results-panel">
-      <h2>Cost Breakdown</h2>
-
-      <div class="result-section">
-        <h3>Materials</h3>
-        <div class="result-line">
-          <span>Garments</span>
-          <span id="cost-garments">$0.00</span>
-        </div>
-        <div class="result-line">
-          <span id="materials-label">Screens & Ink</span>
-          <span id="cost-materials">$0.00</span>
+    <!-- JOB SUMMARY PANEL -->
+    <div class="summary-panel">
+      <!-- ITEMS LIST -->
+      <div class="items-list">
+        <h2>Job Items</h2>
+        <div id="items-container">
+          <div class="no-items">No items added yet</div>
         </div>
       </div>
 
-      <div class="result-section">
-        <h3 id="setup-section-label">Setup & Labor</h3>
-        <div class="result-line">
-          <span id="setup-label">Setup Fees</span>
-          <span id="cost-setup">$0.00</span>
+      <!-- ADD-ONS -->
+      <div class="addons-section">
+        <h3>Finishing Services</h3>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-neck-tags" onchange="calculateInvoice()">
+            Printed Neck Tags
+          </label>
+          <input type="number" class="addon-input" id="addon-neck-tags-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
         </div>
-        <div class="result-line">
-          <span id="production-label">Production Labor</span>
-          <span id="cost-production">$0.00</span>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-fold-tee" onchange="calculateInvoice()">
+            Fold & Poly (Tees)
+          </label>
+          <input type="number" class="addon-input" id="addon-fold-tee-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
         </div>
-        <div class="result-line">
-          <span>Total Hours</span>
-          <span id="total-hours">0.0 hrs</span>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-fold-fleece" onchange="calculateInvoice()">
+            Fold & Poly (Fleece/LS)
+          </label>
+          <input type="number" class="addon-input" id="addon-fold-fleece-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
+        </div>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-hang-tags" onchange="calculateInvoice()">
+            Hang Tags
+          </label>
+          <input type="number" class="addon-input" id="addon-hang-tags-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
+        </div>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-fulfillment" onchange="calculateInvoice()">
+            Fulfillment
+          </label>
+          <input type="number" class="addon-input" id="addon-fulfillment-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
         </div>
       </div>
 
-      <div class="result-section">
-        <h3>Totals</h3>
-        <div class="result-line">
-          <span>Total Cost</span>
-          <span id="total-cost">$0.00</span>
+      <div class="addons-section">
+        <h3>Extras</h3>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-puff" onchange="calculateInvoice()">
+            Puff Ink (+$1.25/pc)
+          </label>
+          <input type="number" class="addon-input" id="addon-puff-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
         </div>
-        <div class="result-line">
-          <span>Cost Per Piece</span>
-          <span id="cost-per-piece">$0.00</span>
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-specialty" onchange="calculateInvoice()">
+            Specialty Ink (+$1.25/pc)
+          </label>
+          <input type="number" class="addon-input" id="addon-specialty-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
         </div>
-        <div class="result-line">
+        <div class="addon-item">
+          <label class="addon-label">
+            <input type="checkbox" id="addon-rush" onchange="calculateInvoice()">
+            Rush Production (+30%)
+          </label>
+        </div>
+      </div>
+
+      <!-- INVOICE -->
+      <div class="invoice-panel">
+        <h2>Invoice Total</h2>
+
+        <div class="invoice-line">
+          <span>Items Subtotal</span>
+          <span id="invoice-items">$0.00</span>
+        </div>
+        <div class="invoice-line">
+          <span>Add-ons & Finishing</span>
+          <span id="invoice-addons">$0.00</span>
+        </div>
+        <div class="invoice-line">
+          <span>Subtotal</span>
+          <span id="invoice-subtotal">$0.00</span>
+        </div>
+        <div class="invoice-line">
           <span>Markup (<span id="markup-display">40</span>%)</span>
-          <span id="markup-amount">$0.00</span>
+          <span id="invoice-markup">$0.00</span>
+        </div>
+
+        <div class="invoice-total">
+          <div class="invoice-total-label">Total</div>
+          <div class="invoice-total-value" id="invoice-total">$0.00</div>
+        </div>
+
+        <div class="markup-control">
+          <label class="markup-label">Markup Percentage</label>
+          <input type="number" class="markup-input" id="markup" value="40" min="0" max="100" onchange="calculateInvoice()">
+        </div>
+
+        <div class="action-buttons">
+          <button class="action-btn" onclick="saveJob()">Save Job</button>
+          <button class="action-btn secondary" onclick="exportJob()">Export PDF</button>
+          <button class="action-btn secondary" onclick="clearJob()">Clear All</button>
         </div>
       </div>
-
-      <div class="result-total">
-        <div>
-          <div class="result-total-label">Invoice Total</div>
-          <div class="result-per-piece" id="price-per-piece">$0.00 per piece</div>
-        </div>
-        <div class="result-total-value" id="invoice-total">$0.00</div>
-      </div>
-
-      <div class="action-buttons">
-        <button class="action-btn" onclick="saveJob()">Save Job</button>
-        <button class="action-btn secondary" onclick="exportJob()">Export PDF</button>
-        <button class="action-btn secondary" onclick="resetForm()">Clear Form</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECENT JOBS -->
-  <div class="recent-jobs">
-    <h2>Recent Jobs</h2>
-    <div class="job-list" id="job-list">
-      <div class="no-jobs">No saved jobs yet</div>
     </div>
   </div>
 </div>
 
 <script>
   const PASSWORD = 'cowdog123';
-  const LABOR_RATE = 25; // per hour
+  const LABOR_RATE = 25;
 
-  // Cowdog pricing data (customer-facing prices)
-  const STANDARD_PRICING = {
-    '48-74':   [6.40, 6.80, 7.20, 7.60, 8.00, 8.40],
-    '75-99':   [5.90, 6.25, 6.60, 6.95, 7.30, 7.65],
-    '100-249': [5.40, 5.70, 6.00, 6.30, 6.60, 6.90],
-    '250-499': [4.00, 4.15, 4.30, 4.45, 4.60, 4.75],
-    '500-999': [3.15, 3.25, 3.35, 3.45, 3.55, 3.65],
-    '1000+':   [2.45, 2.53, 2.61, 2.69, 2.77, 2.85],
+  // Finishing pricing
+  const FINISHING = {
+    'neck-tags': { '50': 2.00, '100': 1.60, '150': 1.35, '250': 1.10, '500': 1.00, '750': 0.95, '1000': 0.90 },
+    'fold-tee': { '50': 1.10, '100': 1.10, '150': 1.10, '250': 1.05, '500': 1.00, '750': 0.95, '1000': 0.90 },
+    'fold-fleece': { '50': 1.60, '100': 1.60, '150': 1.60, '250': 1.55, '500': 1.50, '750': 1.45, '1000': 1.40 },
+    'hang-tags': { '50': 0.55, '100': 0.55, '150': 0.55, '250': 0.50, '500': 0.45, '750': 0.45, '1000': 0.40 },
+    'fulfillment': { '50': 1.10, '100': 1.10, '150': 1.10, '250': 1.05, '500': 1.00, '750': 0.95, '1000': 0.90 },
   };
 
-  const JUMBO_PRICING = {
-    '48-74':   [7.90, 8.30, 8.70, 9.10, 9.50, 9.90],
-    '75-99':   [7.40, 7.75, 8.10, 8.45, 8.80, 9.15],
-    '100-249': [6.90, 7.20, 7.50, 7.80, 8.10, 8.40],
-    '250-499': [5.50, 5.65, 5.80, 5.95, 6.10, 6.25],
-    '500-999': [4.65, 4.75, 4.85, 4.95, 5.05, 5.15],
-    '1000+':   [3.95, 4.03, 4.11, 4.19, 4.27, 4.35],
-  };
+  const SCREEN_SETUP = 35;
+  const INK_CHARGE = 35;
+  const ADDITIONAL_LOCATION_COST = 1.00;
 
-  // Add-on costs
-  const SCREEN_SETUP = 35;  // per color
-  const INK_CHARGE = 35;     // per color
-  const INK_CHANGE = 45;
-  const ADDITIONAL_LOCATION_COST = 1.00; // per color per piece
+  let currentService = 'screen-print';
+  let jobItems = [];
 
   // Check password
   function checkPassword() {
@@ -667,33 +782,27 @@
       document.getElementById('password-screen').style.display = 'none';
       document.getElementById('admin-app').style.display = 'block';
       sessionStorage.setItem('admin-auth', 'true');
-      calculate();
     } else {
       error.style.display = 'block';
       input.value = '';
     }
   }
 
-  // Check if already logged in
   if (sessionStorage.getItem('admin-auth') === 'true') {
     document.getElementById('password-screen').style.display = 'none';
     document.getElementById('admin-app').style.display = 'block';
   }
 
-  // Logout
   function logout() {
     sessionStorage.removeItem('admin-auth');
     location.reload();
   }
 
-  // Allow enter key on password
   document.getElementById('password-input')?.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') checkPassword();
   });
 
   // Service tab switching
-  let currentService = 'screen-print';
-
   document.querySelectorAll('.calc-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
@@ -703,193 +812,218 @@
       const isScreen = currentService === 'screen-print';
       document.querySelectorAll('.screen-only').forEach(el => el.style.display = isScreen ? 'block' : 'none');
       document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = isScreen ? 'none' : 'block');
-
-      // Update labels based on service
-      document.getElementById('materials-label').textContent = isScreen ? 'Ink & Materials' : 'Thread & Backing';
-      document.getElementById('setup-label').textContent = isScreen ? 'Setup Fees' : 'Digitizing';
-      document.getElementById('production-label').textContent = isScreen ? 'Production Labor' : 'Machine Time';
-      document.getElementById('setup-section-label').textContent = isScreen ? 'Setup & Labor' : 'Labor';
-
-      calculate();
     });
   });
 
-  // Calculate costs based on Cowdog pricing model
-  function calculate() {
+  // Add item to job
+  function addItemToJob() {
+    const desc = document.getElementById('item-desc').value || 'Untitled Item';
     const qty = +document.getElementById('qty').value || 0;
     const garmentCost = +document.getElementById('garment-cost').value || 0;
-    const markup = +document.getElementById('markup').value || 0;
 
-    let setupCost = 0;
-    let productionHours = 0;
-    let materialsCost = 0;
+    if (qty === 0) {
+      alert('Please enter a quantity');
+      return;
+    }
+
+    let item = {
+      id: Date.now(),
+      service: currentService,
+      description: desc,
+      qty: qty,
+      garmentCost: garmentCost,
+      setupCost: 0,
+      materialsCost: 0,
+      laborCost: 0,
+      totalCost: 0
+    };
 
     if (currentService === 'screen-print') {
-      // SCREEN PRINT CALCULATIONS
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
       const isDark = document.getElementById('garment-color').value === 'dark';
       const printSize = document.getElementById('print-size').value;
 
-      // Setup costs (per color, per location)
-      const colorsPerLocation = isDark ? colors + 1 : colors; // +1 for underbase on dark
-      setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
+      const colorsPerLocation = isDark ? colors + 1 : colors;
+      item.setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
 
-      // Additional location cost (if more than 1)
       const additionalLocationCost = placements > 1 ? (placements - 1) * ADDITIONAL_LOCATION_COST * colors * qty : 0;
-
-      // Production time estimation
-      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17); // 30min per screen, 10min per color reg
+      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17);
       const secPerPiece = qty < 100 ? 20 : qty < 250 ? 15 : qty < 500 ? 12 : 10;
       const flashTime = colors > 1 ? (colors - 1) * 5 : 0;
-      productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
+      const productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
 
-      // Ink/materials (rough estimate)
-      const inkCost = qty * colors * placements * 0.50; // conservative ink usage estimate
-      materialsCost = inkCost + additionalLocationCost;
+      const inkCost = qty * colors * placements * 0.50;
+      item.materialsCost = inkCost + additionalLocationCost;
+      item.laborCost = productionHours * LABOR_RATE;
+
+      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)${isDark ? ' · dark' : ''}`;
 
     } else {
-      // EMBROIDERY CALCULATIONS
       const stitches = +document.getElementById('stitch-count').value || 8000;
       const threadColors = +document.getElementById('thread-colors').value || 1;
       const placements = +document.getElementById('emb-placements').value || 1;
       const garmentType = document.getElementById('emb-garment').value;
 
-      // Setup/digitizing
-      setupCost = 50; // one-time digitizing cost estimate
+      item.setupCost = 50;
 
-      // Hooping time
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
-
-      // Machine time
       const minPer1kStitches = 8;
       const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
-
-      // Thread changes
       const changeHours = (threadColors - 1) * qty * placements * 2 / 60;
+      const productionHours = hoopHours + stitchHours + changeHours;
 
-      productionHours = hoopHours + stitchHours + changeHours;
-
-      // Materials
       const threadCost = (stitches * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
-      materialsCost = threadCost + backingCost;
+      item.materialsCost = threadCost + backingCost;
+      item.laborCost = productionHours * LABOR_RATE;
+
+      item.details = `${qty} ${garmentType}(s) · ${stitches.toLocaleString()} stitches · ${placements} placement(s)`;
     }
 
-    // Calculate totals
     const garmentsCost = qty * garmentCost;
-    const laborCost = productionHours * LABOR_RATE;
-    const totalCost = garmentsCost + setupCost + materialsCost + laborCost;
-    const costPerPiece = totalCost / qty;
-    const markupAmount = totalCost * (markup / 100);
-    const invoiceTotal = totalCost + markupAmount;
-    const pricePerPiece = invoiceTotal / qty;
+    item.totalCost = garmentsCost + item.setupCost + item.materialsCost + item.laborCost;
 
-    // Update UI
-    document.getElementById('cost-garments').textContent = `$${garmentsCost.toFixed(2)}`;
-    document.getElementById('cost-materials').textContent = `$${materialsCost.toFixed(2)}`;
-    document.getElementById('cost-setup').textContent = `$${setupCost.toFixed(2)}`;
-    document.getElementById('cost-production').textContent = `$${laborCost.toFixed(2)}`;
-    document.getElementById('total-hours').textContent = `${productionHours.toFixed(1)} hrs`;
-    document.getElementById('total-cost').textContent = `$${totalCost.toFixed(2)}`;
-    document.getElementById('cost-per-piece').textContent = `$${costPerPiece.toFixed(2)}`;
-    document.getElementById('markup-display').textContent = markup;
-    document.getElementById('markup-amount').textContent = `$${markupAmount.toFixed(2)}`;
-    document.getElementById('invoice-total').textContent = `$${invoiceTotal.toFixed(2)}`;
-    document.getElementById('price-per-piece').textContent = `$${pricePerPiece.toFixed(2)} per piece`;
+    jobItems.push(item);
+    renderJobItems();
+    calculateInvoice();
+
+    // Reset form
+    document.getElementById('item-desc').value = '';
+    document.getElementById('qty').value = 100;
   }
 
-  // Attach calculation to all inputs
-  document.querySelectorAll('.calc-input, .calc-select').forEach(el => {
-    el.addEventListener('input', calculate);
-    el.addEventListener('change', calculate);
-  });
+  function renderJobItems() {
+    const container = document.getElementById('items-container');
 
-  // Save job to localStorage
-  function saveJob() {
-    const qty = +document.getElementById('qty').value;
-    const invoiceTotal = document.getElementById('invoice-total').textContent;
-    const pricePerPiece = document.getElementById('price-per-piece').textContent.split(' ')[0];
-
-    const job = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString(),
-      service: currentService,
-      qty: qty,
-      total: invoiceTotal,
-      perPiece: pricePerPiece,
-      details: getJobDetails()
-    };
-
-    let jobs = JSON.parse(localStorage.getItem('admin-jobs') || '[]');
-    jobs.unshift(job);
-    jobs = jobs.slice(0, 10); // Keep last 10
-    localStorage.setItem('admin-jobs', JSON.stringify(jobs));
-
-    loadRecentJobs();
-    alert('Job saved!');
-  }
-
-  function getJobDetails() {
-    const qty = document.getElementById('qty').value;
-    if (currentService === 'screen-print') {
-      const colors = document.getElementById('color-count').value;
-      const placements = document.getElementById('placement-count').value;
-      return `${qty} pcs · ${colors} color(s) · ${placements} placement(s)`;
-    } else {
-      const garment = document.getElementById('emb-garment').value;
-      const placements = document.getElementById('emb-placements').value;
-      return `${qty} ${garment}(s) · ${placements} placement(s)`;
-    }
-  }
-
-  // Load recent jobs
-  function loadRecentJobs() {
-    const jobs = JSON.parse(localStorage.getItem('admin-jobs') || '[]');
-    const listEl = document.getElementById('job-list');
-
-    if (jobs.length === 0) {
-      listEl.innerHTML = '<div class="no-jobs">No saved jobs yet</div>';
+    if (jobItems.length === 0) {
+      container.innerHTML = '<div class="no-items">No items added yet</div>';
       return;
     }
 
-    listEl.innerHTML = jobs.map(job => `
-      <div class="job-item" onclick='loadJob(${JSON.stringify(job).replace(/'/g, "&apos;")})'>
-        <div class="job-info">
-          <div class="job-title">${job.service === 'screen-print' ? 'Screen Print' : 'Embroidery'} · ${job.date}</div>
-          <div class="job-details">${job.details}</div>
+    container.innerHTML = jobItems.map(item => `
+      <div class="job-item">
+        <button class="remove-item-btn" onclick="removeItem(${item.id})">×</button>
+        <div class="job-item-header">
+          <div class="job-item-title">${item.description}</div>
+          <div class="job-item-cost">$${item.totalCost.toFixed(2)}</div>
         </div>
-        <div class="job-price">${job.total}</div>
+        <div class="job-item-details">${item.details}</div>
       </div>
     `).join('');
   }
 
-  function loadJob(job) {
-    // Could populate form with saved job details
-    alert('Job details:\n\n' + JSON.stringify(job, null, 2));
+  function removeItem(id) {
+    jobItems = jobItems.filter(item => item.id !== id);
+    renderJobItems();
+    calculateInvoice();
   }
 
-  // Export PDF (simplified - just prints for now)
+  function getFinishingPrice(service, qty) {
+    const tiers = FINISHING[service];
+    if (qty >= 1000) return tiers['1000'];
+    if (qty >= 750) return tiers['750'];
+    if (qty >= 500) return tiers['500'];
+    if (qty >= 250) return tiers['250'];
+    if (qty >= 150) return tiers['150'];
+    if (qty >= 100) return tiers['100'];
+    return tiers['50'];
+  }
+
+  function calculateInvoice() {
+    let itemsSubtotal = jobItems.reduce((sum, item) => sum + item.totalCost, 0);
+    let addonsCost = 0;
+
+    // Finishing services
+    if (document.getElementById('addon-neck-tags').checked) {
+      const qty = +document.getElementById('addon-neck-tags-qty').value || 0;
+      addonsCost += qty * getFinishingPrice('neck-tags', qty);
+    }
+
+    if (document.getElementById('addon-fold-tee').checked) {
+      const qty = +document.getElementById('addon-fold-tee-qty').value || 0;
+      addonsCost += qty * getFinishingPrice('fold-tee', qty);
+    }
+
+    if (document.getElementById('addon-fold-fleece').checked) {
+      const qty = +document.getElementById('addon-fold-fleece-qty').value || 0;
+      addonsCost += qty * getFinishingPrice('fold-fleece', qty);
+    }
+
+    if (document.getElementById('addon-hang-tags').checked) {
+      const qty = +document.getElementById('addon-hang-tags-qty').value || 0;
+      addonsCost += qty * getFinishingPrice('hang-tags', qty);
+    }
+
+    if (document.getElementById('addon-fulfillment').checked) {
+      const qty = +document.getElementById('addon-fulfillment-qty').value || 0;
+      addonsCost += qty * getFinishingPrice('fulfillment', qty);
+    }
+
+    // Extras
+    if (document.getElementById('addon-puff').checked) {
+      const qty = +document.getElementById('addon-puff-qty').value || 0;
+      addonsCost += qty * 1.25;
+    }
+
+    if (document.getElementById('addon-specialty').checked) {
+      const qty = +document.getElementById('addon-specialty-qty').value || 0;
+      addonsCost += qty * 1.25;
+    }
+
+    let subtotal = itemsSubtotal + addonsCost;
+
+    // Rush adds 30%
+    if (document.getElementById('addon-rush').checked) {
+      subtotal = subtotal * 1.30;
+    }
+
+    const markup = +document.getElementById('markup').value || 0;
+    const markupAmount = subtotal * (markup / 100);
+    const total = subtotal + markupAmount;
+
+    document.getElementById('invoice-items').textContent = `$${itemsSubtotal.toFixed(2)}`;
+    document.getElementById('invoice-addons').textContent = `$${addonsCost.toFixed(2)}`;
+    document.getElementById('invoice-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('markup-display').textContent = markup;
+    document.getElementById('invoice-markup').textContent = `$${markupAmount.toFixed(2)}`;
+    document.getElementById('invoice-total').textContent = `$${total.toFixed(2)}`;
+  }
+
+  function clearJob() {
+    if (confirm('Clear all items and start over?')) {
+      jobItems = [];
+      renderJobItems();
+      calculateInvoice();
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.addon-input').forEach(input => input.value = 0);
+    }
+  }
+
+  function saveJob() {
+    const job = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString(),
+      items: jobItems,
+      total: document.getElementById('invoice-total').textContent
+    };
+
+    let jobs = JSON.parse(localStorage.getItem('admin-jobs') || '[]');
+    jobs.unshift(job);
+    jobs = jobs.slice(0, 10);
+    localStorage.setItem('admin-jobs', JSON.stringify(jobs));
+
+    alert('Job saved!');
+  }
+
   function exportJob() {
     window.print();
   }
 
-  // Reset form
-  function resetForm() {
-    document.getElementById('qty').value = 100;
-    document.getElementById('garment-cost').value = 3.50;
-    document.getElementById('color-count').value = 2;
-    document.getElementById('placement-count').value = 1;
-    document.getElementById('markup').value = 40;
-    calculate();
-  }
-
-  // Initialize - show screen print fields by default
+  // Initialize
   document.querySelectorAll('.screen-only').forEach(el => el.style.display = 'block');
   document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = 'none');
-  loadRecentJobs();
-  calculate();
 </script>
 
 </body>
