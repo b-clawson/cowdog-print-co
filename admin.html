@@ -725,11 +725,12 @@
       </div>
 
       <div class="calc-field embroidery-only">
-        <label class="calc-label">Placement Size</label>
+        <label class="calc-label">Placement Type</label>
         <select class="calc-select" id="emb-placement-size">
-          <option value="small">Small (up to 8K stitches) - Left Chest, Hat</option>
-          <option value="medium">Medium (8K-15K stitches) - Full Front</option>
-          <option value="large">Large (15K-30K stitches) - Full Back</option>
+          <option value="hat">Hat Placement (up to 8K) - $30 digitizing</option>
+          <option value="left-chest">Left Chest (up to 8K) - $30 digitizing</option>
+          <option value="full-front">Full Front (8K-15K) - $85 digitizing</option>
+          <option value="full-back">Full Back (15K-30K) - $150 digitizing</option>
         </select>
       </div>
 
@@ -748,8 +749,12 @@
             <span id="preview-customer-blanks">$0.00</span>
           </div>
           <div class="preview-line">
-            <span>Printing</span>
+            <span id="preview-printing-label">Printing</span>
             <span id="preview-customer-printing">$0.00</span>
+          </div>
+          <div class="preview-line" id="preview-digitizing-line" style="display: none;">
+            <span>Digitizing</span>
+            <span id="preview-customer-digitizing">$0.00</span>
           </div>
           <div class="preview-total">
             <div>
@@ -954,16 +959,23 @@
     'hoodie': { base: 32.00, name: 'Hoodie' },
   };
 
-  // Simplified embroidery placement pricing (by stitch count tier)
+  // Embroidery placement pricing (by stitch count tier)
   const EMBROIDERY_PLACEMENT_PRICING = {
-    'small': { // Up to 8K stitches (left chest, hat placements)
-      '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00
+    'hat': { // Up to 8K stitches (hat placements)
+      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 },
+      digitizing: 30
     },
-    'medium': { // 8K-15K stitches (full front)
-      '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00
+    'left-chest': { // Up to 8K stitches (left chest)
+      prices: { '1-11': 8.00, '12-23': 7.00, '24-47': 6.50, '48-99': 6.00, '100-249': 5.50, '250+': 5.00 },
+      digitizing: 30
     },
-    'large': { // 15K-30K stitches (full back)
-      '1-11': 30.00, '12-23': 25.00, '24-47': 20.00, '48-99': 18.00, '100-249': 16.00, '250+': 15.00
+    'full-front': { // 8K-15K stitches (full front)
+      prices: { '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00 },
+      digitizing: 85
+    },
+    'full-back': { // 15K-30K stitches (full back)
+      prices: { '1-11': 30.00, '12-23': 25.00, '24-47': 20.00, '48-99': 18.00, '100-249': 16.00, '250+': 15.00 },
+      digitizing: 150
     }
   };
 
@@ -1028,8 +1040,8 @@
   }
 
   // Helper to get embroidery placement price
-  function getEmbroideryPlacementPrice(qty, placementSize) {
-    const pricing = EMBROIDERY_PLACEMENT_PRICING[placementSize];
+  function getEmbroideryPlacementPrice(qty, placementType) {
+    const pricing = EMBROIDERY_PLACEMENT_PRICING[placementType].prices;
 
     if (qty >= 250) return pricing['250+'];
     if (qty >= 100) return pricing['100-249'];
@@ -1037,6 +1049,11 @@
     if (qty >= 24) return pricing['24-47'];
     if (qty >= 12) return pricing['12-23'];
     return pricing['1-11'];
+  }
+
+  // Helper to get embroidery digitizing fee
+  function getEmbroideryDigitizingFee(placementType) {
+    return EMBROIDERY_PLACEMENT_PRICING[placementType].digitizing;
   }
 
   // Calculate preview for current item
@@ -1081,21 +1098,24 @@
       // Customer pricing - embroidery with 20% discount on additional placements
       const firstPlacementPrice = getEmbroideryPlacementPrice(qty, placementSize);
       const additionalPlacementPrice = firstPlacementPrice * 0.80; // 20% discount
+      const digitizingFee = getEmbroideryDigitizingFee(placementSize);
 
       let totalPlacementCost = firstPlacementPrice; // First placement full price
       if (placements > 1) {
         totalPlacementCost += additionalPlacementPrice * (placements - 1); // Additional placements discounted
       }
-      customerPrintingCost = qty * totalPlacementCost;
+      customerPrintingCost = qty * totalPlacementCost + digitizingFee;
 
       // Your actual costs
-      setupCost = 50; // Digitizing setup
+      setupCost = digitizingFee; // Use actual digitizing fee from pricing
 
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
 
-      // Estimate stitch time based on placement size
-      const stitchEstimate = placementSize === 'small' ? 6000 : placementSize === 'medium' ? 12000 : 22000;
+      // Estimate stitch time based on placement type
+      const stitchEstimate =
+        (placementSize === 'hat' || placementSize === 'left-chest') ? 6000 :
+        placementSize === 'full-front' ? 12000 : 22000;
       const minPer1kStitches = 8;
       const stitchHours = (qty * placements * stitchEstimate * minPer1kStitches) / (1000 * 60);
       const productionHours = hoopHours + stitchHours;
@@ -1121,7 +1141,23 @@
 
     // Update preview UI - Customer Price
     document.getElementById('preview-customer-blanks').textContent = `$${customerBlanks.toFixed(2)}`;
-    document.getElementById('preview-customer-printing').textContent = `$${customerPrintingCost.toFixed(2)}`;
+
+    // Show/hide digitizing line based on service type
+    if (currentService === 'embroidery') {
+      const placementSize = document.getElementById('emb-placement-size').value;
+      const digitizingFee = getEmbroideryDigitizingFee(placementSize);
+      const embroideryOnly = customerPrintingCost - digitizingFee;
+
+      document.getElementById('preview-printing-label').textContent = 'Embroidery';
+      document.getElementById('preview-customer-printing').textContent = `$${embroideryOnly.toFixed(2)}`;
+      document.getElementById('preview-digitizing-line').style.display = 'flex';
+      document.getElementById('preview-customer-digitizing').textContent = `$${digitizingFee.toFixed(2)}`;
+    } else {
+      document.getElementById('preview-printing-label').textContent = 'Printing';
+      document.getElementById('preview-customer-printing').textContent = `$${customerPrintingCost.toFixed(2)}`;
+      document.getElementById('preview-digitizing-line').style.display = 'none';
+    }
+
     document.getElementById('preview-customer-total').textContent = `$${customerTotal.toFixed(2)}`;
     document.getElementById('preview-customer-per-piece').textContent = `$${customerPerPiece.toFixed(2)} per piece`;
 
