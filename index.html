@@ -1870,6 +1870,11 @@
 
   function qtyToSlider(qty) {
     const minQty = currentSliderStops[0].qty;
+    const maxQty = currentSliderStops[currentSliderStops.length - 1].qty;
+
+    // Cap quantity at max for the current service
+    if (qty > maxQty) qty = maxQty;
+
     // Find which segment we're in
     for (let i = 0; i < currentSliderStops.length - 1; i++) {
       const start = currentSliderStops[i];
@@ -2159,7 +2164,16 @@
   // Quantity input and slider sync
   qtyInput.addEventListener('input', () => {
     let val = +qtyInput.value;
-    if (val >= 48 && val <= 500) {
+    const minQty = currentSliderStops[0].qty;
+    const maxQty = currentSliderStops[currentSliderStops.length - 1].qty;
+
+    // Cap the input value at max
+    if (val > maxQty) {
+      val = maxQty;
+      qtyInput.value = maxQty;
+    }
+
+    if (val >= minQty) {
       qtySlider.value = qtyToSlider(val);
       updateSliderBg();
     }
