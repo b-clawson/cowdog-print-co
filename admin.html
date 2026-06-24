@@ -268,6 +268,72 @@
     background: #c93d22;
   }
 
+  /* ── ITEM PREVIEW ── */
+  .item-preview {
+    background: var(--warm);
+    padding: 1.5rem;
+    border-radius: 2px;
+    margin-top: 1.5rem;
+    border: 2px solid var(--rule);
+  }
+
+  .preview-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .preview-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+  }
+
+  .preview-line span:first-child {
+    color: var(--muted);
+  }
+
+  .preview-line span:last-child {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .preview-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .preview-total-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .preview-total-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--rust);
+  }
+
+  .preview-per-piece {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 0.25rem;
+  }
+
   /* ── JOB SUMMARY PANEL ── */
   .summary-panel {
     height: fit-content;
@@ -638,6 +704,34 @@
         <input type="number" class="calc-input" id="emb-placements" value="1" min="1">
       </div>
 
+      <!-- ITEM COST PREVIEW -->
+      <div class="item-preview">
+        <div class="preview-title">Item Cost Preview</div>
+        <div class="preview-line">
+          <span>Garments</span>
+          <span id="preview-garments">$0.00</span>
+        </div>
+        <div class="preview-line">
+          <span>Setup Fees</span>
+          <span id="preview-setup">$0.00</span>
+        </div>
+        <div class="preview-line">
+          <span>Materials</span>
+          <span id="preview-materials">$0.00</span>
+        </div>
+        <div class="preview-line">
+          <span>Labor</span>
+          <span id="preview-labor">$0.00</span>
+        </div>
+        <div class="preview-total">
+          <div>
+            <div class="preview-total-label">Item Total</div>
+            <div class="preview-per-piece" id="preview-per-piece">$0.00 per piece</div>
+          </div>
+          <div class="preview-total-value" id="preview-total">$0.00</div>
+        </div>
+      </div>
+
       <button class="add-item-btn" onclick="addItemToJob()">Add Item to Job</button>
     </div>
 
@@ -815,8 +909,71 @@
       const isScreen = currentService === 'screen-print';
       document.querySelectorAll('.screen-only').forEach(el => el.style.display = isScreen ? 'block' : 'none');
       document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = isScreen ? 'none' : 'block');
+
+      calculateItemPreview();
     });
   });
+
+  // Calculate preview for current item
+  function calculateItemPreview() {
+    const qty = +document.getElementById('qty').value || 0;
+    const garmentCost = +document.getElementById('garment-cost').value || 0;
+
+    let setupCost = 0;
+    let materialsCost = 0;
+    let laborCost = 0;
+
+    if (currentService === 'screen-print') {
+      const colors = +document.getElementById('color-count').value || 1;
+      const placements = +document.getElementById('placement-count').value || 1;
+      const isDark = document.getElementById('garment-color').value === 'dark';
+
+      const colorsPerLocation = isDark ? colors + 1 : colors;
+      setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
+
+      const additionalLocationCost = placements > 1 ? (placements - 1) * ADDITIONAL_LOCATION_COST * colors * qty : 0;
+      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17);
+      const secPerPiece = qty < 100 ? 20 : qty < 250 ? 15 : qty < 500 ? 12 : 10;
+      const flashTime = colors > 1 ? (colors - 1) * 5 : 0;
+      const productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
+
+      const inkCost = qty * colors * placements * 0.50;
+      materialsCost = inkCost + additionalLocationCost;
+      laborCost = productionHours * LABOR_RATE;
+
+    } else {
+      const stitches = +document.getElementById('stitch-count').value || 8000;
+      const threadColors = +document.getElementById('thread-colors').value || 1;
+      const placements = +document.getElementById('emb-placements').value || 1;
+      const garmentType = document.getElementById('emb-garment').value;
+
+      setupCost = 50;
+
+      const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
+      const hoopHours = (qty * hoopMinPerPiece) / 60;
+      const minPer1kStitches = 8;
+      const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
+      const changeHours = (threadColors - 1) * qty * placements * 2 / 60;
+      const productionHours = hoopHours + stitchHours + changeHours;
+
+      const threadCost = (stitches * placements * qty * 0.01) / 1000;
+      const backingCost = qty * placements * 0.30;
+      materialsCost = threadCost + backingCost;
+      laborCost = productionHours * LABOR_RATE;
+    }
+
+    const garmentsCost = qty * garmentCost;
+    const totalCost = garmentsCost + setupCost + materialsCost + laborCost;
+    const perPiece = qty > 0 ? totalCost / qty : 0;
+
+    // Update preview UI
+    document.getElementById('preview-garments').textContent = `$${garmentsCost.toFixed(2)}`;
+    document.getElementById('preview-setup').textContent = `$${setupCost.toFixed(2)}`;
+    document.getElementById('preview-materials').textContent = `$${materialsCost.toFixed(2)}`;
+    document.getElementById('preview-labor').textContent = `$${laborCost.toFixed(2)}`;
+    document.getElementById('preview-total').textContent = `$${totalCost.toFixed(2)}`;
+    document.getElementById('preview-per-piece').textContent = `$${perPiece.toFixed(2)} per piece`;
+  }
 
   // Add item to job
   function addItemToJob() {
@@ -905,16 +1062,19 @@
       return;
     }
 
-    container.innerHTML = jobItems.map(item => `
-      <div class="job-item">
-        <button class="remove-item-btn" onclick="removeItem(${item.id})">×</button>
-        <div class="job-item-header">
-          <div class="job-item-title">${item.description}</div>
-          <div class="job-item-cost">$${item.totalCost.toFixed(2)}</div>
+    container.innerHTML = jobItems.map(item => {
+      const perPiece = item.totalCost / item.qty;
+      return `
+        <div class="job-item">
+          <button class="remove-item-btn" onclick="removeItem(${item.id})">×</button>
+          <div class="job-item-header">
+            <div class="job-item-title">${item.description}</div>
+            <div class="job-item-cost">$${item.totalCost.toFixed(2)}</div>
+          </div>
+          <div class="job-item-details">${item.details} · $${perPiece.toFixed(2)}/pc</div>
         </div>
-        <div class="job-item-details">${item.details}</div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   function removeItem(id) {
@@ -1027,6 +1187,23 @@
   // Initialize
   document.querySelectorAll('.screen-only').forEach(el => el.style.display = 'block');
   document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = 'none');
+
+  // Attach preview calculation to all input fields
+  const previewInputs = [
+    'qty', 'garment-cost', 'print-size', 'garment-color', 'color-count', 'placement-count',
+    'emb-garment', 'stitch-count', 'thread-colors', 'emb-placements'
+  ];
+
+  previewInputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', calculateItemPreview);
+      el.addEventListener('change', calculateItemPreview);
+    }
+  });
+
+  // Calculate initial preview
+  calculateItemPreview();
 </script>
 
 </body>
