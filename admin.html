@@ -725,12 +725,16 @@
       </div>
 
       <div class="calc-field embroidery-only">
-        <label class="calc-label">Total Stitch Count</label>
-        <input type="number" class="calc-input" id="stitch-count" value="8000" min="1000" step="1000">
+        <label class="calc-label">Placement Size</label>
+        <select class="calc-select" id="emb-placement-size">
+          <option value="small">Small (up to 8K stitches) - Left Chest, Hat</option>
+          <option value="medium">Medium (8K-15K stitches) - Full Front</option>
+          <option value="large">Large (15K-30K stitches) - Full Back</option>
+        </select>
       </div>
 
       <div class="calc-field embroidery-only">
-        <label class="calc-label">Placement Count</label>
+        <label class="calc-label">Number of Placements</label>
         <input type="number" class="calc-input" id="emb-placements" value="1" min="1">
       </div>
 
@@ -941,6 +945,28 @@
     '1000+':   [3.95, 4.03, 4.11, 4.19, 4.27, 4.35],
   };
 
+  // Embroidery pricing from customer estimator
+  const EMBROIDERY_GARMENTS = {
+    'hat': { base: 5.00, name: 'Hat' },
+    'tee': { base: 8.00, name: 'Tee' },
+    'polo': { base: 20.00, name: 'Polo' },
+    'crewneck': { base: 24.00, name: 'Crewneck' },
+    'hoodie': { base: 32.00, name: 'Hoodie' },
+  };
+
+  // Simplified embroidery placement pricing (by stitch count tier)
+  const EMBROIDERY_PLACEMENT_PRICING = {
+    'small': { // Up to 8K stitches (left chest, hat placements)
+      '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00
+    },
+    'medium': { // 8K-15K stitches (full front)
+      '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00
+    },
+    'large': { // 15K-30K stitches (full back)
+      '1-11': 30.00, '12-23': 25.00, '24-47': 20.00, '48-99': 18.00, '100-249': 16.00, '250+': 15.00
+    }
+  };
+
   let currentService = 'screen-print';
   let jobItems = [];
 
@@ -1001,6 +1027,18 @@
     return pricing['48-74'][colorIndex];
   }
 
+  // Helper to get embroidery placement price
+  function getEmbroideryPlacementPrice(qty, placementSize) {
+    const pricing = EMBROIDERY_PLACEMENT_PRICING[placementSize];
+
+    if (qty >= 250) return pricing['250+'];
+    if (qty >= 100) return pricing['100-249'];
+    if (qty >= 48) return pricing['48-99'];
+    if (qty >= 24) return pricing['24-47'];
+    if (qty >= 12) return pricing['12-23'];
+    return pricing['1-11'];
+  }
+
   // Calculate preview for current item
   function calculateItemPreview() {
     const qty = +document.getElementById('qty').value || 0;
@@ -1036,24 +1074,33 @@
       laborCost = productionHours * LABOR_RATE;
 
     } else {
-      const stitches = +document.getElementById('stitch-count').value || 8000;
       const placements = +document.getElementById('emb-placements').value || 1;
       const garmentType = document.getElementById('emb-garment').value;
+      const placementSize = document.getElementById('emb-placement-size').value;
 
-      // Customer pricing - use embroidery price from your customer estimator
-      // For now using a simplified model, you can adjust based on your embroidery pricing
-      customerPrintingCost = qty * 8.00 * placements; // placeholder - adjust based on your embroidery pricing
+      // Customer pricing - embroidery with 20% discount on additional placements
+      const firstPlacementPrice = getEmbroideryPlacementPrice(qty, placementSize);
+      const additionalPlacementPrice = firstPlacementPrice * 0.80; // 20% discount
+
+      let totalPlacementCost = firstPlacementPrice; // First placement full price
+      if (placements > 1) {
+        totalPlacementCost += additionalPlacementPrice * (placements - 1); // Additional placements discounted
+      }
+      customerPrintingCost = qty * totalPlacementCost;
 
       // Your actual costs
-      setupCost = 50;
+      setupCost = 50; // Digitizing setup
 
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
+
+      // Estimate stitch time based on placement size
+      const stitchEstimate = placementSize === 'small' ? 6000 : placementSize === 'medium' ? 12000 : 22000;
       const minPer1kStitches = 8;
-      const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
+      const stitchHours = (qty * placements * stitchEstimate * minPer1kStitches) / (1000 * 60);
       const productionHours = hoopHours + stitchHours;
 
-      const threadCost = (stitches * placements * qty * 0.01) / 1000;
+      const threadCost = (stitchEstimate * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
       materialsCost = threadCost + backingCost;
       laborCost = productionHours * LABOR_RATE;
@@ -1304,7 +1351,7 @@
   // Attach preview calculation to all input fields
   const previewInputs = [
     'qty', 'garment-cost', 'print-size', 'garment-color', 'color-count', 'placement-count',
-    'emb-garment', 'stitch-count', 'emb-placements'
+    'emb-garment', 'emb-placement-size', 'emb-placements'
   ];
 
   previewInputs.forEach(id => {
