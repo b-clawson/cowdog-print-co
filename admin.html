@@ -885,8 +885,11 @@
     calculate();
   }
 
-  // Initialize
+  // Initialize - show screen print fields by default
+  document.querySelectorAll('.screen-only').forEach(el => el.style.display = 'block');
+  document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = 'none');
   loadRecentJobs();
+  calculate();
 </script>
 
 </body>
