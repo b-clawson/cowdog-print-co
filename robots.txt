@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-old.html
+Disallow: /pricing.html
+
+Sitemap: https://cowdogprint.co/sitemap.xml
