@@ -488,8 +488,17 @@
 
       <!-- Garment Cost -->
       <div class="calc-field">
-        <label class="calc-label">Garment Cost (per piece)</label>
+        <label class="calc-label">Blank Garment Cost (per piece)</label>
         <input type="number" class="calc-input" id="garment-cost" value="3.50" min="0" step="0.01">
+      </div>
+
+      <!-- Print Size (Screen Print) -->
+      <div class="calc-field screen-only">
+        <label class="calc-label">Print Size</label>
+        <select class="calc-select" id="print-size">
+          <option value="standard">Standard (up to 15"×18")</option>
+          <option value="jumbo">Jumbo (up to 17"×23")</option>
+        </select>
       </div>
 
       <!-- Garment Color (Screen Print) -->
@@ -564,13 +573,13 @@
       </div>
 
       <div class="result-section">
-        <h3>Labor</h3>
+        <h3 id="setup-section-label">Setup & Labor</h3>
         <div class="result-line">
-          <span>Setup</span>
+          <span id="setup-label">Setup Fees</span>
           <span id="cost-setup">$0.00</span>
         </div>
         <div class="result-line">
-          <span id="production-label">Production</span>
+          <span id="production-label">Production Labor</span>
           <span id="cost-production">$0.00</span>
         </div>
         <div class="result-line">
@@ -624,6 +633,31 @@
   const PASSWORD = 'cowdog123';
   const LABOR_RATE = 25; // per hour
 
+  // Cowdog pricing data (customer-facing prices)
+  const STANDARD_PRICING = {
+    '48-74':   [6.40, 6.80, 7.20, 7.60, 8.00, 8.40],
+    '75-99':   [5.90, 6.25, 6.60, 6.95, 7.30, 7.65],
+    '100-249': [5.40, 5.70, 6.00, 6.30, 6.60, 6.90],
+    '250-499': [4.00, 4.15, 4.30, 4.45, 4.60, 4.75],
+    '500-999': [3.15, 3.25, 3.35, 3.45, 3.55, 3.65],
+    '1000+':   [2.45, 2.53, 2.61, 2.69, 2.77, 2.85],
+  };
+
+  const JUMBO_PRICING = {
+    '48-74':   [7.90, 8.30, 8.70, 9.10, 9.50, 9.90],
+    '75-99':   [7.40, 7.75, 8.10, 8.45, 8.80, 9.15],
+    '100-249': [6.90, 7.20, 7.50, 7.80, 8.10, 8.40],
+    '250-499': [5.50, 5.65, 5.80, 5.95, 6.10, 6.25],
+    '500-999': [4.65, 4.75, 4.85, 4.95, 5.05, 5.15],
+    '1000+':   [3.95, 4.03, 4.11, 4.19, 4.27, 4.35],
+  };
+
+  // Add-on costs
+  const SCREEN_SETUP = 35;  // per color
+  const INK_CHARGE = 35;     // per color
+  const INK_CHANGE = 45;
+  const ADDITIONAL_LOCATION_COST = 1.00; // per color per piece
+
   // Check password
   function checkPassword() {
     const input = document.getElementById('password-input');
@@ -670,21 +704,23 @@
       document.querySelectorAll('.screen-only').forEach(el => el.style.display = isScreen ? 'block' : 'none');
       document.querySelectorAll('.embroidery-only').forEach(el => el.style.display = isScreen ? 'none' : 'block');
 
-      // Update materials label
-      document.getElementById('materials-label').textContent = isScreen ? 'Screens & Ink' : 'Thread & Backing';
-      document.getElementById('production-label').textContent = isScreen ? 'Production' : 'Machine Time';
+      // Update labels based on service
+      document.getElementById('materials-label').textContent = isScreen ? 'Ink & Materials' : 'Thread & Backing';
+      document.getElementById('setup-label').textContent = isScreen ? 'Setup Fees' : 'Digitizing';
+      document.getElementById('production-label').textContent = isScreen ? 'Production Labor' : 'Machine Time';
+      document.getElementById('setup-section-label').textContent = isScreen ? 'Setup & Labor' : 'Labor';
 
       calculate();
     });
   });
 
-  // Calculate costs
+  // Calculate costs based on Cowdog pricing model
   function calculate() {
     const qty = +document.getElementById('qty').value || 0;
     const garmentCost = +document.getElementById('garment-cost').value || 0;
     const markup = +document.getElementById('markup').value || 0;
 
-    let setupHours = 0;
+    let setupCost = 0;
     let productionHours = 0;
     let materialsCost = 0;
 
@@ -693,20 +729,24 @@
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
       const isDark = document.getElementById('garment-color').value === 'dark';
+      const printSize = document.getElementById('print-size').value;
 
-      // Setup time: screens + registration
-      const totalScreens = colors * placements + (isDark ? placements : 0); // add underbase for dark
-      setupHours = (totalScreens * 0.5) + ((colors - 1) * 0.17); // 30min per screen, 10min per color registration
+      // Setup costs (per color, per location)
+      const colorsPerLocation = isDark ? colors + 1 : colors; // +1 for underbase on dark
+      setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
 
-      // Production time (decreases with volume)
+      // Additional location cost (if more than 1)
+      const additionalLocationCost = placements > 1 ? (placements - 1) * ADDITIONAL_LOCATION_COST * colors * qty : 0;
+
+      // Production time estimation
+      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17); // 30min per screen, 10min per color reg
       const secPerPiece = qty < 100 ? 20 : qty < 250 ? 15 : qty < 500 ? 12 : 10;
-      const flashTime = colors > 1 ? (colors - 1) * 5 : 0; // flash between colors
-      productionHours = (qty * (secPerPiece + flashTime)) / 3600;
+      const flashTime = colors > 1 ? (colors - 1) * 5 : 0;
+      productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
 
-      // Materials
-      const screenCost = totalScreens * 25;
-      const inkCost = qty * colors * placements * 0.75; // ~$0.75 per color per print
-      materialsCost = screenCost + inkCost;
+      // Ink/materials (rough estimate)
+      const inkCost = qty * colors * placements * 0.50; // conservative ink usage estimate
+      materialsCost = inkCost + additionalLocationCost;
 
     } else {
       // EMBROIDERY CALCULATIONS
@@ -715,33 +755,32 @@
       const placements = +document.getElementById('emb-placements').value || 1;
       const garmentType = document.getElementById('emb-garment').value;
 
-      // Setup/digitizing (one-time for new design)
-      setupHours = 0.75; // ~45min for digitizing/setup
+      // Setup/digitizing
+      setupCost = 50; // one-time digitizing cost estimate
 
       // Hooping time
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
       const hoopHours = (qty * hoopMinPerPiece) / 60;
 
-      // Machine time (based on stitch count)
-      const minPer1kStitches = 8; // ~7-10min per 1000 stitches
+      // Machine time
+      const minPer1kStitches = 8;
       const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
 
       // Thread changes
-      const changeHours = (threadColors - 1) * qty * placements * 2 / 60; // 2min per color change
+      const changeHours = (threadColors - 1) * qty * placements * 2 / 60;
 
       productionHours = hoopHours + stitchHours + changeHours;
 
       // Materials
-      const threadCost = (stitches * placements * qty * 0.01) / 1000; // $0.01 per 1000 stitches
-      const backingCost = qty * placements * 0.30; // ~$0.30 per placement
+      const threadCost = (stitches * placements * qty * 0.01) / 1000;
+      const backingCost = qty * placements * 0.30;
       materialsCost = threadCost + backingCost;
     }
 
     // Calculate totals
-    const totalHours = setupHours + productionHours;
     const garmentsCost = qty * garmentCost;
-    const laborCost = totalHours * LABOR_RATE;
-    const totalCost = garmentsCost + materialsCost + laborCost;
+    const laborCost = productionHours * LABOR_RATE;
+    const totalCost = garmentsCost + setupCost + materialsCost + laborCost;
     const costPerPiece = totalCost / qty;
     const markupAmount = totalCost * (markup / 100);
     const invoiceTotal = totalCost + markupAmount;
@@ -750,9 +789,9 @@
     // Update UI
     document.getElementById('cost-garments').textContent = `$${garmentsCost.toFixed(2)}`;
     document.getElementById('cost-materials').textContent = `$${materialsCost.toFixed(2)}`;
-    document.getElementById('cost-setup').textContent = `$${(setupHours * LABOR_RATE).toFixed(2)}`;
-    document.getElementById('cost-production').textContent = `$${(productionHours * LABOR_RATE).toFixed(2)}`;
-    document.getElementById('total-hours').textContent = `${totalHours.toFixed(1)} hrs`;
+    document.getElementById('cost-setup').textContent = `$${setupCost.toFixed(2)}`;
+    document.getElementById('cost-production').textContent = `$${laborCost.toFixed(2)}`;
+    document.getElementById('total-hours').textContent = `${productionHours.toFixed(1)} hrs`;
     document.getElementById('total-cost').textContent = `$${totalCost.toFixed(2)}`;
     document.getElementById('cost-per-piece').textContent = `$${costPerPiece.toFixed(2)}`;
     document.getElementById('markup-display').textContent = markup;
