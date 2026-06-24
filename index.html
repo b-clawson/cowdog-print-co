@@ -2126,6 +2126,16 @@
       document.querySelectorAll('.est-screen-only').forEach(el => el.style.display = isEmbroidery ? 'none' : 'block');
       document.querySelectorAll('.est-embroidery-only').forEach(el => el.style.display = isEmbroidery ? 'block' : 'none');
 
+      // If switching to embroidery, show correct placement options based on selected garment
+      if (isEmbroidery) {
+        const selectedGarment = document.querySelector('input[name="embroidery_garment"]:checked');
+        if (selectedGarment) {
+          const isHat = selectedGarment.value === 'hat';
+          document.querySelectorAll('.est-hat-only').forEach(el => el.style.display = isHat ? 'block' : 'none');
+          document.querySelectorAll('.est-apparel-only').forEach(el => el.style.display = isHat ? 'none' : 'block');
+        }
+      }
+
       // Update slider ticks and range
       updateSliderTicksForService(estServiceType);
 
@@ -2265,6 +2275,11 @@
   // Init - set initial slider position for qty 100
   qtySlider.value = qtyToSlider(100);
   qtyInput.value = 100;
+
+  // Initialize embroidery placement visibility (hat is default)
+  document.querySelectorAll('.est-hat-only').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.est-apparel-only').forEach(el => el.style.display = 'none');
+
   calcEstimate();
   updateSliderBg();
 
