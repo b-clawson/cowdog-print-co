@@ -277,6 +277,18 @@
     border: 2px solid var(--rule);
   }
 
+  .preview-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .preview-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
   .preview-title {
     font-size: 11px;
     font-weight: 500;
@@ -332,6 +344,29 @@
     color: var(--muted);
     text-align: right;
     margin-top: 0.25rem;
+  }
+
+  .preview-margin {
+    background: rgba(184, 52, 27, 0.1);
+    padding: 0.75rem;
+    border-radius: 2px;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .preview-margin-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .preview-margin-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    color: var(--rust);
   }
 
   /* ── JOB SUMMARY PANEL ── */
@@ -701,29 +736,54 @@
 
       <!-- ITEM COST PREVIEW -->
       <div class="item-preview">
-        <div class="preview-title">Item Cost Preview</div>
-        <div class="preview-line">
-          <span>Garments</span>
-          <span id="preview-garments">$0.00</span>
-        </div>
-        <div class="preview-line">
-          <span>Setup Fees</span>
-          <span id="preview-setup">$0.00</span>
-        </div>
-        <div class="preview-line">
-          <span>Materials</span>
-          <span id="preview-materials">$0.00</span>
-        </div>
-        <div class="preview-line">
-          <span>Labor</span>
-          <span id="preview-labor">$0.00</span>
-        </div>
-        <div class="preview-total">
-          <div>
-            <div class="preview-total-label">Item Total</div>
-            <div class="preview-per-piece" id="preview-per-piece">$0.00 per piece</div>
+        <!-- CUSTOMER PRICE -->
+        <div class="preview-section">
+          <div class="preview-title">Customer Price</div>
+          <div class="preview-line">
+            <span>Blanks</span>
+            <span id="preview-customer-blanks">$0.00</span>
           </div>
-          <div class="preview-total-value" id="preview-total">$0.00</div>
+          <div class="preview-line">
+            <span>Printing</span>
+            <span id="preview-customer-printing">$0.00</span>
+          </div>
+          <div class="preview-total">
+            <div>
+              <div class="preview-total-label">Customer Total</div>
+              <div class="preview-per-piece" id="preview-customer-per-piece">$0.00 per piece</div>
+            </div>
+            <div class="preview-total-value" id="preview-customer-total">$0.00</div>
+          </div>
+        </div>
+
+        <!-- YOUR COSTS -->
+        <div class="preview-section">
+          <div class="preview-title">Your Costs</div>
+          <div class="preview-line">
+            <span>Blanks</span>
+            <span id="preview-cost-blanks">$0.00</span>
+          </div>
+          <div class="preview-line">
+            <span>Setup & Materials</span>
+            <span id="preview-cost-setup">$0.00</span>
+          </div>
+          <div class="preview-line">
+            <span>Labor</span>
+            <span id="preview-cost-labor">$0.00</span>
+          </div>
+          <div class="preview-total">
+            <div>
+              <div class="preview-total-label">Total Cost</div>
+              <div class="preview-per-piece" id="preview-cost-per-piece">$0.00 per piece</div>
+            </div>
+            <div class="preview-total-value" id="preview-cost-total">$0.00</div>
+          </div>
+        </div>
+
+        <!-- PROFIT MARGIN -->
+        <div class="preview-margin">
+          <div class="preview-margin-label">Profit Margin</div>
+          <div class="preview-margin-value" id="preview-margin">$0.00</div>
         </div>
       </div>
 
@@ -909,6 +969,19 @@
     });
   });
 
+  // Helper to get customer price per piece from pricing sheet
+  function getCustomerPricePerPiece(qty, colors, printSize) {
+    const pricing = printSize === 'jumbo' ? JUMBO_PRICING : STANDARD_PRICING;
+    const colorIndex = Math.min(colors, 6) - 1; // 0-5 for 1-6 colors
+
+    if (qty >= 1000) return pricing['1000+'][colorIndex];
+    if (qty >= 500) return pricing['500-999'][colorIndex];
+    if (qty >= 250) return pricing['250-499'][colorIndex];
+    if (qty >= 100) return pricing['100-249'][colorIndex];
+    if (qty >= 75) return pricing['75-99'][colorIndex];
+    return pricing['48-74'][colorIndex];
+  }
+
   // Calculate preview for current item
   function calculateItemPreview() {
     const qty = +document.getElementById('qty').value || 0;
@@ -917,12 +990,19 @@
     let setupCost = 0;
     let materialsCost = 0;
     let laborCost = 0;
+    let customerPrintingCost = 0;
 
     if (currentService === 'screen-print') {
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
       const isDark = document.getElementById('garment-color').value === 'dark';
+      const printSize = document.getElementById('print-size').value;
 
+      // Customer pricing from your price sheet
+      const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
+      customerPrintingCost = qty * pricePerPiece * placements; // multiply by placements for additional locations
+
+      // Your actual costs
       const colorsPerLocation = isDark ? colors + 1 : colors;
       setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
 
@@ -938,10 +1018,14 @@
 
     } else {
       const stitches = +document.getElementById('stitch-count').value || 8000;
-      const threadColors = +document.getElementById('thread-colors').value || 1;
       const placements = +document.getElementById('emb-placements').value || 1;
       const garmentType = document.getElementById('emb-garment').value;
 
+      // Customer pricing - use embroidery price from your customer estimator
+      // For now using a simplified model, you can adjust based on your embroidery pricing
+      customerPrintingCost = qty * 8.00 * placements; // placeholder - adjust based on your embroidery pricing
+
+      // Your actual costs
       setupCost = 50;
 
       const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
@@ -956,17 +1040,34 @@
       laborCost = productionHours * LABOR_RATE;
     }
 
-    const garmentsCost = qty * garmentCost;
-    const totalCost = garmentsCost + setupCost + materialsCost + laborCost;
-    const perPiece = qty > 0 ? totalCost / qty : 0;
+    // Customer pricing
+    const customerBlanks = qty * garmentCost;
+    const customerTotal = customerBlanks + customerPrintingCost;
+    const customerPerPiece = qty > 0 ? customerTotal / qty : 0;
 
-    // Update preview UI
-    document.getElementById('preview-garments').textContent = `$${garmentsCost.toFixed(2)}`;
-    document.getElementById('preview-setup').textContent = `$${setupCost.toFixed(2)}`;
-    document.getElementById('preview-materials').textContent = `$${materialsCost.toFixed(2)}`;
-    document.getElementById('preview-labor').textContent = `$${laborCost.toFixed(2)}`;
-    document.getElementById('preview-total').textContent = `$${totalCost.toFixed(2)}`;
-    document.getElementById('preview-per-piece').textContent = `$${perPiece.toFixed(2)} per piece`;
+    // Your costs
+    const costBlanks = qty * garmentCost;
+    const costTotal = costBlanks + setupCost + materialsCost + laborCost;
+    const costPerPiece = qty > 0 ? costTotal / qty : 0;
+
+    // Profit margin
+    const margin = customerTotal - costTotal;
+
+    // Update preview UI - Customer Price
+    document.getElementById('preview-customer-blanks').textContent = `$${customerBlanks.toFixed(2)}`;
+    document.getElementById('preview-customer-printing').textContent = `$${customerPrintingCost.toFixed(2)}`;
+    document.getElementById('preview-customer-total').textContent = `$${customerTotal.toFixed(2)}`;
+    document.getElementById('preview-customer-per-piece').textContent = `$${customerPerPiece.toFixed(2)} per piece`;
+
+    // Update preview UI - Your Costs
+    document.getElementById('preview-cost-blanks').textContent = `$${costBlanks.toFixed(2)}`;
+    document.getElementById('preview-cost-setup').textContent = `$${(setupCost + materialsCost).toFixed(2)}`;
+    document.getElementById('preview-cost-labor').textContent = `$${laborCost.toFixed(2)}`;
+    document.getElementById('preview-cost-total').textContent = `$${costTotal.toFixed(2)}`;
+    document.getElementById('preview-cost-per-piece').textContent = `$${costPerPiece.toFixed(2)} per piece`;
+
+    // Update margin
+    document.getElementById('preview-margin').textContent = `$${margin.toFixed(2)}`;
   }
 
   // Add item to job
