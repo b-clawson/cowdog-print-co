@@ -695,11 +695,6 @@
       </div>
 
       <div class="calc-field embroidery-only">
-        <label class="calc-label">Thread Colors</label>
-        <input type="number" class="calc-input" id="thread-colors" value="3" min="1">
-      </div>
-
-      <div class="calc-field embroidery-only">
         <label class="calc-label">Placement Count</label>
         <input type="number" class="calc-input" id="emb-placements" value="1" min="1">
       </div>
@@ -953,8 +948,7 @@
       const hoopHours = (qty * hoopMinPerPiece) / 60;
       const minPer1kStitches = 8;
       const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
-      const changeHours = (threadColors - 1) * qty * placements * 2 / 60;
-      const productionHours = hoopHours + stitchHours + changeHours;
+      const productionHours = hoopHours + stitchHours;
 
       const threadCost = (stitches * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
@@ -1031,8 +1025,7 @@
       const hoopHours = (qty * hoopMinPerPiece) / 60;
       const minPer1kStitches = 8;
       const stitchHours = (qty * placements * stitches * minPer1kStitches) / (1000 * 60);
-      const changeHours = (threadColors - 1) * qty * placements * 2 / 60;
-      const productionHours = hoopHours + stitchHours + changeHours;
+      const productionHours = hoopHours + stitchHours;
 
       const threadCost = (stitches * placements * qty * 0.01) / 1000;
       const backingCost = qty * placements * 0.30;
