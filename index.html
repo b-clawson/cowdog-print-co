@@ -1525,40 +1525,37 @@
           <p class="est-field-note">Front, back, sleeve, etc.</p>
         </div>
 
-        <!-- Embroidery Decoration -->
-        <div class="est-field est-embroidery-only" style="display: none;">
-          <label class="est-label">Decoration</label>
-          <div class="est-radio-group">
+        <!-- Embroidery Decoration - Hat Options -->
+        <div class="est-field est-embroidery-only est-hat-only" style="display: none;" id="hat-placements">
+          <label class="est-label">Placement (select one or multiple)</label>
+          <div class="est-checks">
+            <label class="est-check"><input type="checkbox" name="hat_placement" value="front" data-label="Front"> Front <span class="est-check-cost">Up to 8K</span></label>
+            <label class="est-check"><input type="checkbox" name="hat_placement" value="left-side" data-label="Left Side"> Left Side <span class="est-check-cost">Up to 8K</span></label>
+            <label class="est-check"><input type="checkbox" name="hat_placement" value="right-side" data-label="Right Side"> Right Side <span class="est-check-cost">Up to 8K</span></label>
+            <label class="est-check"><input type="checkbox" name="hat_placement" value="back" data-label="Back"> Back <span class="est-check-cost">Up to 8K</span></label>
+          </div>
+        </div>
+
+        <!-- Embroidery Decoration - Apparel Options -->
+        <div class="est-field est-embroidery-only est-apparel-only" style="display: none;">
+          <label class="est-label">Placement</label>
+          <div class="est-radio-group" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
             <label class="est-radio">
-              <input type="radio" name="embroidery_decoration" value="left-chest" checked>
+              <input type="radio" name="apparel_placement" value="left-chest" checked>
               <span class="est-radio-box">
-                <span class="est-radio-name">Left Chest Logo</span>
+                <span class="est-radio-name">Left Chest</span>
                 <span class="est-radio-sub">Up to 8K</span>
               </span>
             </label>
             <label class="est-radio">
-              <input type="radio" name="embroidery_decoration" value="hat-front">
+              <input type="radio" name="apparel_placement" value="full-front">
               <span class="est-radio-box">
-                <span class="est-radio-name">Hat Front</span>
-                <span class="est-radio-sub">Up to 8K</span>
-              </span>
-            </label>
-            <label class="est-radio">
-              <input type="radio" name="embroidery_decoration" value="beanie">
-              <span class="est-radio-box">
-                <span class="est-radio-name">Beanie / Patch</span>
-                <span class="est-radio-sub">Up to 6K</span>
-              </span>
-            </label>
-            <label class="est-radio">
-              <input type="radio" name="embroidery_decoration" value="large-chest">
-              <span class="est-radio-box">
-                <span class="est-radio-name">Large Center Chest</span>
+                <span class="est-radio-name">Full Front</span>
                 <span class="est-radio-sub">8K–15K</span>
               </span>
             </label>
             <label class="est-radio">
-              <input type="radio" name="embroidery_decoration" value="full-back">
+              <input type="radio" name="apparel_placement" value="full-back">
               <span class="est-radio-box">
                 <span class="est-radio-name">Full Back</span>
                 <span class="est-radio-sub">15K–30K</span>
@@ -1772,23 +1769,35 @@
   };
 
   const EMBROIDERY_DECORATIONS = {
-    'left-chest': {
-      name: 'Left Chest Logo',
-      stitches: 'Up to 8K',
-      prices: { '1-11': 8.00, '12-23': 7.00, '24-47': 6.50, '48-99': 6.00, '100-249': 5.50, '250+': 5.00 }
-    },
-    'hat-front': {
-      name: 'Hat Front',
+    // Hat placements (can select multiple)
+    'front': {
+      name: 'Front',
       stitches: 'Up to 8K',
       prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
     },
-    'beanie': {
-      name: 'Beanie / Patch',
-      stitches: 'Up to 6K',
-      prices: { '1-11': 8.00, '12-23': 6.50, '24-47': 5.50, '48-99': 5.00, '100-249': 4.50, '250+': 4.00 }
+    'left-side': {
+      name: 'Left Side',
+      stitches: 'Up to 8K',
+      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
     },
-    'large-chest': {
-      name: 'Large Center Chest',
+    'right-side': {
+      name: 'Right Side',
+      stitches: 'Up to 8K',
+      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+    },
+    'back': {
+      name: 'Back',
+      stitches: 'Up to 8K',
+      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+    },
+    // Apparel placements (single selection)
+    'left-chest': {
+      name: 'Left Chest',
+      stitches: 'Up to 8K',
+      prices: { '1-11': 8.00, '12-23': 7.00, '24-47': 6.50, '48-99': 6.00, '100-249': 5.50, '250+': 5.00 }
+    },
+    'full-front': {
+      name: 'Full Front',
       stitches: '8K–15K',
       prices: { '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00 }
     },
@@ -2035,34 +2044,63 @@
 
   function calcEmbroideryEstimate(qty) {
     const garmentEl = document.querySelector('input[name="embroidery_garment"]:checked');
-    const decorationEl = document.querySelector('input[name="embroidery_decoration"]:checked');
-    if (!garmentEl || !decorationEl) return;
+    if (!garmentEl) return;
 
     const garmentType = garmentEl.value;
-    const decorationType = decorationEl.value;
     const band = getEmbroideryQtyBand(qty);
 
     // Garment cost
     const garmentCost = EMBROIDERY_GARMENTS[garmentType].base;
     const garmentName = EMBROIDERY_GARMENTS[garmentType].name;
 
-    // Decoration cost
-    const decorationData = EMBROIDERY_DECORATIONS[decorationType];
-    const decorationCost = decorationData.prices[band];
-    const decorationName = decorationData.name;
+    let totalDecorationCost = 0;
+    let decorationNames = [];
+
+    // Check if hat (multiple placements) or apparel (single placement)
+    if (garmentType === 'hat') {
+      // Hat - can select multiple placements
+      const hatPlacements = document.querySelectorAll('input[name="hat_placement"]:checked');
+      if (hatPlacements.length === 0) return; // Need at least one placement
+
+      hatPlacements.forEach(placement => {
+        const placementType = placement.value;
+        const decorationData = EMBROIDERY_DECORATIONS[placementType];
+        totalDecorationCost += decorationData.prices[band];
+        decorationNames.push(decorationData.name);
+      });
+    } else {
+      // Apparel - single placement
+      const apparelPlacement = document.querySelector('input[name="apparel_placement"]:checked');
+      if (!apparelPlacement) return;
+
+      const placementType = apparelPlacement.value;
+      const decorationData = EMBROIDERY_DECORATIONS[placementType];
+      totalDecorationCost = decorationData.prices[band];
+      decorationNames.push(decorationData.name);
+    }
 
     // Digitizing fee (waived at 100+)
     const digitizingTotal = qty >= 100 ? 0 : DIGITIZING_FEE;
     const digitizingPPP = digitizingTotal / qty;
 
     // Total per piece
-    const totalPPP = garmentCost + decorationCost + digitizingPPP;
-    const grandTotal = (garmentCost + decorationCost) * qty + digitizingTotal;
+    const totalPPP = garmentCost + totalDecorationCost + digitizingPPP;
+    const grandTotal = (garmentCost + totalDecorationCost) * qty + digitizingTotal;
 
     // Render breakdown
     let html = '';
     html += `<div class="est-line"><span class="est-line-name">${garmentName} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
-    html += `<div class="est-line"><span class="est-line-name">${decorationName}</span><span class="est-line-val">${fmt(decorationCost)}/pc</span></div>`;
+
+    if (decorationNames.length === 1) {
+      html += `<div class="est-line"><span class="est-line-name">${decorationNames[0]}</span><span class="est-line-val">${fmt(totalDecorationCost)}/pc</span></div>`;
+    } else {
+      html += `<div class="est-line"><span class="est-line-name">Embroidery (${decorationNames.length} placements)</span><span class="est-line-val">${fmt(totalDecorationCost)}/pc</span></div>`;
+      decorationNames.forEach(name => {
+        const cost = EMBROIDERY_DECORATIONS[Object.keys(EMBROIDERY_DECORATIONS).find(k => EMBROIDERY_DECORATIONS[k].name === name)].prices[band];
+        html += `<div class="est-line est-line-sub"><span class="est-line-name">${name}</span><span class="est-line-val">${fmt(cost)}/pc</span></div>`;
+      });
+    }
+
     if (digitizingTotal > 0) {
       html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee (one-time)</span><span class="est-line-val">+${fmt(digitizingPPP)}/pc</span></div>`;
     } else {
@@ -2077,7 +2115,7 @@
     prefillBtn.dataset.qty = qty;
     prefillBtn.dataset.ptype = 'embroidery';
     prefillBtn.dataset.garment = garmentName;
-    prefillBtn.dataset.decoration = decorationName;
+    prefillBtn.dataset.decoration = decorationNames.join(', ');
     prefillBtn.dataset.total = fmt(totalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
 
     updateSliderBg();
@@ -2146,7 +2184,17 @@
     if (estLocs < 4) { estLocs++; locsVal.textContent = estLocs; locsDisp.textContent = estLocs; calcEstimate(); }
   });
 
-  document.querySelectorAll('input[name="garment_type"], input[name="addon"], input[name="finishing"], input[name="embroidery_garment"], input[name="embroidery_decoration"]').forEach(el => {
+  // Embroidery garment change - toggle hat vs apparel placements
+  document.querySelectorAll('input[name="embroidery_garment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const isHat = radio.value === 'hat';
+      document.querySelectorAll('.est-hat-only').forEach(el => el.style.display = isHat ? 'block' : 'none');
+      document.querySelectorAll('.est-apparel-only').forEach(el => el.style.display = isHat ? 'none' : 'block');
+      calcEstimate();
+    });
+  });
+
+  document.querySelectorAll('input[name="garment_type"], input[name="addon"], input[name="finishing"], input[name="apparel_placement"], input[name="hat_placement"]').forEach(el => {
     el.addEventListener('change', calcEstimate);
   });
 
