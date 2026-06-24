@@ -1443,40 +1443,7 @@
           </div>
         </div>
 
-        <div class="est-field">
-          <label class="est-label" for="est-qty">Quantity</label>
-          <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-            <input type="number" id="est-qty-input" min="0" value="100" style="width: 100px; padding: 8px 12px; border: 1px solid var(--rule); background: var(--cream); font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.04em; color: var(--text);">
-            <span style="font-size: 13px; color: var(--muted);">pieces</span>
-          </div>
-          <input type="range" id="est-qty" class="est-slider" min="0" max="100" step="1" value="13">
-          <div class="est-slider-ticks">
-            <span>48</span><span>100</span><span>250</span><span>500</span>
-          </div>
-        </div>
-
-        <!-- Screen Printing Controls -->
-        <div class="est-field est-screen-only">
-          <label class="est-label">Ink Colors <span class="est-qty-display" id="est-colors-display">2</span></label>
-          <div class="est-stepper">
-            <button class="est-step-btn" id="colors-down" aria-label="Fewer colors">−</button>
-            <span class="est-step-val" id="est-colors-val">2</span>
-            <button class="est-step-btn" id="colors-up" aria-label="More colors">+</button>
-          </div>
-          <p class="est-field-note">Per print location. Max 6.</p>
-        </div>
-
-        <div class="est-field est-screen-only">
-          <label class="est-label">Print Locations <span class="est-qty-display" id="est-locs-display">1</span></label>
-          <div class="est-stepper">
-            <button class="est-step-btn" id="locs-down" aria-label="Fewer locations">−</button>
-            <span class="est-step-val" id="est-locs-val">1</span>
-            <button class="est-step-btn" id="locs-up" aria-label="More locations">+</button>
-          </div>
-          <p class="est-field-note">Front, back, sleeve, etc.</p>
-        </div>
-
-        <!-- Embroidery Controls -->
+        <!-- Embroidery Garment Selection -->
         <div class="est-field est-embroidery-only" style="display: none;">
           <label class="est-label">Garment Type</label>
           <div class="est-radio-group">
@@ -1525,6 +1492,40 @@
           </div>
         </div>
 
+        <div class="est-field">
+          <label class="est-label" for="est-qty">Quantity</label>
+          <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
+            <input type="number" id="est-qty-input" min="0" value="100" style="width: 100px; padding: 8px 12px; border: 1px solid var(--rule); background: var(--cream); font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.04em; color: var(--text);">
+            <span style="font-size: 13px; color: var(--muted);">pieces</span>
+          </div>
+          <input type="range" id="est-qty" class="est-slider" min="0" max="100" step="1" value="13">
+          <div class="est-slider-ticks" id="est-qty-ticks">
+            <span>48</span><span>100</span><span>250</span><span>500</span>
+          </div>
+        </div>
+
+        <!-- Screen Printing Controls -->
+        <div class="est-field est-screen-only">
+          <label class="est-label">Ink Colors <span class="est-qty-display" id="est-colors-display">2</span></label>
+          <div class="est-stepper">
+            <button class="est-step-btn" id="colors-down" aria-label="Fewer colors">−</button>
+            <span class="est-step-val" id="est-colors-val">2</span>
+            <button class="est-step-btn" id="colors-up" aria-label="More colors">+</button>
+          </div>
+          <p class="est-field-note">Per print location. Max 6.</p>
+        </div>
+
+        <div class="est-field est-screen-only">
+          <label class="est-label">Print Locations <span class="est-qty-display" id="est-locs-display">1</span></label>
+          <div class="est-stepper">
+            <button class="est-step-btn" id="locs-down" aria-label="Fewer locations">−</button>
+            <span class="est-step-val" id="est-locs-val">1</span>
+            <button class="est-step-btn" id="locs-up" aria-label="More locations">+</button>
+          </div>
+          <p class="est-field-note">Front, back, sleeve, etc.</p>
+        </div>
+
+        <!-- Embroidery Decoration -->
         <div class="est-field est-embroidery-only" style="display: none;">
           <label class="est-label">Decoration</label>
           <div class="est-radio-group">
@@ -1845,18 +1846,27 @@
   let estColors = 2, estLocs = 1, estServiceType = 'screen-print', estPrintSize = 'standard';
 
   // Map slider position (0-100) to quantity with key stops at visual positions
-  const SLIDER_STOPS = [
+  const SLIDER_STOPS_SCREEN = [
     {pos: 0, qty: 48},      // 0% position
     {pos: 33, qty: 100},    // 33% position (first third)
     {pos: 66, qty: 250},    // 66% position (two thirds)
     {pos: 100, qty: 500}    // 100% position
   ];
 
+  const SLIDER_STOPS_EMBROIDERY = [
+    {pos: 0, qty: 12},      // 0% position
+    {pos: 33, qty: 50},     // 33% position (first third)
+    {pos: 66, qty: 150},    // 66% position (two thirds)
+    {pos: 100, qty: 500}    // 100% position
+  ];
+
+  let currentSliderStops = SLIDER_STOPS_SCREEN;
+
   function sliderToQty(sliderVal) {
     // Find which segment we're in
-    for (let i = 0; i < SLIDER_STOPS.length - 1; i++) {
-      const start = SLIDER_STOPS[i];
-      const end = SLIDER_STOPS[i + 1];
+    for (let i = 0; i < currentSliderStops.length - 1; i++) {
+      const start = currentSliderStops[i];
+      const end = currentSliderStops[i + 1];
       if (sliderVal >= start.pos && sliderVal <= end.pos) {
         // Linear interpolation within this segment
         const ratio = (sliderVal - start.pos) / (end.pos - start.pos);
@@ -1868,10 +1878,11 @@
   }
 
   function qtyToSlider(qty) {
+    const minQty = currentSliderStops[0].qty;
     // Find which segment we're in
-    for (let i = 0; i < SLIDER_STOPS.length - 1; i++) {
-      const start = SLIDER_STOPS[i];
-      const end = SLIDER_STOPS[i + 1];
+    for (let i = 0; i < currentSliderStops.length - 1; i++) {
+      const start = currentSliderStops[i];
+      const end = currentSliderStops[i + 1];
       if (qty >= start.qty && qty <= end.qty) {
         // Linear interpolation within this segment
         const ratio = (qty - start.qty) / (end.qty - start.qty);
@@ -1879,8 +1890,19 @@
         return Math.round(pos);
       }
     }
-    if (qty < 48) return 0;
+    if (qty < minQty) return 0;
     return 100;
+  }
+
+  function updateSliderTicksForService(serviceType) {
+    const ticksEl = document.getElementById('est-qty-ticks');
+    if (serviceType === 'embroidery') {
+      currentSliderStops = SLIDER_STOPS_EMBROIDERY;
+      ticksEl.innerHTML = '<span>12</span><span>50</span><span>150</span><span>500</span>';
+    } else {
+      currentSliderStops = SLIDER_STOPS_SCREEN;
+      ticksEl.innerHTML = '<span>48</span><span>100</span><span>250</span><span>500</span>';
+    }
   }
 
   const qtySlider   = document.getElementById('est-qty');
@@ -2073,6 +2095,14 @@
       const isEmbroidery = estServiceType === 'embroidery';
       document.querySelectorAll('.est-screen-only').forEach(el => el.style.display = isEmbroidery ? 'none' : 'block');
       document.querySelectorAll('.est-embroidery-only').forEach(el => el.style.display = isEmbroidery ? 'block' : 'none');
+
+      // Update slider ticks and range
+      updateSliderTicksForService(estServiceType);
+
+      // Update slider position for current quantity
+      const currentQty = +qtyInput.value;
+      qtySlider.value = qtyToSlider(currentQty);
+      updateSliderBg();
 
       calcEstimate();
     });
