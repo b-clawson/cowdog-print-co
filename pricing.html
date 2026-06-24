@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing - Cowdog Print Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0D0B;
+    --rust:   #B8341B;
+    --cream:  #F0EBE0;
+    --warm:   #E8E0D0;
+    --text:   #1A1714;
+    --muted:  #7A6F65;
+    --rule:   rgba(26,23,20,0.12);
+    --font:   'Barlow', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── PASSWORD SCREEN ── */
+  #password-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+  }
+
+  .password-box {
+    background: var(--cream);
+    padding: 3rem;
+    border-radius: 2px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .password-box h1 {
+    font-family: var(--display);
+    font-size: 32px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .password-box p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .password-box input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+
+  .password-box input:focus {
+    outline: none;
+    border-color: var(--rust);
+  }
+
+  .password-box button {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--rust);
+    color: var(--cream);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .password-box button:hover {
+    background: #c93d22;
+  }
+
+  .password-error {
+    color: var(--rust);
+    font-size: 13px;
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  /* ── PRICING SHEET ── */
+  #pricing-sheet {
+    display: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  nav a.logo {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav ul a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav ul a:hover {
+    color: var(--cream);
+  }
+
+  nav .cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+  }
+
+  nav .cta:hover {
+    background: #c93d22;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.6;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .hero-inner {
+    position: relative;
+    padding: 4rem 2.5rem 3.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(72px, 12vw, 148px);
+    line-height: 0.88;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero h1 span {
+    color: var(--rust);
+  }
+
+  .hero-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+  }
+
+  .hero-footer p {
+    font-size: 15px;
+    color: rgba(240,235,224,0.5);
+    max-width: 380px;
+    line-height: 1.7;
+  }
+
+  .hero-services {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .hero-service {
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 2rem;
+  }
+
+  .hero-service-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.35);
+    margin-bottom: 6px;
+  }
+
+  .hero-service-name {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--cream);
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--rust);
+    overflow: hidden;
+    padding: 12px 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: scroll 22s linear infinite;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .ticker span {
+    font-family: var(--display);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    padding: 0 2rem;
+  }
+
+  .ticker span::after {
+    content: '·';
+    color: rgba(240,235,224,0.4);
+    margin-left: 2rem;
+  }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 6rem;
+  }
+
+  .contact-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  section {
+    margin-bottom: 5rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 5rem;
+  }
+
+  hr.heavy {
+    border-top: 2px solid var(--rust);
+  }
+
+  /* SECTION HEADERS */
+  .section-head {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-head-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-head-row.with-subtitle {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-num {
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 52px);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .section-subtitle {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-subtitle p {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .section-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 3rem;
+    padding-left: 72px;
+  }
+
+  .meta-item-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .meta-item-val {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 480px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  thead tr {
+    background: var(--rust);
+  }
+
+  th {
+    color: var(--cream);
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    text-align: center;
+    font-weight: normal;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+
+  th.left {
+    text-align: left;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--warm);
+  }
+
+  tbody tr:nth-child(odd) {
+    background: var(--cream);
+  }
+
+  td {
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 13.5px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  td.left {
+    text-align: left;
+  }
+
+  td.muted {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  td.placement-cell span {
+    display: block;
+  }
+
+  td.placement-cell .note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* NOTES */
+  .note {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .note strong {
+    color: var(--text);
+  }
+
+  .note-box {
+    margin-top: 1rem;
+    border: 1px solid var(--rule);
+    padding: 1rem 1.25rem;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    background: var(--warm);
+  }
+
+  .note-box strong {
+    color: var(--text);
+  }
+
+  /* FOOTER GRID */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-section p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-item-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+  }
+
+  .contact-item-val {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p,
+  footer a {
+    font-size: 12px;
+    color: rgba(240,235,224,0.2);
+    letter-spacing: 0.08em;
+    margin: 0;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    nav ul {
+      display: none;
+    }
+
+    .hero-services {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .section-meta {
+      padding-left: 0;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="password-box">
+    <h1>Pricing Sheet</h1>
+    <p>Enter password to view pricing</p>
+    <input type="password" id="password-input" placeholder="Password">
+    <button onclick="checkPassword()">Enter</button>
+    <div class="password-error" id="password-error">Incorrect password</div>
+  </div>
+</div>
+
+<!-- PRICING SHEET -->
+<div id="pricing-sheet">
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">Cowdog Print Co.</a>
+    <ul>
+      <li><a href="#standard">Standard</a></li>
+      <li><a href="#jumbo">Jumbo</a></li>
+      <li><a href="#addons">Add-ons</a></li>
+      <li><a href="#embroidery">Embroidery</a></li>
+      <li><a href="#finishing">Finishing</a></li>
+      <li><a href="mailto:info@cowdogprint.co" class="cta">Get a Quote</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Columbus, Wisconsin · Water-based inks · Est. 2022</span>
+      <h1>2026<br /><span>PRICE</span><br />SHEET.</h1>
+      <div class="hero-footer">
+        <p>No minimums. No setup fees on reorders. Quotes confirmed after reviewing garment style, print locations, artwork, and quantities.</p>
+        <div class="hero-services">
+          <div class="hero-service">
+            <div class="hero-service-label">Service</div>
+            <div class="hero-service-name">Screen Printing</div>
+          </div>
+          <div class="hero-service">
+            <div class="hero-service-label">Service</div>
+            <div class="hero-service-name">Embroidery</div>
+          </div>
+          <div class="hero-service">
+            <div class="hero-service-label">Service</div>
+            <div class="hero-service-name">Retail Production</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>Custom Screen Printing</span>
+      <span>Water-Based Inks</span>
+      <span>Merch Strategy</span>
+      <span>Design Consulting</span>
+      <span>Retail Production</span>
+      <span>Artist Collabs</span>
+      <span>Columbus Showroom</span>
+      <span>Custom Screen Printing</span>
+      <span>Water-Based Inks</span>
+      <span>Merch Strategy</span>
+      <span>Design Consulting</span>
+      <span>Retail Production</span>
+      <span>Artist Collabs</span>
+      <span>Columbus Showroom</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- CONTACT STRIP -->
+    <div class="contact-strip">
+      <span class="eyebrow">www.cowdogprint.co · info@cowdogprint.co · 608.205.8799</span>
+      <span class="eyebrow">127 E. James St., Columbus, WI 53925</span>
+    </div>
+
+    <!-- 01 — STANDARD -->
+    <section id="standard">
+      <div class="section-head">
+        <div class="section-head-row">
+          <span class="section-num">01</span>
+          <h2 class="section-title">Standard Screen Printing</h2>
+          <span class="section-tag">Up to 15″×18″</span>
+        </div>
+        <div class="section-meta">
+          <div>
+            <span class="meta-item-label">Print Area</span>
+            <span class="meta-item-val">Up to 15" W × 18" H</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Inks</span>
+            <span class="meta-item-val">100% water-based only</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Min. Order</span>
+            <span class="meta-item-val">No minimum</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Turnaround</span>
+            <span class="meta-item-val">2–3 weeks</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Ideal For</span>
+            <span class="meta-item-val">Tees, sweatshirts, tote bags, posters</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 680px;">
+        Our bread and butter. Up to 6 colors per location, soft hand feel, prints that age beautifully. Water-based inks only — no plastisol, no shortcuts.
+      </p>
+      <span class="eyebrow">Standard print pricing — per piece</span>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="left">Quantity</th>
+              <th>1 Color</th>
+              <th>2 Color</th>
+              <th>3 Color</th>
+              <th>4 Color</th>
+              <th>5 Color</th>
+              <th>6 Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left muted">48–74</td>
+              <td>$6.40</td>
+              <td>$6.80</td>
+              <td>$7.20</td>
+              <td>$7.60</td>
+              <td>$8.00</td>
+              <td>$8.40</td>
+            </tr>
+            <tr>
+              <td class="left muted">75–99</td>
+              <td>$5.90</td>
+              <td>$6.25</td>
+              <td>$6.60</td>
+              <td>$6.95</td>
+              <td>$7.30</td>
+              <td>$7.65</td>
+            </tr>
+            <tr>
+              <td class="left muted">100–249</td>
+              <td>$5.40</td>
+              <td>$5.70</td>
+              <td>$6.00</td>
+              <td>$6.30</td>
+              <td>$6.60</td>
+              <td>$6.90</td>
+            </tr>
+            <tr>
+              <td class="left muted">250–499</td>
+              <td>$4.00</td>
+              <td>$4.15</td>
+              <td>$4.30</td>
+              <td>$4.45</td>
+              <td>$4.60</td>
+              <td>$4.75</td>
+            </tr>
+            <tr>
+              <td class="left muted">500–999</td>
+              <td>$3.15</td>
+              <td>$3.25</td>
+              <td>$3.35</td>
+              <td>$3.45</td>
+              <td>$3.55</td>
+              <td>$3.65</td>
+            </tr>
+            <tr>
+              <td class="left muted">1,000+</td>
+              <td>$2.45</td>
+              <td>$2.53</td>
+              <td>$2.61</td>
+              <td>$2.69</td>
+              <td>$2.77</td>
+              <td>$2.85</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        Pricing above is for standard tees. Fleece/sweater printing requires additional time and materials — add approximately <strong>$3.50 / piece</strong> for crewnecks and hoodies. Smaller projects can be quoted individually.
+      </p>
+      <p class="note">
+        <strong>Reorders:</strong> Screens are kept on file — no setup fees on reorders of the same design.
+      </p>
+    </section>
+
+    <hr />
+
+    <!-- 02 — JUMBO -->
+    <section id="jumbo">
+      <div class="section-head">
+        <div class="section-head-row with-subtitle">
+          <span class="section-num">02</span>
+          <h2 class="section-title">Jumbo Screen Printing</h2>
+          <span class="section-tag">Up to 17″×23″</span>
+        </div>
+        <div class="section-meta">
+          <div>
+            <span class="meta-item-label">Print Area</span>
+            <span class="meta-item-val">Up to 17" W × 23" H</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Inks</span>
+            <span class="meta-item-val">100% water-based only</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Min. Order</span>
+            <span class="meta-item-val">No minimum</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Turnaround</span>
+            <span class="meta-item-val">2–3 weeks</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Ideal For</span>
+            <span class="meta-item-val">Oversized graphics, streetwear, poster-style prints</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 0.75rem; max-width: 680px;">
+        Go big. Covers nearly the entire front or back of a garment — perfect for bold graphics and designs that need room to breathe.
+      </p>
+      <p style="font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 680px; font-style: italic;">
+        Most shops cap prints at 15"×18". Our jumbo press goes up to 17"×23" — making us one of the only screen printers in the Midwest to offer true oversized printing at production scale.
+      </p>
+      <span class="eyebrow">Jumbo print pricing — per piece</span>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="left">Quantity</th>
+              <th>1 Color</th>
+              <th>2 Color</th>
+              <th>3 Color</th>
+              <th>4 Color</th>
+              <th>5 Color</th>
+              <th>6 Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left muted">48–74</td>
+              <td>$7.90</td>
+              <td>$8.30</td>
+              <td>$8.70</td>
+              <td>$9.10</td>
+              <td>$9.50</td>
+              <td>$9.90</td>
+            </tr>
+            <tr>
+              <td class="left muted">75–99</td>
+              <td>$7.40</td>
+              <td>$7.75</td>
+              <td>$8.10</td>
+              <td>$8.45</td>
+              <td>$8.80</td>
+              <td>$9.15</td>
+            </tr>
+            <tr>
+              <td class="left muted">100–249</td>
+              <td>$6.90</td>
+              <td>$7.20</td>
+              <td>$7.50</td>
+              <td>$7.80</td>
+              <td>$8.10</td>
+              <td>$8.40</td>
+            </tr>
+            <tr>
+              <td class="left muted">250–499</td>
+              <td>$5.50</td>
+              <td>$5.65</td>
+              <td>$5.80</td>
+              <td>$5.95</td>
+              <td>$6.10</td>
+              <td>$6.25</td>
+            </tr>
+            <tr>
+              <td class="left muted">500–999</td>
+              <td>$4.65</td>
+              <td>$4.75</td>
+              <td>$4.85</td>
+              <td>$4.95</td>
+              <td>$5.05</td>
+              <td>$5.15</td>
+            </tr>
+            <tr>
+              <td class="left muted">1,000+</td>
+              <td>$3.95</td>
+              <td>$4.03</td>
+              <td>$4.11</td>
+              <td>$4.19</td>
+              <td>$4.27</td>
+              <td>$4.35</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        <strong>Reorders:</strong> Screens are kept on file — no setup fees on reorders of the same design.
+      </p>
+    </section>
+
+    <hr />
+
+    <!-- 03 — ADD-ONS -->
+    <section id="addons">
+      <div class="section-head">
+        <div class="section-head-row">
+          <span class="section-num">03</span>
+          <h2 class="section-title">Extras & Add-ons (Screen Printing)</h2>
+          <span class="section-tag">Per order</span>
+        </div>
+        <div class="section-meta">
+          <div>
+            <span class="meta-item-label">Screen Setup</span>
+            <span class="meta-item-val">$35 / color</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Ink Charge</span>
+            <span class="meta-item-val">$35 / color</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Rush</span>
+            <span class="meta-item-val">+30%</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 680px;">
+        Screen setup and ink charges apply per color, per location. Dark garments require an additional base color. Rush is available depending on schedule.
+      </p>
+      <div class="table-wrap">
+        <table style="min-width: 340px;">
+          <thead>
+            <tr>
+              <th class="left">Service</th>
+              <th style="text-align: right;">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left">Screen Setup (per color)</td>
+              <td style="text-align: right;">$35</td>
+            </tr>
+            <tr>
+              <td class="left">Ink Charge (per color)</td>
+              <td style="text-align: right;">$35</td>
+            </tr>
+            <tr>
+              <td class="left">Dark Garment Base — Counts as +1 color (white underbase required for dark fabrics — black, navy, dark red, etc.)</td>
+              <td style="text-align: right;">+1 color</td>
+            </tr>
+            <tr>
+              <td class="left">Ink Change</td>
+              <td style="text-align: right;">$45</td>
+            </tr>
+            <tr>
+              <td class="left">Puff Ink</td>
+              <td style="text-align: right;">+$1.25 / pc</td>
+            </tr>
+            <tr>
+              <td class="left">Specialty Ink (metallic, glow, HD)</td>
+              <td style="text-align: right;">+$1.25 / pc</td>
+            </tr>
+            <tr>
+              <td class="left">Additional Print Location — +$1.00/color, per location, per piece</td>
+              <td style="text-align: right;">+$1.00 / color</td>
+            </tr>
+            <tr>
+              <td class="left">Oversize Print (over 15×18)</td>
+              <td style="text-align: right;">+$1.00 / pc</td>
+            </tr>
+            <tr>
+              <td class="left">Rush Production</td>
+              <td style="text-align: right;">+30%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        Ink Charge covers all ink for your prints including standard colors, specialty inks, and custom mixing. Dark garment base counts as an additional screen color. Rush service subject to schedule availability.
+      </p>
+    </section>
+
+    <hr />
+
+    <!-- 04 — EMBROIDERY -->
+    <section id="embroidery">
+      <div class="section-head">
+        <div class="section-head-row">
+          <span class="section-num">04</span>
+          <h2 class="section-title">Embroidery</h2>
+          <span class="section-tag">No minimum</span>
+        </div>
+        <div class="section-meta">
+          <div>
+            <span class="meta-item-label">Min. Order</span>
+            <span class="meta-item-val">No minimum</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Turnaround</span>
+            <span class="meta-item-val">2–3 weeks</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Digitizing</span>
+            <span class="meta-item-val">One-time per design (see below)</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Multi-Placement</span>
+            <span class="meta-item-val">−20% on each additional placement</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; max-width: 680px;">
+        Professional embroidery on hats, tees, polos, fleece, and more. Rates below are for embroidery only and are in addition to the cost of the garment. A one-time digitizing fee of $40 applies per design.
+      </p>
+
+      <span class="eyebrow">Embroidery placement pricing — per piece</span>
+      <div class="table-wrap" style="margin-bottom: 2.5rem;">
+        <table style="min-width: 520px;">
+          <thead>
+            <tr>
+              <th class="left">Placement</th>
+              <th>1–11</th>
+              <th>12–23</th>
+              <th>24–47</th>
+              <th>48–99</th>
+              <th>100–249</th>
+              <th>250+</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left placement-cell">
+                <span>Hat — All Placements</span>
+                <span class="note">Front, Left Side, Right Side, Back · Up to 8K stitches</span>
+              </td>
+              <td>$10.00</td>
+              <td>$9.50</td>
+              <td>$9.00</td>
+              <td>$8.50</td>
+              <td>$8.00</td>
+              <td>$7.50</td>
+            </tr>
+            <tr>
+              <td class="left placement-cell">
+                <span>Left Chest</span>
+                <span class="note">Up to 8K stitches</span>
+              </td>
+              <td>$8.00</td>
+              <td>$7.00</td>
+              <td>$6.50</td>
+              <td>$6.00</td>
+              <td>$5.50</td>
+              <td>$5.00</td>
+            </tr>
+            <tr>
+              <td class="left placement-cell">
+                <span>Full Front</span>
+                <span class="note">8K–15K stitches</span>
+              </td>
+              <td>$15.00</td>
+              <td>$13.00</td>
+              <td>$11.00</td>
+              <td>$10.00</td>
+              <td>$9.00</td>
+              <td>$8.00</td>
+            </tr>
+            <tr>
+              <td class="left placement-cell">
+                <span>Full Back</span>
+                <span class="note">15K–30K stitches</span>
+              </td>
+              <td>$30.00</td>
+              <td>$25.00</td>
+              <td>$20.00</td>
+              <td>$18.00</td>
+              <td>$16.00</td>
+              <td>$15.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note">
+        Designs over 10,000 stitches (large full-front or full-back artwork) may require a custom quote. Most hat and left-chest logos fall well within standard pricing.
+      </p>
+
+      <span class="eyebrow">Digitizing fees — one-time per design</span>
+      <div class="table-wrap" style="margin-bottom: 2.5rem;">
+        <table style="min-width: 280px;">
+          <thead>
+            <tr>
+              <th class="left">Placement Type</th>
+              <th style="text-align: right;">Digitizing Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left">Hat Placement</td>
+              <td style="text-align: right;">$30</td>
+            </tr>
+            <tr>
+              <td class="left">Left Chest</td>
+              <td style="text-align: right;">$30</td>
+            </tr>
+            <tr>
+              <td class="left">Full Front</td>
+              <td style="text-align: right;">$85</td>
+            </tr>
+            <tr>
+              <td class="left">Full Back</td>
+              <td style="text-align: right;">$150</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note">
+        Digitizing converts your artwork into a machine stitch file — charged once per design. <strong>Reorders and future orders using the same design are never charged again.</strong> When multiple digitizing fees apply, only the highest fee is charged.
+      </p>
+
+      <div class="note-box">
+        <strong>Example 1 — 100 hats, front logo:</strong> Embroidery 100 × $8.00 = $800 · Digitizing $30 · <strong>Total $830 + blanks</strong>
+        <br /><br />
+        <strong>Example 2 — 100 hats, front + back + left side (3 placements):</strong> Front 100 × $8.00 = $800 · Back 100 × $6.40 = $640 (−20%) · Left Side 100 × $6.40 = $640 (−20%) · Digitizing $30 · <strong>Total $2,110 + blanks ($21.10/pc)</strong>
+        <br /><br />
+        <strong>Example 3 — 50 polos, left chest:</strong> Embroidery 50 × $6.00 = $300 · Digitizing $30 · <strong>Total $330 + blanks</strong>
+        <br /><br />
+        <strong>Example 4 — 100 hoodies, full front + full back:</strong> Full Front 100 × $9.00 = $900 · Full Back 100 × $12.80 = $1,280 (−20%) · Digitizing $85 (highest fee) · <strong>Total $2,265 + blanks ($22.65/pc)</strong>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- 05 — FINISHING -->
+    <section id="finishing">
+      <div class="section-head">
+        <div class="section-head-row">
+          <span class="section-num">05</span>
+          <h2 class="section-title">Finishing Services</h2>
+          <span class="section-tag">Retail-ready</span>
+        </div>
+        <div class="section-meta">
+          <div>
+            <span class="meta-item-label">Lead Time</span>
+            <span class="meta-item-val">+3 days to standard turnaround</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Min. Order</span>
+            <span class="meta-item-val">No minimum</span>
+          </div>
+          <div>
+            <span class="meta-item-label">Includes</span>
+            <span class="meta-item-val">Neck tags · Fold & poly · Hang tags · Fulfillment</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 680px;">
+        Make your garments retail-ready. Everything is à la carte — only pay for what you need. Consistent quality across every run.
+      </p>
+      <span class="eyebrow">Finishing pricing — per piece</span>
+      <div class="table-wrap">
+        <table style="min-width: 560px;">
+          <thead>
+            <tr>
+              <th class="left">Service</th>
+              <th>50</th>
+              <th>100</th>
+              <th>150</th>
+              <th>250</th>
+              <th>500</th>
+              <th>750</th>
+              <th>1,000+</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left muted">Printed Neck Tags</td>
+              <td>$2.00</td>
+              <td>$1.60</td>
+              <td>$1.35</td>
+              <td>$1.10</td>
+              <td>$1.00</td>
+              <td>$0.95</td>
+              <td>$0.90</td>
+            </tr>
+            <tr>
+              <td class="left muted">Fold & Poly (Tees)</td>
+              <td>$1.10</td>
+              <td>$1.10</td>
+              <td>$1.10</td>
+              <td>$1.05</td>
+              <td>$1.00</td>
+              <td>$0.95</td>
+              <td>$0.90</td>
+            </tr>
+            <tr>
+              <td class="left muted">Fold & Poly (Fleece/LS)</td>
+              <td>$1.60</td>
+              <td>$1.60</td>
+              <td>$1.60</td>
+              <td>$1.55</td>
+              <td>$1.50</td>
+              <td>$1.45</td>
+              <td>$1.40</td>
+            </tr>
+            <tr>
+              <td class="left muted">Hang Tags</td>
+              <td>$0.55</td>
+              <td>$0.55</td>
+              <td>$0.55</td>
+              <td>$0.50</td>
+              <td>$0.45</td>
+              <td>$0.45</td>
+              <td>$0.40</td>
+            </tr>
+            <tr>
+              <td class="left muted">Fulfillment — Individual poly bag + size label + ready-to-ship packaging. Ideal for e-commerce and retail drops.</td>
+              <td>$1.10</td>
+              <td>$1.10</td>
+              <td>$1.10</td>
+              <td>$1.05</td>
+              <td>$1.00</td>
+              <td>$0.95</td>
+              <td>$0.90</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">
+        <strong>Tag Customization</strong> — Includes removal of tear-away labels.
+        Additional adjustments: Woven label removal <strong>+$0.25 / pc</strong> · Fleece garments <strong>+$0.50 / pc</strong>
+      </div>
+      <div class="note-box">
+        <strong>Need barcodes, woven labels, or retailer routing?</strong> Ask us — we support full retail-ready pack-outs for wholesale and e-commerce clients.
+      </div>
+    </section>
+
+    <hr class="heavy" />
+
+    <!-- FINAL NOTE -->
+    <div class="footer-grid">
+      <div class="footer-section">
+        <span class="eyebrow">Final pricing</span>
+        <p>
+          Final pricing includes blank garments and applicable shipping. Quotes confirmed after reviewing garment style, print locations, artwork, and quantities.
+        </p>
+      </div>
+      <div class="footer-section">
+        <span class="eyebrow">Get in touch</span>
+        <div class="contact-list">
+          <div>
+            <span class="contact-item-label">Showroom</span>
+            <span class="contact-item-val">127 E. James St., Columbus, WI 53925</span>
+          </div>
+          <div>
+            <span class="contact-item-label">Email</span>
+            <span class="contact-item-val">info@cowdogprint.co</span>
+          </div>
+          <div>
+            <span class="contact-item-label">Phone</span>
+            <span class="contact-item-val">608.205.8799</span>
+          </div>
+          <div>
+            <span class="contact-item-label">Instagram</span>
+            <span class="contact-item-val">@cowdogprintco</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Cowdog Print Co. · Columbus, WI</p>
+    <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">@cowdogprintco</a>
+  </footer>
+</div>
+
+<script>
+  const PASSWORD = 'cowdog123';
+
+  function checkPassword() {
+    const input = document.getElementById('password-input');
+    const error = document.getElementById('password-error');
+
+    if (input.value === PASSWORD) {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('pricing-sheet').style.display = 'block';
+      sessionStorage.setItem('pricing-auth', 'true');
+    } else {
+      error.style.display = 'block';
+      input.value = '';
+    }
+  }
+
+  // Check if already authenticated
+  if (sessionStorage.getItem('pricing-auth') === 'true') {
+    document.getElementById('password-screen').style.display = 'none';
+    document.getElementById('pricing-sheet').style.display = 'block';
+  }
+
+  // Allow enter key on password
+  document.getElementById('password-input')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkPassword();
+  });
+</script>
+
+</body>
+</html>
