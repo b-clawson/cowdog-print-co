@@ -1538,29 +1538,11 @@
 
         <!-- Embroidery Decoration - Apparel Options -->
         <div class="est-field est-embroidery-only est-apparel-only" style="display: none;">
-          <label class="est-label">Placement</label>
-          <div class="est-radio-group" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
-            <label class="est-radio">
-              <input type="radio" name="apparel_placement" value="left-chest" checked>
-              <span class="est-radio-box">
-                <span class="est-radio-name">Left Chest</span>
-                <span class="est-radio-sub">Up to 8K</span>
-              </span>
-            </label>
-            <label class="est-radio">
-              <input type="radio" name="apparel_placement" value="full-front">
-              <span class="est-radio-box">
-                <span class="est-radio-name">Full Front</span>
-                <span class="est-radio-sub">8K–15K</span>
-              </span>
-            </label>
-            <label class="est-radio">
-              <input type="radio" name="apparel_placement" value="full-back">
-              <span class="est-radio-box">
-                <span class="est-radio-name">Full Back</span>
-                <span class="est-radio-sub">15K–30K</span>
-              </span>
-            </label>
+          <label class="est-label">Placement (select one or multiple)</label>
+          <div class="est-checks">
+            <label class="est-check"><input type="checkbox" name="apparel_placement" value="left-chest" data-label="Left Chest"> Left Chest <span class="est-check-cost">Up to 8K</span></label>
+            <label class="est-check"><input type="checkbox" name="apparel_placement" value="full-front" data-label="Full Front"> Full Front <span class="est-check-cost">8K–15K</span></label>
+            <label class="est-check"><input type="checkbox" name="apparel_placement" value="full-back" data-label="Full Back"> Full Back <span class="est-check-cost">15K–30K</span></label>
           </div>
         </div>
 
@@ -2054,30 +2036,37 @@
     const garmentName = EMBROIDERY_GARMENTS[garmentType].name;
 
     let totalDecorationCost = 0;
-    let decorationNames = [];
+    let decorationDetails = [];
 
-    // Check if hat (multiple placements) or apparel (single placement)
-    if (garmentType === 'hat') {
-      // Hat - can select multiple placements
-      const hatPlacements = document.querySelectorAll('input[name="hat_placement"]:checked');
-      if (hatPlacements.length === 0) return; // Need at least one placement
+    // Get selected placements (hat or apparel)
+    const placements = garmentType === 'hat'
+      ? document.querySelectorAll('input[name="hat_placement"]:checked')
+      : document.querySelectorAll('input[name="apparel_placement"]:checked');
 
-      hatPlacements.forEach(placement => {
-        const placementType = placement.value;
-        const decorationData = EMBROIDERY_DECORATIONS[placementType];
-        totalDecorationCost += decorationData.prices[band];
-        decorationNames.push(decorationData.name);
+    if (placements.length === 0) return; // Need at least one placement
+
+    // Sort placements by cost (descending) so most expensive is first
+    const placementData = Array.from(placements).map(p => ({
+      element: p,
+      type: p.value,
+      data: EMBROIDERY_DECORATIONS[p.value]
+    })).sort((a, b) => b.data.prices[band] - a.data.prices[band]);
+
+    // First placement: full price
+    // Additional placements: 20% discount
+    placementData.forEach((placement, index) => {
+      const baseCost = placement.data.prices[band];
+      const discount = index === 0 ? 0 : 0.20; // 20% off for 2nd+ placements
+      const finalCost = baseCost * (1 - discount);
+
+      totalDecorationCost += finalCost;
+      decorationDetails.push({
+        name: placement.data.name,
+        cost: finalCost,
+        originalCost: baseCost,
+        isDiscounted: index > 0
       });
-    } else {
-      // Apparel - single placement
-      const apparelPlacement = document.querySelector('input[name="apparel_placement"]:checked');
-      if (!apparelPlacement) return;
-
-      const placementType = apparelPlacement.value;
-      const decorationData = EMBROIDERY_DECORATIONS[placementType];
-      totalDecorationCost = decorationData.prices[band];
-      decorationNames.push(decorationData.name);
-    }
+    });
 
     // Digitizing fee (waived at 100+)
     const digitizingTotal = qty >= 100 ? 0 : DIGITIZING_FEE;
@@ -2091,13 +2080,16 @@
     let html = '';
     html += `<div class="est-line"><span class="est-line-name">${garmentName} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
 
-    if (decorationNames.length === 1) {
-      html += `<div class="est-line"><span class="est-line-name">${decorationNames[0]}</span><span class="est-line-val">${fmt(totalDecorationCost)}/pc</span></div>`;
+    if (decorationDetails.length === 1) {
+      html += `<div class="est-line"><span class="est-line-name">${decorationDetails[0].name}</span><span class="est-line-val">${fmt(decorationDetails[0].cost)}/pc</span></div>`;
     } else {
-      html += `<div class="est-line"><span class="est-line-name">Embroidery (${decorationNames.length} placements)</span><span class="est-line-val">${fmt(totalDecorationCost)}/pc</span></div>`;
-      decorationNames.forEach(name => {
-        const cost = EMBROIDERY_DECORATIONS[Object.keys(EMBROIDERY_DECORATIONS).find(k => EMBROIDERY_DECORATIONS[k].name === name)].prices[band];
-        html += `<div class="est-line est-line-sub"><span class="est-line-name">${name}</span><span class="est-line-val">${fmt(cost)}/pc</span></div>`;
+      html += `<div class="est-line"><span class="est-line-name">Embroidery (${decorationDetails.length} placements)</span><span class="est-line-val">${fmt(totalDecorationCost)}/pc</span></div>`;
+      decorationDetails.forEach(detail => {
+        if (detail.isDiscounted) {
+          html += `<div class="est-line est-line-sub"><span class="est-line-name">${detail.name} (20% off)</span><span class="est-line-val">${fmt(detail.cost)}/pc</span></div>`;
+        } else {
+          html += `<div class="est-line est-line-sub"><span class="est-line-name">${detail.name}</span><span class="est-line-val">${fmt(detail.cost)}/pc</span></div>`;
+        }
       });
     }
 
@@ -2115,7 +2107,7 @@
     prefillBtn.dataset.qty = qty;
     prefillBtn.dataset.ptype = 'embroidery';
     prefillBtn.dataset.garment = garmentName;
-    prefillBtn.dataset.decoration = decorationNames.join(', ');
+    prefillBtn.dataset.decoration = decorationDetails.map(d => d.name).join(', ');
     prefillBtn.dataset.total = fmt(totalPPP) + '/pc · ' + fmtTotal(grandTotal) + ' total';
 
     updateSliderBg();
