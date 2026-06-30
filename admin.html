@@ -747,6 +747,14 @@
             <span>Blanks</span>
             <span id="preview-blanks">$0.00</span>
           </div>
+          <div class="preview-line screen-only">
+            <span>Screen Fee</span>
+            <span id="preview-screen-fee">$0.00</span>
+          </div>
+          <div class="preview-line screen-only">
+            <span>Ink Charge</span>
+            <span id="preview-ink-charge">$0.00</span>
+          </div>
           <div class="preview-line">
             <span id="preview-printing-label">Printing</span>
             <span id="preview-printing">$0.00</span>
@@ -878,6 +886,10 @@
 
 <script>
   const PASSWORD = 'cowdog123';
+
+  // Screen printing setup fees
+  const SCREEN_FEE = 35; // per screen
+  const INK_CHARGE = 35; // per color
 
   // Finishing pricing
   const FINISHING = {
@@ -1019,11 +1031,19 @@
     const garmentCost = +document.getElementById('garment-cost').value || 0;
 
     let printingCost = 0;
+    let screenFee = 0;
+    let inkCharge = 0;
 
     if (currentService === 'screen-print') {
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
       const printSize = document.getElementById('print-size').value;
+      const isDark = document.getElementById('garment-color').value === 'dark';
+
+      // Calculate screen fee and ink charge
+      const colorsPerLocation = isDark ? colors + 1 : colors; // Add underbase for dark garments
+      screenFee = SCREEN_FEE * colorsPerLocation * placements;
+      inkCharge = INK_CHARGE * colorsPerLocation * placements;
 
       // Price sheet pricing
       const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
@@ -1047,11 +1067,13 @@
 
     // Total pricing
     const blanksTotal = qty * garmentCost;
-    const total = blanksTotal + printingCost;
+    const total = blanksTotal + screenFee + inkCharge + printingCost;
     const perPiece = qty > 0 ? total / qty : 0;
 
     // Update preview UI
     document.getElementById('preview-blanks').textContent = `$${blanksTotal.toFixed(2)}`;
+    document.getElementById('preview-screen-fee').textContent = `$${screenFee.toFixed(2)}`;
+    document.getElementById('preview-ink-charge').textContent = `$${inkCharge.toFixed(2)}`;
 
     // Show/hide digitizing line based on service type
     if (currentService === 'embroidery') {
@@ -1090,6 +1112,8 @@
       description: desc,
       qty: qty,
       garmentCost: garmentCost,
+      screenFee: 0,
+      inkCharge: 0,
       printingCost: 0,
       totalCost: 0
     };
@@ -1098,10 +1122,16 @@
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
       const printSize = document.getElementById('print-size').value;
+      const isDark = document.getElementById('garment-color').value === 'dark';
+
+      // Calculate screen fee and ink charge
+      const colorsPerLocation = isDark ? colors + 1 : colors;
+      item.screenFee = SCREEN_FEE * colorsPerLocation * placements;
+      item.inkCharge = INK_CHARGE * colorsPerLocation * placements;
 
       const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
       item.printingCost = qty * pricePerPiece * placements;
-      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)`;
+      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)${isDark ? ' · dark' : ''}`;
 
     } else {
       const placements = +document.getElementById('emb-placements').value || 1;
@@ -1121,7 +1151,7 @@
     }
 
     const garmentsCost = qty * garmentCost;
-    item.totalCost = garmentsCost + item.printingCost;
+    item.totalCost = garmentsCost + item.screenFee + item.inkCharge + item.printingCost;
 
     jobItems.push(item);
     renderJobItems();
