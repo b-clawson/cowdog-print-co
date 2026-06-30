@@ -739,60 +739,29 @@
         <input type="number" class="calc-input" id="emb-placements" value="1" min="1">
       </div>
 
-      <!-- ITEM COST PREVIEW -->
+      <!-- ITEM PRICE PREVIEW -->
       <div class="item-preview">
-        <!-- CUSTOMER PRICE -->
         <div class="preview-section">
-          <div class="preview-title">Customer Price</div>
+          <div class="preview-title">Price Breakdown</div>
           <div class="preview-line">
             <span>Blanks</span>
-            <span id="preview-customer-blanks">$0.00</span>
+            <span id="preview-blanks">$0.00</span>
           </div>
           <div class="preview-line">
             <span id="preview-printing-label">Printing</span>
-            <span id="preview-customer-printing">$0.00</span>
+            <span id="preview-printing">$0.00</span>
           </div>
           <div class="preview-line" id="preview-digitizing-line" style="display: none;">
             <span>Digitizing</span>
-            <span id="preview-customer-digitizing">$0.00</span>
+            <span id="preview-digitizing">$0.00</span>
           </div>
           <div class="preview-total">
             <div>
-              <div class="preview-total-label">Customer Total</div>
-              <div class="preview-per-piece" id="preview-customer-per-piece">$0.00 per piece</div>
+              <div class="preview-total-label">Total</div>
+              <div class="preview-per-piece" id="preview-per-piece">$0.00 per piece</div>
             </div>
-            <div class="preview-total-value" id="preview-customer-total">$0.00</div>
+            <div class="preview-total-value" id="preview-total">$0.00</div>
           </div>
-        </div>
-
-        <!-- YOUR COSTS -->
-        <div class="preview-section">
-          <div class="preview-title">Your Costs</div>
-          <div class="preview-line">
-            <span>Blanks</span>
-            <span id="preview-cost-blanks">$0.00</span>
-          </div>
-          <div class="preview-line">
-            <span>Setup & Materials</span>
-            <span id="preview-cost-setup">$0.00</span>
-          </div>
-          <div class="preview-line">
-            <span>Labor</span>
-            <span id="preview-cost-labor">$0.00</span>
-          </div>
-          <div class="preview-total">
-            <div>
-              <div class="preview-total-label">Total Cost</div>
-              <div class="preview-per-piece" id="preview-cost-per-piece">$0.00 per piece</div>
-            </div>
-            <div class="preview-total-value" id="preview-cost-total">$0.00</div>
-          </div>
-        </div>
-
-        <!-- PROFIT MARGIN -->
-        <div class="preview-margin">
-          <div class="preview-margin-label">Profit Margin</div>
-          <div class="preview-margin-value" id="preview-margin">$0.00</div>
         </div>
       </div>
 
@@ -885,14 +854,6 @@
           <span>Add-ons & Finishing</span>
           <span id="invoice-addons">$0.00</span>
         </div>
-        <div class="invoice-line">
-          <span>Subtotal</span>
-          <span id="invoice-subtotal">$0.00</span>
-        </div>
-        <div class="invoice-line">
-          <span>Markup (<span id="markup-display">40</span>%)</span>
-          <span id="invoice-markup">$0.00</span>
-        </div>
 
         <div class="invoice-total">
           <div class="invoice-total-label">Total</div>
@@ -901,7 +862,8 @@
 
         <div class="markup-control">
           <label class="markup-label">Markup Percentage</label>
-          <input type="number" class="markup-input" id="markup" value="40" min="0" max="100" onchange="calculateInvoice()">
+          <input type="number" class="markup-input" id="markup-percentage" value="0" min="0" max="100" onchange="calculateInvoice()">
+          <small style="color: var(--muted); font-size: 12px; margin-top: 0.5rem; display: block;">Optional: Add percentage on top of price sheet rates</small>
         </div>
 
         <div class="action-buttons">
@@ -916,7 +878,6 @@
 
 <script>
   const PASSWORD = 'cowdog123';
-  const LABOR_RATE = 25;
 
   // Finishing pricing
   const FINISHING = {
@@ -926,10 +887,6 @@
     'hang-tags': { '50': 0.55, '100': 0.55, '150': 0.55, '250': 0.50, '500': 0.45, '750': 0.45, '1000': 0.40 },
     'fulfillment': { '50': 1.10, '100': 1.10, '150': 1.10, '250': 1.05, '500': 1.00, '750': 0.95, '1000': 0.90 },
   };
-
-  const SCREEN_SETUP = 35;
-  const INK_CHARGE = 35;
-  const ADDITIONAL_LOCATION_COST = 1.00;
 
   // Customer pricing from your price sheet
   const STANDARD_PRICING = {
@@ -1061,116 +1018,59 @@
     const qty = +document.getElementById('qty').value || 0;
     const garmentCost = +document.getElementById('garment-cost').value || 0;
 
-    let setupCost = 0;
-    let materialsCost = 0;
-    let laborCost = 0;
-    let customerPrintingCost = 0;
+    let printingCost = 0;
 
     if (currentService === 'screen-print') {
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
-      const isDark = document.getElementById('garment-color').value === 'dark';
       const printSize = document.getElementById('print-size').value;
 
-      // Customer pricing from your price sheet
+      // Price sheet pricing
       const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
-      customerPrintingCost = qty * pricePerPiece * placements; // multiply by placements for additional locations
-
-      // Your actual costs
-      const colorsPerLocation = isDark ? colors + 1 : colors;
-      setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
-
-      const additionalLocationCost = placements > 1 ? (placements - 1) * ADDITIONAL_LOCATION_COST * colors * qty : 0;
-      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17);
-      const secPerPiece = qty < 100 ? 20 : qty < 250 ? 15 : qty < 500 ? 12 : 10;
-      const flashTime = colors > 1 ? (colors - 1) * 5 : 0;
-      const productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
-
-      const inkCost = qty * colors * placements * 0.50;
-      materialsCost = inkCost + additionalLocationCost;
-      laborCost = productionHours * LABOR_RATE;
+      printingCost = qty * pricePerPiece * placements;
 
     } else {
       const placements = +document.getElementById('emb-placements').value || 1;
-      const garmentType = document.getElementById('emb-garment').value;
       const placementSize = document.getElementById('emb-placement-size').value;
 
-      // Customer pricing - embroidery with 20% discount on additional placements
+      // Embroidery pricing with 20% discount on additional placements
       const firstPlacementPrice = getEmbroideryPlacementPrice(qty, placementSize);
-      const additionalPlacementPrice = firstPlacementPrice * 0.80; // 20% discount
+      const additionalPlacementPrice = firstPlacementPrice * 0.80;
       const digitizingFee = getEmbroideryDigitizingFee(placementSize);
 
-      let totalPlacementCost = firstPlacementPrice; // First placement full price
+      let totalPlacementCost = firstPlacementPrice;
       if (placements > 1) {
-        totalPlacementCost += additionalPlacementPrice * (placements - 1); // Additional placements discounted
+        totalPlacementCost += additionalPlacementPrice * (placements - 1);
       }
-      customerPrintingCost = qty * totalPlacementCost + digitizingFee;
-
-      // Your actual costs
-      setupCost = digitizingFee; // Use actual digitizing fee from pricing
-
-      const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
-      const hoopHours = (qty * hoopMinPerPiece) / 60;
-
-      // Estimate stitch time based on placement type at 550 stitches per minute
-      const stitchEstimate =
-        (placementSize === 'hat' || placementSize === 'left-chest') ? 6000 :
-        placementSize === 'full-front' ? 12000 : 22000;
-      const stitchesPerMinute = 550;
-      const machineMinutes = (qty * placements * stitchEstimate) / stitchesPerMinute;
-      const machineHours = machineMinutes / 60;
-      const productionHours = hoopHours + machineHours;
-
-      const threadCost = (stitchEstimate * placements * qty * 0.01) / 1000;
-      const backingCost = qty * placements * 0.30;
-      materialsCost = threadCost + backingCost;
-      laborCost = productionHours * LABOR_RATE;
+      printingCost = qty * totalPlacementCost + digitizingFee;
     }
 
-    // Customer pricing
-    const customerBlanks = qty * garmentCost;
-    const customerTotal = customerBlanks + customerPrintingCost;
-    const customerPerPiece = qty > 0 ? customerTotal / qty : 0;
+    // Total pricing
+    const blanksTotal = qty * garmentCost;
+    const total = blanksTotal + printingCost;
+    const perPiece = qty > 0 ? total / qty : 0;
 
-    // Your costs
-    const costBlanks = qty * garmentCost;
-    const costTotal = costBlanks + setupCost + materialsCost + laborCost;
-    const costPerPiece = qty > 0 ? costTotal / qty : 0;
-
-    // Profit margin
-    const margin = customerTotal - costTotal;
-
-    // Update preview UI - Customer Price
-    document.getElementById('preview-customer-blanks').textContent = `$${customerBlanks.toFixed(2)}`;
+    // Update preview UI
+    document.getElementById('preview-blanks').textContent = `$${blanksTotal.toFixed(2)}`;
 
     // Show/hide digitizing line based on service type
     if (currentService === 'embroidery') {
       const placementSize = document.getElementById('emb-placement-size').value;
       const digitizingFee = getEmbroideryDigitizingFee(placementSize);
-      const embroideryOnly = customerPrintingCost - digitizingFee;
+      const embroideryOnly = printingCost - digitizingFee;
 
       document.getElementById('preview-printing-label').textContent = 'Embroidery';
-      document.getElementById('preview-customer-printing').textContent = `$${embroideryOnly.toFixed(2)}`;
+      document.getElementById('preview-printing').textContent = `$${embroideryOnly.toFixed(2)}`;
       document.getElementById('preview-digitizing-line').style.display = 'flex';
-      document.getElementById('preview-customer-digitizing').textContent = `$${digitizingFee.toFixed(2)}`;
+      document.getElementById('preview-digitizing').textContent = `$${digitizingFee.toFixed(2)}`;
     } else {
       document.getElementById('preview-printing-label').textContent = 'Printing';
-      document.getElementById('preview-customer-printing').textContent = `$${customerPrintingCost.toFixed(2)}`;
+      document.getElementById('preview-printing').textContent = `$${printingCost.toFixed(2)}`;
       document.getElementById('preview-digitizing-line').style.display = 'none';
     }
 
-    document.getElementById('preview-customer-total').textContent = `$${customerTotal.toFixed(2)}`;
-    document.getElementById('preview-customer-per-piece').textContent = `$${customerPerPiece.toFixed(2)} per piece`;
-
-    // Update preview UI - Your Costs
-    document.getElementById('preview-cost-blanks').textContent = `$${costBlanks.toFixed(2)}`;
-    document.getElementById('preview-cost-setup').textContent = `$${(setupCost + materialsCost).toFixed(2)}`;
-    document.getElementById('preview-cost-labor').textContent = `$${laborCost.toFixed(2)}`;
-    document.getElementById('preview-cost-total').textContent = `$${costTotal.toFixed(2)}`;
-    document.getElementById('preview-cost-per-piece').textContent = `$${costPerPiece.toFixed(2)} per piece`;
-
-    // Update margin
-    document.getElementById('preview-margin').textContent = `$${margin.toFixed(2)}`;
+    document.getElementById('preview-total').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('preview-per-piece').textContent = `$${perPiece.toFixed(2)} per piece`;
   }
 
   // Add item to job
@@ -1190,58 +1090,38 @@
       description: desc,
       qty: qty,
       garmentCost: garmentCost,
-      setupCost: 0,
-      materialsCost: 0,
-      laborCost: 0,
+      printingCost: 0,
       totalCost: 0
     };
 
     if (currentService === 'screen-print') {
       const colors = +document.getElementById('color-count').value || 1;
       const placements = +document.getElementById('placement-count').value || 1;
-      const isDark = document.getElementById('garment-color').value === 'dark';
       const printSize = document.getElementById('print-size').value;
 
-      const colorsPerLocation = isDark ? colors + 1 : colors;
-      item.setupCost = (SCREEN_SETUP * colorsPerLocation * placements) + (INK_CHARGE * colorsPerLocation * placements);
-
-      const additionalLocationCost = placements > 1 ? (placements - 1) * ADDITIONAL_LOCATION_COST * colors * qty : 0;
-      const setupHours = (colorsPerLocation * placements * 0.5) + ((colors - 1) * 0.17);
-      const secPerPiece = qty < 100 ? 20 : qty < 250 ? 15 : qty < 500 ? 12 : 10;
-      const flashTime = colors > 1 ? (colors - 1) * 5 : 0;
-      const productionHours = setupHours + ((qty * (secPerPiece + flashTime)) / 3600);
-
-      const inkCost = qty * colors * placements * 0.50;
-      item.materialsCost = inkCost + additionalLocationCost;
-      item.laborCost = productionHours * LABOR_RATE;
-
-      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)${isDark ? ' · dark' : ''}`;
+      const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
+      item.printingCost = qty * pricePerPiece * placements;
+      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)`;
 
     } else {
-      const stitches = +document.getElementById('stitch-count').value || 8000;
-      const threadColors = +document.getElementById('thread-colors').value || 1;
       const placements = +document.getElementById('emb-placements').value || 1;
       const garmentType = document.getElementById('emb-garment').value;
+      const placementSize = document.getElementById('emb-placement-size').value;
 
-      item.setupCost = 50;
+      const firstPlacementPrice = getEmbroideryPlacementPrice(qty, placementSize);
+      const additionalPlacementPrice = firstPlacementPrice * 0.80;
+      const digitizingFee = getEmbroideryDigitizingFee(placementSize);
 
-      const hoopMinPerPiece = garmentType === 'hat' ? 1 : 1.5;
-      const hoopHours = (qty * hoopMinPerPiece) / 60;
-      const stitchesPerMinute = 550;
-      const machineMinutes = (qty * placements * stitches) / stitchesPerMinute;
-      const machineHours = machineMinutes / 60;
-      const productionHours = hoopHours + machineHours;
-
-      const threadCost = (stitches * placements * qty * 0.01) / 1000;
-      const backingCost = qty * placements * 0.30;
-      item.materialsCost = threadCost + backingCost;
-      item.laborCost = productionHours * LABOR_RATE;
-
-      item.details = `${qty} ${garmentType}(s) · ${stitches.toLocaleString()} stitches · ${placements} placement(s)`;
+      let totalPlacementCost = firstPlacementPrice;
+      if (placements > 1) {
+        totalPlacementCost += additionalPlacementPrice * (placements - 1);
+      }
+      item.printingCost = qty * totalPlacementCost + digitizingFee;
+      item.details = `${qty} ${garmentType}(s) · ${placementSize} · ${placements} placement(s)`;
     }
 
     const garmentsCost = qty * garmentCost;
-    item.totalCost = garmentsCost + item.setupCost + item.materialsCost + item.laborCost;
+    item.totalCost = garmentsCost + item.printingCost;
 
     jobItems.push(item);
     renderJobItems();
@@ -1340,15 +1220,12 @@
       subtotal = subtotal * 1.30;
     }
 
-    const markup = +document.getElementById('markup').value || 0;
+    const markup = +document.getElementById('markup-percentage').value || 0;
     const markupAmount = subtotal * (markup / 100);
     const total = subtotal + markupAmount;
 
     document.getElementById('invoice-items').textContent = `$${itemsSubtotal.toFixed(2)}`;
     document.getElementById('invoice-addons').textContent = `$${addonsCost.toFixed(2)}`;
-    document.getElementById('invoice-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById('markup-display').textContent = markup;
-    document.getElementById('invoice-markup').textContent = `$${markupAmount.toFixed(2)}`;
     document.getElementById('invoice-total').textContent = `$${total.toFixed(2)}`;
   }
 
