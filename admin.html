@@ -712,6 +712,21 @@
         <input type="number" class="calc-input" id="placement-count" value="1" min="1">
       </div>
 
+      <!-- SPECIALTY INK OPTIONS (SCREEN PRINT ONLY) -->
+      <div class="calc-field screen-only">
+        <label class="calc-label">Specialty Inks</label>
+        <div class="calc-checks">
+          <div class="calc-check">
+            <input type="checkbox" id="item-puff-ink" onchange="calculateItemPreview()">
+            <label for="item-puff-ink">Puff Ink (+$1.25/pc)</label>
+          </div>
+          <div class="calc-check">
+            <input type="checkbox" id="item-specialty-ink" onchange="calculateItemPreview()">
+            <label for="item-specialty-ink">Specialty Ink (+$1.25/pc)</label>
+          </div>
+        </div>
+      </div>
+
       <!-- EMBROIDERY FIELDS -->
       <div class="calc-field embroidery-only">
         <label class="calc-label">Garment Type</label>
@@ -742,22 +757,18 @@
       <!-- ITEM PRICE PREVIEW -->
       <div class="item-preview">
         <div class="preview-section">
-          <div class="preview-title">Price Breakdown</div>
+          <div class="preview-title">Price Per Item</div>
           <div class="preview-line">
             <span>Blanks</span>
             <span id="preview-blanks">$0.00</span>
           </div>
-          <div class="preview-line screen-only">
-            <span>Screen Fee</span>
-            <span id="preview-screen-fee">$0.00</span>
-          </div>
-          <div class="preview-line screen-only">
-            <span>Ink Charge</span>
-            <span id="preview-ink-charge">$0.00</span>
-          </div>
           <div class="preview-line">
             <span id="preview-printing-label">Printing</span>
             <span id="preview-printing">$0.00</span>
+          </div>
+          <div class="preview-line" id="preview-specialty-inks-line" style="display: none;">
+            <span>Specialty Inks</span>
+            <span id="preview-specialty-inks">$0.00</span>
           </div>
           <div class="preview-line" id="preview-digitizing-line" style="display: none;">
             <span>Digitizing</span>
@@ -828,20 +839,6 @@
 
       <div class="addons-section">
         <h3>Extras</h3>
-        <div class="addon-item">
-          <label class="addon-label">
-            <input type="checkbox" id="addon-puff" onchange="calculateInvoice()">
-            Puff Ink (+$1.25/pc)
-          </label>
-          <input type="number" class="addon-input" id="addon-puff-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
-        </div>
-        <div class="addon-item">
-          <label class="addon-label">
-            <input type="checkbox" id="addon-specialty" onchange="calculateInvoice()">
-            Specialty Ink (+$1.25/pc)
-          </label>
-          <input type="number" class="addon-input" id="addon-specialty-qty" value="0" min="0" placeholder="Qty" onchange="calculateInvoice()">
-        </div>
         <div class="addon-item">
           <label class="addon-label">
             <input type="checkbox" id="addon-rush" onchange="calculateInvoice()">
@@ -1033,6 +1030,7 @@
     let printingCost = 0;
     let screenFee = 0;
     let inkCharge = 0;
+    let specialtyInkCost = 0;
 
     if (currentService === 'screen-print') {
       const colors = +document.getElementById('color-count').value || 1;
@@ -1040,14 +1038,20 @@
       const printSize = document.getElementById('print-size').value;
       const isDark = document.getElementById('garment-color').value === 'dark';
 
-      // Calculate screen fee and ink charge
+      // Calculate screen fee and ink charge (these are now included in the per-piece pricing)
       const colorsPerLocation = isDark ? colors + 1 : colors; // Add underbase for dark garments
       screenFee = SCREEN_FEE * colorsPerLocation * placements;
       inkCharge = INK_CHARGE * colorsPerLocation * placements;
 
-      // Price sheet pricing
+      // Price sheet pricing (includes setup fees spread across quantity)
       const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
       printingCost = qty * pricePerPiece * placements;
+
+      // Add specialty ink costs
+      const hasPuff = document.getElementById('item-puff-ink').checked;
+      const hasSpecialty = document.getElementById('item-specialty-ink').checked;
+      if (hasPuff) specialtyInkCost += qty * 1.25;
+      if (hasSpecialty) specialtyInkCost += qty * 1.25;
 
     } else {
       const placements = +document.getElementById('emb-placements').value || 1;
@@ -1067,13 +1071,19 @@
 
     // Total pricing
     const blanksTotal = qty * garmentCost;
-    const total = blanksTotal + screenFee + inkCharge + printingCost;
+    const total = blanksTotal + screenFee + inkCharge + printingCost + specialtyInkCost;
     const perPiece = qty > 0 ? total / qty : 0;
 
     // Update preview UI
     document.getElementById('preview-blanks').textContent = `$${blanksTotal.toFixed(2)}`;
-    document.getElementById('preview-screen-fee').textContent = `$${screenFee.toFixed(2)}`;
-    document.getElementById('preview-ink-charge').textContent = `$${inkCharge.toFixed(2)}`;
+
+    // Show/hide specialty inks line
+    if (currentService === 'screen-print' && specialtyInkCost > 0) {
+      document.getElementById('preview-specialty-inks-line').style.display = 'flex';
+      document.getElementById('preview-specialty-inks').textContent = `$${specialtyInkCost.toFixed(2)}`;
+    } else {
+      document.getElementById('preview-specialty-inks-line').style.display = 'none';
+    }
 
     // Show/hide digitizing line based on service type
     if (currentService === 'embroidery') {
@@ -1115,6 +1125,7 @@
       screenFee: 0,
       inkCharge: 0,
       printingCost: 0,
+      specialtyInkCost: 0,
       totalCost: 0
     };
 
@@ -1131,7 +1142,19 @@
 
       const pricePerPiece = getCustomerPricePerPiece(qty, colors, printSize);
       item.printingCost = qty * pricePerPiece * placements;
-      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)${isDark ? ' · dark' : ''}`;
+
+      // Add specialty ink costs
+      const hasPuff = document.getElementById('item-puff-ink').checked;
+      const hasSpecialty = document.getElementById('item-specialty-ink').checked;
+      if (hasPuff) item.specialtyInkCost += qty * 1.25;
+      if (hasSpecialty) item.specialtyInkCost += qty * 1.25;
+
+      let detailsExtras = [];
+      if (hasPuff) detailsExtras.push('puff');
+      if (hasSpecialty) detailsExtras.push('specialty');
+      const extrasText = detailsExtras.length > 0 ? ` · ${detailsExtras.join(', ')}` : '';
+
+      item.details = `${qty} pcs · ${printSize} · ${colors} color(s) · ${placements} location(s)${isDark ? ' · dark' : ''}${extrasText}`;
 
     } else {
       const placements = +document.getElementById('emb-placements').value || 1;
@@ -1151,7 +1174,7 @@
     }
 
     const garmentsCost = qty * garmentCost;
-    item.totalCost = garmentsCost + item.screenFee + item.inkCharge + item.printingCost;
+    item.totalCost = garmentsCost + item.screenFee + item.inkCharge + item.printingCost + item.specialtyInkCost;
 
     jobItems.push(item);
     renderJobItems();
@@ -1160,6 +1183,10 @@
     // Reset form
     document.getElementById('item-desc').value = '';
     document.getElementById('qty').value = 100;
+    if (currentService === 'screen-print') {
+      document.getElementById('item-puff-ink').checked = false;
+      document.getElementById('item-specialty-ink').checked = false;
+    }
   }
 
   function renderJobItems() {
@@ -1232,17 +1259,6 @@
       addonsCost += qty * getFinishingPrice('fulfillment', qty);
     }
 
-    // Extras
-    if (document.getElementById('addon-puff').checked) {
-      const qty = +document.getElementById('addon-puff-qty').value || 0;
-      addonsCost += qty * 1.25;
-    }
-
-    if (document.getElementById('addon-specialty').checked) {
-      const qty = +document.getElementById('addon-specialty-qty').value || 0;
-      addonsCost += qty * 1.25;
-    }
-
     let subtotal = itemsSubtotal + addonsCost;
 
     // Rush adds 30%
@@ -1296,7 +1312,7 @@
   // Attach preview calculation to all input fields
   const previewInputs = [
     'qty', 'garment-cost', 'print-size', 'garment-color', 'color-count', 'placement-count',
-    'emb-garment', 'emb-placement-size', 'emb-placements'
+    'emb-garment', 'emb-placement-size', 'emb-placements', 'item-puff-ink', 'item-specialty-ink'
   ];
 
   previewInputs.forEach(id => {
