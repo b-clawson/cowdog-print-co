@@ -110,59 +110,12 @@
 
   .admin-header {
     max-width: 1400px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--rule);
-  }
-
-  /* ── QUICK ACTIONS BAR ── */
-  .quick-actions {
-    max-width: 1400px;
-    margin: 0 auto 2rem;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .quick-select {
-    padding: 8px 16px;
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    min-width: 200px;
-  }
-
-  .quick-btn {
-    padding: 8px 16px;
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .quick-btn:hover {
-    background: var(--warm);
-    border-color: var(--rust);
-  }
-
-  .quick-btn.primary {
-    background: var(--rust);
-    color: var(--cream);
-    border-color: var(--rust);
-  }
-
-  .quick-btn.primary:hover {
-    background: #c93d22;
   }
 
   .admin-header h1 {
@@ -475,47 +428,6 @@
     line-height: 1.5;
   }
 
-  .job-item-profit {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--rule);
-    font-size: 12px;
-  }
-
-  .profit-label {
-    color: var(--muted);
-  }
-
-  .profit-value {
-    font-weight: 600;
-  }
-
-  .profit-value.good { color: #2d7a3e; }
-  .profit-value.okay { color: #b8790b; }
-  .profit-value.low { color: var(--rust); }
-
-  .duplicate-btn {
-    position: absolute;
-    bottom: 0.75rem;
-    right: 3rem;
-    background: white;
-    border: 1px solid var(--rule);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 2px;
-    transition: all 0.15s;
-  }
-
-  .duplicate-btn:hover {
-    border-color: var(--rust);
-    color: var(--rust);
-  }
-
   .remove-item-btn {
     position: absolute;
     top: 0.75rem;
@@ -644,78 +556,6 @@
     color: var(--cream);
   }
 
-  .cost-toggle {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.12);
-  }
-
-  .cost-toggle-btn {
-    width: 100%;
-    padding: 10px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(240,235,224,0.6);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-bottom: 1rem;
-  }
-
-  .cost-toggle-btn:hover {
-    background: rgba(255,255,255,0.08);
-    color: var(--cream);
-  }
-
-  .cost-breakdown {
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 13px;
-  }
-
-  .cost-breakdown.show {
-    display: flex;
-  }
-
-  .cost-line {
-    display: flex;
-    justify-content: space-between;
-    color: rgba(240,235,224,0.5);
-  }
-
-  .cost-line-val {
-    font-weight: 500;
-    color: rgba(240,235,224,0.7);
-  }
-
-  .profit-summary {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(255,255,255,0.05);
-    border-radius: 2px;
-  }
-
-  .profit-summary-label {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(240,235,224,0.4);
-    margin-bottom: 0.5rem;
-  }
-
-  .profit-summary-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 0.04em;
-  }
-
-  .profit-summary-value.good { color: #4ade80; }
-  .profit-summary-value.okay { color: #fbbf24; }
-  .profit-summary-value.low { color: #f87171; }
-
   .markup-control {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -814,25 +654,6 @@
       <a href="/index.html" class="logout-btn" style="text-decoration: none; display: inline-block;">Back to Site</a>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
-  </div>
-
-  <!-- QUICK ACTIONS BAR -->
-  <div class="quick-actions">
-    <select class="quick-select" id="quick-templates" onchange="loadTemplate(this.value)">
-      <option value="">Quick Templates...</option>
-      <option value="100-tees-1color">100 Tees, 1-Color Front</option>
-      <option value="100-tees-2color">100 Tees, 2-Color Front</option>
-      <option value="50-hats-emb">50 Hats, Front Embroidery</option>
-      <option value="250-hoodies-3color">250 Hoodies, 3-Color Front</option>
-      <option value="12-sample-2color">12 Sample Run, 2-Color</option>
-    </select>
-
-    <select class="quick-select" id="recent-quotes" onchange="loadRecentQuote(this.value)">
-      <option value="">Recent Quotes...</option>
-    </select>
-
-    <button class="quick-btn" onclick="copyQuoteToClipboard()">📋 Copy Quote</button>
-    <button class="quick-btn" onclick="saveQuote()">💾 Save Quote</button>
   </div>
 
   <div class="admin-container">
@@ -1044,33 +865,6 @@
           <div class="invoice-total-value" id="invoice-total">$0.00</div>
         </div>
 
-        <div class="cost-toggle">
-          <button class="cost-toggle-btn" onclick="toggleCostView()">
-            <span id="cost-toggle-text">Show Cost Breakdown</span>
-          </button>
-          <div class="cost-breakdown" id="cost-breakdown">
-            <div class="cost-line">
-              <span>Blanks Cost</span>
-              <span class="cost-line-val" id="cost-blanks">$0.00</span>
-            </div>
-            <div class="cost-line">
-              <span>Labor & Materials</span>
-              <span class="cost-line-val" id="cost-labor">$0.00</span>
-            </div>
-            <div class="cost-line">
-              <span>Total Cost</span>
-              <span class="cost-line-val" id="cost-total">$0.00</span>
-            </div>
-            <div class="profit-summary">
-              <div class="profit-summary-label">Your Profit</div>
-              <div class="profit-summary-value" id="profit-amount">$0.00</div>
-              <div style="font-size: 13px; color: rgba(240,235,224,0.5); margin-top: 0.25rem;">
-                <span id="profit-percent">0%</span> margin
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="markup-control">
           <label class="markup-label">Markup Percentage</label>
           <input type="number" class="markup-input" id="markup-percentage" value="0" min="0" max="100" onchange="calculateInvoice()">
@@ -1153,14 +947,6 @@
 
   let currentService = 'screen-print';
   let jobItems = [];
-  let costViewVisible = false;
-
-  // Cost tracking for profit calculation
-  const COST_MULTIPLIERS = {
-    screenPrint: 0.65, // printing costs ~65% of customer price
-    embroidery: 0.70,  // embroidery costs ~70% of customer price
-    finishing: 0.80    // finishing costs ~80% of retail price
-  };
 
   // Check password
   function checkPassword() {
@@ -1413,30 +1199,14 @@
 
     container.innerHTML = jobItems.map(item => {
       const perPiece = item.totalCost / item.qty;
-
-      // Calculate profit for this item
-      const costPct = item.service === 'screen-print' ? COST_MULTIPLIERS.screenPrint : COST_MULTIPLIERS.embroidery;
-      const itemCost = item.totalCost * costPct;
-      const itemProfit = item.totalCost - itemCost;
-      const marginPct = (itemProfit / item.totalCost) * 100;
-
-      let marginClass = 'okay';
-      if (marginPct >= 25) marginClass = 'good';
-      if (marginPct < 15) marginClass = 'low';
-
       return `
         <div class="job-item">
           <button class="remove-item-btn" onclick="removeItem(${item.id})">×</button>
-          <button class="duplicate-btn" onclick="duplicateItem(${item.id})">Duplicate</button>
           <div class="job-item-header">
             <div class="job-item-title">${item.description}</div>
             <div class="job-item-cost">$${item.totalCost.toFixed(2)}</div>
           </div>
           <div class="job-item-details">${item.details} · $${perPiece.toFixed(2)}/pc</div>
-          <div class="job-item-profit">
-            <span class="profit-label">Profit:</span>
-            <span class="profit-value ${marginClass}">$${itemProfit.toFixed(2)} (${marginPct.toFixed(0)}%)</span>
-          </div>
         </div>
       `;
     }).join('');
@@ -1503,36 +1273,6 @@
     document.getElementById('invoice-items').textContent = `$${itemsSubtotal.toFixed(2)}`;
     document.getElementById('invoice-addons').textContent = `$${addonsCost.toFixed(2)}`;
     document.getElementById('invoice-total').textContent = `$${total.toFixed(2)}`;
-
-    // Calculate profit breakdown
-    let blanksCost = 0;
-    let laborCost = 0;
-
-    jobItems.forEach(item => {
-      blanksCost += item.qty * item.garmentCost;
-      const costPct = item.service === 'screen-print' ? COST_MULTIPLIERS.screenPrint : COST_MULTIPLIERS.embroidery;
-      laborCost += (item.totalCost - (item.qty * item.garmentCost)) * costPct;
-    });
-
-    // Add finishing costs
-    const finishingCost = addonsCost * COST_MULTIPLIERS.finishing;
-    const totalCost = blanksCost + laborCost + finishingCost;
-    const totalProfit = total - totalCost;
-    const profitMargin = total > 0 ? (totalProfit / total) * 100 : 0;
-
-    // Update cost breakdown display
-    document.getElementById('cost-blanks').textContent = `$${blanksCost.toFixed(2)}`;
-    document.getElementById('cost-labor').textContent = `$${(laborCost + finishingCost).toFixed(2)}`;
-    document.getElementById('cost-total').textContent = `$${totalCost.toFixed(2)}`;
-    document.getElementById('profit-amount').textContent = `$${totalProfit.toFixed(2)}`;
-    document.getElementById('profit-percent').textContent = `${profitMargin.toFixed(1)}%`;
-
-    // Color code profit
-    const profitEl = document.getElementById('profit-amount');
-    profitEl.className = 'profit-summary-value';
-    if (profitMargin >= 25) profitEl.classList.add('good');
-    else if (profitMargin >= 15) profitEl.classList.add('okay');
-    else profitEl.classList.add('low');
   }
 
   function clearJob() {
@@ -1585,287 +1325,6 @@
 
   // Calculate initial preview
   calculateItemPreview();
-
-  // ═══════════════════════════════════════════════════════════
-  // PHASE 1 ENHANCEMENTS
-  // ═══════════════════════════════════════════════════════════
-
-  // Toggle cost/profit view
-  function toggleCostView() {
-    costViewVisible = !costViewVisible;
-    const breakdown = document.getElementById('cost-breakdown');
-    const toggleText = document.getElementById('cost-toggle-text');
-
-    if (costViewVisible) {
-      breakdown.classList.add('show');
-      toggleText.textContent = 'Hide Cost Breakdown';
-    } else {
-      breakdown.classList.remove('show');
-      toggleText.textContent = 'Show Cost Breakdown';
-    }
-  }
-
-  // Duplicate item
-  function duplicateItem(id) {
-    const item = jobItems.find(i => i.id === id);
-    if (!item) return;
-
-    // Fill calculator with item data
-    document.getElementById('item-desc').value = item.description + ' (Copy)';
-    document.getElementById('qty').value = item.qty;
-    document.getElementById('garment-cost').value = item.garmentCost;
-
-    // Switch to correct service tab
-    const tab = document.querySelector(`.calc-tab[data-service="${item.service}"]`);
-    if (tab) tab.click();
-
-    // Scroll to calculator
-    document.querySelector('.calc-panel').scrollIntoView({ behavior: 'smooth' });
-
-    alert('Item duplicated in calculator - edit as needed and click "Add Item to Job"');
-  }
-
-  // Quick templates
-  function loadTemplate(template) {
-    if (!template) return;
-
-    const templates = {
-      '100-tees-1color': {
-        service: 'screen-print',
-        desc: '100 Black Tees - 1 Color Front',
-        qty: 100,
-        garmentCost: 6.00,
-        printSize: 'standard',
-        garmentColor: 'dark',
-        colors: 1,
-        placements: 1
-      },
-      '100-tees-2color': {
-        service: 'screen-print',
-        desc: '100 Black Tees - 2 Color Front',
-        qty: 100,
-        garmentCost: 6.00,
-        printSize: 'standard',
-        garmentColor: 'dark',
-        colors: 2,
-        placements: 1
-      },
-      '50-hats-emb': {
-        service: 'embroidery',
-        desc: '50 Hats - Front Embroidery',
-        qty: 50,
-        garmentCost: 6.00,
-        garmentType: 'hat',
-        placementSize: 'hat'
-      },
-      '250-hoodies-3color': {
-        service: 'screen-print',
-        desc: '250 Hoodies - 3 Color Front',
-        qty: 250,
-        garmentCost: 25.00,
-        printSize: 'standard',
-        garmentColor: 'dark',
-        colors: 3,
-        placements: 1
-      },
-      '12-sample-2color': {
-        service: 'screen-print',
-        desc: '12 Sample Run - 2 Color',
-        qty: 12,
-        garmentCost: 6.00,
-        printSize: 'standard',
-        garmentColor: 'light',
-        colors: 2,
-        placements: 1
-      }
-    };
-
-    const t = templates[template];
-    if (!t) return;
-
-    // Switch to correct service
-    const tab = document.querySelector(`.calc-tab[data-service="${t.service}"]`);
-    if (tab) tab.click();
-
-    // Fill in fields
-    document.getElementById('item-desc').value = t.desc;
-    document.getElementById('qty').value = t.qty;
-    document.getElementById('garment-cost').value = t.garmentCost;
-
-    if (t.service === 'screen-print') {
-      document.querySelector(`input[name="print_size"][value="${t.printSize}"]`).checked = true;
-      document.querySelector(`input[name="garment_color"][value="${t.garmentColor}"]`).checked = true;
-      document.getElementById('color-count').value = t.colors;
-      document.getElementById('placement-count').value = t.placements;
-      estColors = t.colors;
-      estLocs = t.placements;
-      document.getElementById('est-colors-val').textContent = t.colors;
-      document.getElementById('est-locs-val').textContent = t.placements;
-      document.getElementById('est-colors-display').textContent = t.colors;
-      document.getElementById('est-locs-display').textContent = t.placements;
-    } else {
-      document.querySelector(`input[name="embroidery_garment"][value="${t.garmentType}"]`).checked = true;
-      document.querySelector(`input[name="embroidery_garment"][value="${t.garmentType}"]`).dispatchEvent(new Event('change'));
-    }
-
-    calculateItemPreview();
-
-    // Reset dropdown
-    document.getElementById('quick-templates').value = '';
-  }
-
-  // Copy quote to clipboard
-  function copyQuoteToClipboard() {
-    if (jobItems.length === 0) {
-      alert('Add items to the job first');
-      return;
-    }
-
-    const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const quoteNum = Math.floor(Math.random() * 9000) + 1000;
-
-    let quote = `QUOTE #${quoteNum}\n`;
-    quote += `Date: ${date}\n`;
-    quote += `\n`;
-    quote += `ITEMS:\n`;
-
-    jobItems.forEach(item => {
-      const perPiece = item.totalCost / item.qty;
-      quote += `• ${item.description}\n`;
-      quote += `  ${item.details}\n`;
-      quote += `  $${perPiece.toFixed(2)}/pc = $${item.totalCost.toFixed(2)}\n`;
-      quote += `\n`;
-    });
-
-    // Add addons if any
-    const addons = [];
-    if (document.getElementById('addon-neck-tags').checked) {
-      const qty = +document.getElementById('addon-neck-tags-qty').value || 0;
-      if (qty > 0) addons.push(`Neck Tags (${qty} pcs)`);
-    }
-    if (document.getElementById('addon-fold-tee').checked) {
-      const qty = +document.getElementById('addon-fold-tee-qty').value || 0;
-      if (qty > 0) addons.push(`Fold & Poly Tees (${qty} pcs)`);
-    }
-    if (document.getElementById('addon-fold-fleece').checked) {
-      const qty = +document.getElementById('addon-fold-fleece-qty').value || 0;
-      if (qty > 0) addons.push(`Fold & Poly Fleece (${qty} pcs)`);
-    }
-    if (document.getElementById('addon-hang-tags').checked) {
-      const qty = +document.getElementById('addon-hang-tags-qty').value || 0;
-      if (qty > 0) addons.push(`Hang Tags (${qty} pcs)`);
-    }
-    if (document.getElementById('addon-fulfillment').checked) {
-      const qty = +document.getElementById('addon-fulfillment-qty').value || 0;
-      if (qty > 0) addons.push(`Fulfillment (${qty} pcs)`);
-    }
-
-    if (addons.length > 0) {
-      quote += `FINISHING:\n`;
-      addons.forEach(a => quote += `• ${a}\n`);
-      quote += `\n`;
-    }
-
-    const total = document.getElementById('invoice-total').textContent;
-    quote += `TOTAL: ${total}\n`;
-    quote += `\n`;
-    quote += `---\n`;
-    quote += `Quote valid for 30 days\n`;
-    quote += `Turnaround: 2-3 weeks from artwork approval\n`;
-    quote += `50% deposit required to begin production\n`;
-    quote += `\n`;
-    quote += `Cowdog Print Co.\n`;
-    quote += `info@cowdogprint.co | (608) 205-8799\n`;
-
-    // Copy to clipboard
-    navigator.clipboard.writeText(quote).then(() => {
-      alert('Quote copied to clipboard! Paste into your email.');
-    }).catch(() => {
-      // Fallback for older browsers
-      const textarea = document.createElement('textarea');
-      textarea.value = quote;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      alert('Quote copied to clipboard! Paste into your email.');
-    });
-  }
-
-  // Save quote to localStorage
-  function saveQuote() {
-    if (jobItems.length === 0) {
-      alert('Add items to the job first');
-      return;
-    }
-
-    const customerName = prompt('Customer name (optional):');
-
-    const quote = {
-      id: Date.now(),
-      customer: customerName || 'Unnamed',
-      date: new Date().toLocaleDateString(),
-      items: jobItems,
-      total: document.getElementById('invoice-total').textContent,
-      status: 'draft'
-    };
-
-    // Get existing quotes
-    let quotes = JSON.parse(localStorage.getItem('admin-quotes') || '[]');
-    quotes.unshift(quote);
-    quotes = quotes.slice(0, 50); // Keep last 50
-    localStorage.setItem('admin-quotes', JSON.stringify(quotes));
-
-    alert('Quote saved!');
-    loadRecentQuotesDropdown();
-  }
-
-  // Load recent quotes dropdown
-  function loadRecentQuotesDropdown() {
-    const quotes = JSON.parse(localStorage.getItem('admin-quotes') || '[]');
-    const dropdown = document.getElementById('recent-quotes');
-
-    dropdown.innerHTML = '<option value="">Recent Quotes...</option>';
-
-    quotes.slice(0, 10).forEach(q => {
-      const option = document.createElement('option');
-      option.value = q.id;
-      option.textContent = `${q.customer} - ${q.total} - ${q.date}`;
-      dropdown.appendChild(option);
-    });
-  }
-
-  // Load a recent quote
-  function loadRecentQuote(id) {
-    if (!id) return;
-
-    const quotes = JSON.parse(localStorage.getItem('admin-quotes') || '[]');
-    const quote = quotes.find(q => q.id === +id);
-
-    if (!quote) return;
-
-    if (!confirm(`Load quote for ${quote.customer} (${quote.date})?`)) {
-      document.getElementById('recent-quotes').value = '';
-      return;
-    }
-
-    // Clear current job
-    jobItems = [];
-
-    // Load items
-    quote.items.forEach(item => {
-      jobItems.push({...item, id: Date.now() + Math.random()});
-    });
-
-    renderJobItems();
-    calculateInvoice();
-
-    document.getElementById('recent-quotes').value = '';
-    alert('Quote loaded!');
-  }
-
-  // Initialize recent quotes on load
-  loadRecentQuotesDropdown();
 </script>
 
 </body>
