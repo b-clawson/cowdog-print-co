@@ -6,8 +6,8 @@
 <title>Cowdog Print Co. — Screen Printing & Embroidery Studio, Columbus WI</title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Professional screen printing and embroidery in Columbus, WI. Water-based inks, no minimums, jumbo prints up to 17×23. Custom apparel for bands, artists, and retail brands.">
-<meta name="keywords" content="screen printing Columbus WI, embroidery Wisconsin, custom t-shirts, water-based screen printing, jumbo screen printing, apparel printing, merch printing, Columbus Wisconsin">
+<meta name="description" content="Professional screen printing and embroidery in Columbus, WI. Water-based inks, no minimums, jumbo prints up to 17×23. Custom apparel for bands, artists, and retail brands. Serving Madison, Milwaukee, and all of Wisconsin.">
+<meta name="keywords" content="screen printing Columbus WI, screen printing Madison WI, screen printing Milwaukee WI, embroidery Wisconsin, custom t-shirts, water-based screen printing, jumbo screen printing, apparel printing, merch printing, band merch, custom hats Wisconsin, Columbus Wisconsin">
 <meta name="author" content="Cowdog Print Co.">
 
 <!-- Open Graph / Facebook -->
@@ -130,7 +130,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('assets/showroom.jpg');
+    background-image: url('assets/showroom.jpg'); /* TODO: Compress to <500KB for faster loading */
     background-size: cover;
     background-position: center 85%;
     opacity: 0.4;
@@ -436,6 +436,73 @@
     text-transform: uppercase;
     color: var(--muted);
     margin-top: 2px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-wrap {
+    background: var(--cream);
+    padding: 6rem 2.5rem;
+  }
+
+  .testimonials-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial-card {
+    background: white;
+    padding: 2rem;
+    border: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .testimonial-quote {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .testimonial-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .testimonial-company {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .testimonial-stars {
+    color: var(--rust);
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
   }
 
   /* ── CONTACT / DARK SECTION ── */
@@ -1301,6 +1368,8 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="/pricing.html">Pricing</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="tel:+16082058799" style="color: rgba(240,235,224,0.75);">608.205.8799</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
   </ul>
@@ -1727,6 +1796,49 @@
         <div class="project-label-type">Streetwear · Madison, WI</div>
       </div>
     </a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-wrap" id="testimonials">
+  <div class="testimonials-inner">
+    <span class="section-eyebrow reveal">Trusted by makers</span>
+    <h2 class="section-title reveal">What our clients say.</h2>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">
+          "Cowdog absolutely nailed our first merch drop. The print quality is unreal and they helped us dial in the perfect color match. Can't recommend them enough if you're serious about your brand."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-name">Jake Morrison</div>
+          <div class="testimonial-company">August Streetwear · Madison, WI</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">
+          "We've worked with a lot of printers over the years. Cowdog is the only one that actually gets it — the water-based inks, the attention to detail, the way they handle jumbo prints. They're artists who happen to print."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-name">Maria Chen</div>
+          <div class="testimonial-company">Dead Set Fishing Co. · Pensacola, FL</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">
+          "Absolutely love working with Cowdog. They turned around our coffee shop merch in two weeks and every single piece looks perfect. The prints are soft, vibrant, and built to last. Worth every penny."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-name">David Park</div>
+          <div class="testimonial-company">Fly Kid Fly Coffee · Charlotte, NC</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

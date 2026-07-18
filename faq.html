@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ - Cowdog Print Co. | Screen Printing & Embroidery Questions</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Common questions about screen printing and embroidery services at Cowdog Print Co. Learn about pricing, turnaround times, minimums, artwork prep, and more.">
+<meta name="keywords" content="screen printing FAQ, embroidery questions, custom apparel FAQ, Columbus WI printing, no minimum screen printing">
+
+<!-- Open Graph -->
+<meta property="og:title" content="FAQ - Cowdog Print Co.">
+<meta property="og:description" content="Common questions about screen printing and embroidery services.">
+<meta property="og:url" content="https://cowdogprint.co/faq.html">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://cowdogprint.co/faq.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0D0B;
+    --rust:   #B8341B;
+    --cream:  #F0EBE0;
+    --warm:   #E8E0D0;
+    --text:   #1A1714;
+    --muted:  #7A6F65;
+    --rule:   rgba(26,23,20,0.12);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+  }
+
+  .nav-cta:hover { background: #c93d22; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 60px 0 0;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2.5rem 3rem;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: rgba(240,235,224,0.6);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 6rem;
+  }
+
+  .faq-intro {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq-intro h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: var(--rust);
+    margin-bottom: 0.75rem;
+  }
+
+  .faq-intro p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* FAQ ACCORDION */
+  .faq-section {
+    margin-bottom: 4rem;
+  }
+
+  .faq-section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+
+  .faq-question:hover {
+    color: var(--rust);
+  }
+
+  .faq-icon {
+    font-size: 20px;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.15s;
+    line-height: 1;
+  }
+
+  .faq-question[aria-expanded="true"] .faq-icon {
+    transform: rotate(45deg);
+    color: var(--rust);
+  }
+
+  .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .faq-answer.open {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-answer-inner {
+    overflow: hidden;
+  }
+
+  .faq-answer-content {
+    padding-bottom: 1.5rem;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .faq-answer-content strong {
+    color: var(--text);
+  }
+
+  .faq-answer-content ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .faq-answer-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* CTA BOX */
+  .cta-box {
+    background: var(--ink);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .cta-box h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .cta-box p {
+    font-size: 15px;
+    color: rgba(240,235,224,0.6);
+    margin-bottom: 2rem;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    padding: 14px 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .cta-btn:hover {
+    background: #c93d22;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 2.5rem;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: rgba(240,235,224,0.3);
+    letter-spacing: 0.08em;
+  }
+
+  footer a {
+    color: rgba(240,235,224,0.5);
+    text-decoration: none;
+    margin: 0 1rem;
+    transition: color 0.15s;
+  }
+
+  footer a:hover {
+    color: var(--cream);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    main { padding: 3rem 1.25rem 4rem; }
+  }
+</style>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do you have a minimum order quantity?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No strict minimums. While we suggest 48+ pieces for the best pricing on screen printing, we're here to support creatives and small businesses. If you need a smaller run, reach out — we'll work with you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's your typical turnaround time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard turnaround is 2–3 weeks from artwork approval. Rush service (+30%) is available depending on our schedule."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file format do you need for artwork?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vector files (AI, EPS, PDF) at actual print size are ideal. High-res PNG or PSD works too (300 DPI minimum). If you're not sure, send what you have — we'll review and let you know if we need adjustments."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo">COWDOG PRINT CO.</a>
+  <ul class="nav-links">
+    <li><a href="/index.html#services">Services</a></li>
+    <li><a href="/index.html#projects">Projects</a></li>
+    <li><a href="/pricing.html">Pricing</a></li>
+    <li><a href="tel:+16082058799" style="color: rgba(240,235,224,0.75);">608.205.8799</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/index.html#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Have questions?</span>
+    <h1>Frequently Asked<br>Questions.</h1>
+    <p>Everything you need to know about working with Cowdog. Don't see your question? Give us a call or send a message.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- GENERAL -->
+  <section class="faq-section">
+    <h2 class="faq-section-title">General Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Do you have a minimum order quantity?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>No strict minimums.</strong> While we suggest 48+ pieces for the best pricing on screen printing, we're here to support creatives and small businesses. If you need a smaller run, reach out — we'll work with you.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What's your typical turnaround time?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Standard turnaround is <strong>2–3 weeks from artwork approval</strong>. Rush service (+30%) is available depending on our schedule. Need it faster? Let us know — we'll do our best to accommodate.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Where are you located?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            We're based in <strong>Columbus, Wisconsin</strong> — about 30 minutes from Madison and an hour from Milwaukee. Local pickups welcome. We ship nationwide.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Do you ship, or is it pickup only?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            We ship nationwide. Shipping costs are quoted separately based on order size and destination. Local pickups are also available at our Columbus showroom.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTWORK & FILES -->
+  <section class="faq-section">
+    <h2 class="faq-section-title">Artwork & Files</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What file format do you need for artwork?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>Vector files (AI, EPS, PDF)</strong> at actual print size are ideal. High-res PNG or PSD works too (300 DPI minimum). If you're not sure, send what you have — we'll review and let you know if we need adjustments.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>I don't have my artwork ready. Can you help?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Yes. We offer design consulting and can connect you with trusted designers. We'll help you think through art direction, colorways, and garment selection so your merch turns out exactly how you want it.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Can you print photographs or complex gradients?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Screen printing works best with solid colors and simple gradients. For photographs, we can halftone the image, but results depend on the design. <strong>Send us your file and we'll let you know what's possible.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN PRINTING -->
+  <section class="faq-section">
+    <h2 class="faq-section-title">Screen Printing</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What's the difference between water-based and plastisol inks?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>Water-based inks soak into the fabric</strong> for a soft, breathable hand feel. Plastisol sits on top and feels thicker. We only use water-based inks — they look better, feel better, and age beautifully. No shortcuts.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>How many colors can you print?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Up to <strong>6 colors per location</strong>. Each color is a separate screen. Dark garments require an additional white underbase (counts as +1 color).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What's the difference between standard and jumbo printing?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>Standard:</strong> Up to 15"×18" — great for most designs.<br>
+            <strong>Jumbo:</strong> Up to 17"×23" — covers nearly the entire front or back. Perfect for oversized graphics and poster-style prints. Most shops cap at 15"×18", so we're one of the few in the Midwest offering true jumbo prints at production scale.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Do you provide the garments, or do I need to supply them?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            We can source garments for you (most common) or print on garments you provide. If you're supplying, make sure they're 100% cotton or cotton-blend and pre-washed. Send us details before ordering so we can confirm they'll work for water-based printing.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Are setup fees charged on reorders?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>Nope.</strong> Screens are kept on file. Reorders of the same design have no setup fees — just printing and garment costs.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMBROIDERY -->
+  <section class="faq-section">
+    <h2 class="faq-section-title">Embroidery</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What's the digitizing fee?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Digitizing converts your artwork into a stitch file for embroidery. It's a <strong>one-time fee per design</strong>:
+            <ul>
+              <li><strong>Hat / Left Chest:</strong> $30</li>
+              <li><strong>Full Front:</strong> $85</li>
+              <li><strong>Full Back:</strong> $150</li>
+            </ul>
+            Once digitized, reorders and future orders using that design are never charged again.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What's the stitch count limit?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            <strong>Hat / Left Chest:</strong> Up to 8,000 stitches<br>
+            <strong>Full Front:</strong> 8,000–15,000 stitches<br>
+            <strong>Full Back:</strong> 15,000–30,000 stitches<br><br>
+            Most logos fall well within these limits. If your design is larger, we'll let you know and provide a custom quote.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Can you embroider on any fabric?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Embroidery works best on sturdy fabrics like cotton twill (hats), polos, fleece, and canvas. Lightweight or stretchy fabrics (like jersey tees) can be tricky. If you're unsure, let us know what you're working with — we'll advise on what's possible.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING & PAYMENT -->
+  <section class="faq-section">
+    <h2 class="faq-section-title">Pricing & Payment</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>How much does screen printing cost?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            It depends on quantity, colors, print size, and garment type. Our <a href="/pricing.html" style="color: var(--rust); text-decoration: underline;">pricing page</a> has full rate sheets. For a quick ballpark, use the <a href="/index.html#estimate" style="color: var(--rust); text-decoration: underline;">online estimator</a> on the homepage.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>What payment methods do you accept?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            We accept credit/debit cards, bank transfers, and checks. A 50% deposit is required to start production, with the remaining balance due before shipping or pickup.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Do you offer discounts for nonprofits or bulk orders?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <div class="faq-answer-content">
+            Our pricing already scales with quantity — the more you order, the lower the per-piece cost. For nonprofits or very large runs (1,000+), reach out and we'll see what we can do.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Still have questions?</h3>
+    <p>Give us a call or send a message. We're here to help.</p>
+    <a href="/index.html#contact" class="cta-btn">Get in Touch</a>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Cowdog Print Co. · Columbus, WI</p>
+  <a href="/index.html">Home</a>
+  <a href="/pricing.html">Pricing</a>
+  <a href="/faq.html">FAQ</a>
+  <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+<script>
+  // FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      const answer = button.nextElementSibling;
+
+      button.setAttribute('aria-expanded', !isOpen);
+      answer.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>
