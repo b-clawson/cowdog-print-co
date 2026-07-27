@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog - Cowdog Print Co.</title>
+<meta name="description" content="Screen printing tips, guides, and insights from Cowdog Print Co. Learn about water-based inks, artwork preparation, and the craft of quality printing.">
+<link rel="canonical" href="https://cowdogprint.co/blog.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0D0B;
+    --rust:   #B8341B;
+    --cream:  #F0EBE0;
+    --warm:   #E8E0D0;
+    --text:   #1A1714;
+    --muted:  #7A6F65;
+    --rule:   rgba(26,23,20,0.12);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+  }
+
+  .nav-cta:hover { background: #c93d22; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 60px 0 0;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 4rem;
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 10vw, 96px);
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: rgba(240,235,224,0.6);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  /* POSTS */
+  .posts {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 6rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  }
+
+  .post-category {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .post-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .post-excerpt {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 2.5rem;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: rgba(240,235,224,0.3);
+    letter-spacing: 0.08em;
+  }
+
+  footer a {
+    color: rgba(240,235,224,0.5);
+    text-decoration: none;
+    margin: 0 1rem;
+    transition: color 0.15s;
+  }
+
+  footer a:hover {
+    color: var(--cream);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .posts { padding: 3rem 1.25rem 4rem; }
+    .hero-inner { padding: 4rem 1.25rem 3rem; }
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo">COWDOG PRINT CO.</a>
+  <ul class="nav-links">
+    <li><a href="/index.html#services">Services</a></li>
+    <li><a href="/index.html#projects">Projects</a></li>
+    <li><a href="/pricing.html">Pricing</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="tel:+16082058799" style="color: rgba(240,235,224,0.75);">608.205.8799</a></li>
+    <li><a href="/index.html#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>BLOG.</h1>
+    <p>Screen printing tips, guides, and the craft of water-based ink. Real talk from the print floor.</p>
+  </div>
+</div>
+
+<!-- POSTS -->
+<div class="posts">
+  <div class="posts-grid">
+
+    <a href="/blog-water-based-inks.html" class="post-card">
+      <span class="post-category">Screen Printing Education</span>
+      <h2 class="post-title">Water-Based vs. Plastisol Inks: Why We Only Use Water-Based</h2>
+      <p class="post-excerpt">Most screen printers use plastisol because it's easier. We use water-based because it's better. Here's the honest breakdown — no greenwashing, just facts about what you're actually getting printed on your shirts.</p>
+      <div class="post-meta">
+        <span>January 26, 2025</span>
+        <span>10 min read</span>
+      </div>
+    </a>
+
+    <a href="/blog-artwork-guide.html" class="post-card">
+      <span class="post-category">Screen Printing Tips</span>
+      <h2 class="post-title">How to Prepare Artwork for Screen Printing</h2>
+      <p class="post-excerpt">We reject about 30% of files on first submission. Not because the designs are bad — but because the files aren't set up right. Here's everything you need to know to get your artwork print-ready the first time.</p>
+      <div class="post-meta">
+        <span>July 18, 2024</span>
+        <span>12 min read</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Cowdog Print Co. · Columbus, WI</p>
+  <a href="/index.html">Home</a>
+  <a href="/pricing.html">Pricing</a>
+  <a href="/faq.html">FAQ</a>
+  <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+</body>
+</html>
