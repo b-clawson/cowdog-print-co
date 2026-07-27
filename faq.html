@@ -60,6 +60,14 @@
     letter-spacing: 0.12em;
     color: var(--cream);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-logo img {
+    height: 32px;
+    width: auto;
   }
 
   .nav-links {
@@ -348,13 +356,16 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/index.html" class="nav-logo">COWDOG PRINT CO.</a>
+  <a href="/index.html" class="nav-logo">
+    <img src="assets/logo-white.svg" alt="Cowdog Print Co. logo">
+    COWDOG PRINT CO.
+  </a>
   <ul class="nav-links">
     <li><a href="/index.html#services">Services</a></li>
     <li><a href="/index.html#projects">Projects</a></li>
-    <li><a href="/pricing.html">Pricing</a></li>
-    <li><a href="tel:+16082058799" style="color: rgba(240,235,224,0.75);">608.205.8799</a></li>
+    <li><a href="/blog.html">Blog</a></li>
     <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/index.html#contact">Contact</a></li>
     <li><a href="/index.html#contact" class="nav-cta">Get a Quote</a></li>
   </ul>
 </nav>
