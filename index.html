@@ -1444,6 +1444,88 @@
   }
 }
 </script>
+
+<!-- Organization & WebSite Schema for Sitelinks -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Cowdog Print Co.",
+  "url": "https://cowdogprint.co",
+  "logo": "https://cowdogprint.co/assets/logo-white.svg",
+  "description": "Professional screen printing and embroidery studio in Columbus, Wisconsin. Specializing in water-based screen printing with no minimums.",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-608-205-8799",
+    "contactType": "customer service",
+    "areaServed": "US",
+    "availableLanguage": "en"
+  },
+  "sameAs": [
+    "https://instagram.com/cowdogprintco"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Cowdog Print Co.",
+  "url": "https://cowdogprint.co",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://cowdogprint.co/?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Breadcrumb List Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://cowdogprint.co/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": "https://cowdogprint.co/#services"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Pricing",
+      "item": "https://cowdogprint.co/pricing.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "FAQ",
+      "item": "https://cowdogprint.co/faq.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Blog",
+      "item": "https://cowdogprint.co/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Contact",
+      "item": "https://cowdogprint.co/#contact"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
