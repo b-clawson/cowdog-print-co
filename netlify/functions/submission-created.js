@@ -4,7 +4,7 @@
 // so the homepage quote form keeps using Netlify's default notification.
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const TO_EMAIL = process.env.ORDER_FORM_TO_EMAIL || 'info@cowdogprint.co';
+const TO_EMAIL = process.env.ORDER_FORM_TO_EMAIL || 'orders@cowdogprint.co';
 const FROM_EMAIL = process.env.ORDER_FORM_FROM_EMAIL || 'Cowdog Print Co. Orders <orders@cowdogprint.co>';
 
 const INK = '#0E0D0B';
