@@ -35,6 +35,20 @@ const PRINT_LOCATION_LABELS = {
   other: 'Other',
 };
 
+const EMBROIDERY_PLACEMENT_LABELS = {
+  hat: 'Hat',
+  left_chest: 'Left Chest',
+  full_front: 'Full Front',
+  full_back: 'Full Back',
+  other: 'Other',
+};
+
+const DIGITIZING_LABELS = {
+  new_design: 'New Design (needs digitizing)',
+  on_file: 'Already Digitized / On File',
+  not_sure: 'Not Sure',
+};
+
 const SERVICE_LABELS = {
   folding: 'Folding',
   bagging: 'Bagging',
@@ -84,7 +98,24 @@ function submittedDate(payload, data) {
   return '';
 }
 
-// ── HTML ──────────────────────────────────────────────────────────
+// Item field names are item{n}_decoration_type, item{n}_garment_style, etc.
+// n is discovered from the submitted data rather than assumed, since items
+// can be added/removed freely in the form and numbering isn't reused.
+function discoverItemNumbers(data) {
+  const numbers = new Set();
+  Object.keys(data).forEach((key) => {
+    const match = key.match(/^item(\d+)_decoration_type$/);
+    if (match) numbers.add(Number(match[1]));
+  });
+  return Array.from(numbers).sort((a, b) => a - b);
+}
+
+function itemHasData(prefix, data) {
+  const keys = ['garment_style', 'garment_color', 'total_quantity', ...SIZE_FIELDS.map(([f]) => f)];
+  return keys.some((key) => data[`${prefix}${key}`] && String(data[`${prefix}${key}`]).trim() !== '');
+}
+
+// ── Shared HTML helpers ──────────────────────────────────────────
 
 function infoGridHtml(pairs) {
   const filled = pairs.filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
@@ -110,51 +141,13 @@ function checkboxLineHtml(label, checked) {
   return `<span style="display:inline-block;margin:0 20px 8px 0;font-size:13px;color:${TEXT};">${checked ? '&#9745;' : '&#9744;'} ${esc(label)}</span>`;
 }
 
-function printLocationsHtml(data) {
-  const selected = getArrayField(data, 'print_location');
-  const boxes = Object.entries(PRINT_LOCATION_LABELS)
-    .map(([value, label]) => checkboxLineHtml(label, selected.includes(value)))
-    .join('');
-  const otherNote = selected.includes('other') && data.other_print_location
-    ? `<div style="font-size:13px;color:${TEXT};margin-top:4px;"><em>Other:</em> ${esc(data.other_print_location)}</div>`
-    : '';
-  return `<div style="border:1px solid ${TEXT};padding:12px;margin-bottom:16px;">
-    ${sectionBarHtml('Print Locations')}
-    <div style="padding:12px 4px 0;">${boxes}${otherNote}</div>
-  </div>`;
+function caption(text) {
+  return `<div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:${MUTED};margin-bottom:6px;">${esc(text)}</div>`;
 }
 
-function artworkBoxHtml(data) {
-  const attached = ['provided', 'cowdog_has_artwork', 'reorder'].includes(data.artwork_status) || !!data.artwork_upload;
-  const uploadUrl = data.artwork_upload;
-  const uploadLine = uploadUrl && /^https?:\/\//.test(String(uploadUrl))
-    ? `<div style="font-size:13px;margin-top:4px;"><a href="${esc(uploadUrl)}" style="color:${RUST};">View uploaded artwork &rarr;</a></div>`
-    : '';
-  return `<div style="border:1px solid ${TEXT};padding:12px;margin-bottom:16px;">
-    ${sectionBarHtml('Artwork')}
-    <div style="padding:12px 4px 0;">
-      ${checkboxLineHtml('Attached', attached)}${checkboxLineHtml('See Instructions', !attached)}
-      <div style="font-size:13px;color:${TEXT};margin-top:6px;"><strong>${esc(ARTWORK_STATUS_LABELS[data.artwork_status] || data.artwork_status || '—')}</strong></div>
-      ${data.artwork_reference ? `<div style="font-size:13px;color:${TEXT};margin-top:2px;">${esc(data.artwork_reference)}</div>` : ''}
-      ${uploadLine}
-    </div>
-  </div>`;
-}
+// ── Product item rendering ───────────────────────────────────────
 
-function printDetailsBoxHtml(data) {
-  return `<div style="border:1px solid ${TEXT};padding:12px;margin-bottom:16px;">
-    ${sectionBarHtml('Ink & Placement')}
-    <div style="padding:12px 4px 0;">
-      ${infoGridHtml([
-        ['Ink Colors', data.ink_color_count],
-        ['Color(s)', data.ink_colors],
-      ])}
-      ${data.placement_notes ? `<div style="font-size:13px;color:${TEXT};margin-top:8px;"><em>Placement notes:</em> ${esc(data.placement_notes)}</div>` : ''}
-    </div>
-  </div>`;
-}
-
-function sizeTableHtml(data) {
+function sizeTableHtml(prefix, data) {
   const cell = (label, qty) => {
     const bg = qty ? WARM : '#FFFFFF';
     return `<td style="border:1px solid ${TEXT};padding:8px 4px;text-align:center;width:12.5%;background:${bg};">
@@ -162,28 +155,89 @@ function sizeTableHtml(data) {
       <div style="font-size:15px;font-weight:bold;color:${TEXT};">${qty || '—'}</div>
     </td>`;
   };
-  const row1 = SIZE_FIELDS.slice(0, 4).map(([field, label]) => cell(label, data[field])).join('');
-  const row2 = SIZE_FIELDS.slice(4, 8).map(([field, label]) => cell(label, data[field])).join('');
+  const row1 = SIZE_FIELDS.slice(0, 4).map(([field, label]) => cell(label, data[`${prefix}${field}`])).join('');
+  const row2 = SIZE_FIELDS.slice(4, 8).map(([field, label]) => cell(label, data[`${prefix}${field}`])).join('');
   return `<table role="presentation" width="100%" style="border-collapse:collapse;margin-top:8px;">
     <tr>${row1}</tr>
     <tr>${row2}</tr>
   </table>`;
 }
 
-function garmentBoxHtml(data) {
-  return `<div style="border:1px solid ${TEXT};padding:12px;margin-bottom:16px;">
-    ${sectionBarHtml('Garment Type & Sizes')}
-    <div style="padding:12px 4px 0;">
+function screenPrintDetailsHtml(prefix, data) {
+  const selected = getArrayField(data, `${prefix}print_location`);
+  const boxes = Object.entries(PRINT_LOCATION_LABELS)
+    .map(([value, label]) => checkboxLineHtml(label, selected.includes(value)))
+    .join('');
+  const otherNote = selected.includes('other') && data[`${prefix}other_print_location`]
+    ? `<div style="font-size:13px;color:${TEXT};margin-top:4px;"><em>Other:</em> ${esc(data[`${prefix}other_print_location`])}</div>`
+    : '';
+  const inkRow = infoGridHtml([
+    ['Ink Colors', data[`${prefix}ink_color_count`]],
+    ['Color(s)', data[`${prefix}ink_colors`]],
+  ]);
+  return `${caption('Print Location(s)')}${boxes}${otherNote}<div style="margin-top:8px;">${inkRow}</div>`;
+}
+
+function embroideryDetailsHtml(prefix, data) {
+  const selected = getArrayField(data, `${prefix}emb_placement`);
+  const boxes = Object.entries(EMBROIDERY_PLACEMENT_LABELS)
+    .map(([value, label]) => checkboxLineHtml(label, selected.includes(value)))
+    .join('');
+  const otherNote = selected.includes('other') && data[`${prefix}other_emb_placement`]
+    ? `<div style="font-size:13px;color:${TEXT};margin-top:4px;"><em>Other:</em> ${esc(data[`${prefix}other_emb_placement`])}</div>`
+    : '';
+  const detailRow = infoGridHtml([
+    ['Stitch Count', data[`${prefix}stitch_count`]],
+    ['Thread Color(s)', data[`${prefix}thread_colors`]],
+  ]);
+  const digitizingValue = data[`${prefix}digitizing`];
+  const digitizing = digitizingValue
+    ? `<div style="font-size:13px;color:${TEXT};margin-top:6px;"><strong>Digitizing:</strong> ${esc(DIGITIZING_LABELS[digitizingValue] || digitizingValue)}</div>`
+    : '';
+  return `${caption('Placement(s)')}${boxes}${otherNote}<div style="margin-top:8px;">${detailRow}</div>${digitizing}`;
+}
+
+function artworkSubsectionHtml(prefix, data) {
+  const status = data[`${prefix}artwork_status`];
+  const attached = ['provided', 'cowdog_has_artwork', 'reorder'].includes(status) || !!data[`${prefix}artwork_upload`];
+  const uploadUrl = data[`${prefix}artwork_upload`];
+  const uploadLine = uploadUrl && /^https?:\/\//.test(String(uploadUrl))
+    ? `<div style="font-size:13px;margin-top:4px;"><a href="${esc(uploadUrl)}" style="color:${RUST};">View uploaded artwork &rarr;</a></div>`
+    : '';
+  return `${caption('Artwork')}
+    ${checkboxLineHtml('Attached', attached)}${checkboxLineHtml('See Instructions', !attached)}
+    ${status ? `<div style="font-size:13px;color:${TEXT};margin-top:6px;"><strong>${esc(ARTWORK_STATUS_LABELS[status] || status)}</strong></div>` : ''}
+    ${data[`${prefix}artwork_reference`] ? `<div style="font-size:13px;color:${TEXT};margin-top:2px;">${esc(data[`${prefix}artwork_reference`])}</div>` : ''}
+    ${uploadLine}`;
+}
+
+function productBoxHtml(n, data) {
+  const prefix = `item${n}_`;
+  const isEmbroidery = data[`${prefix}decoration_type`] === 'embroidery';
+  const decorationDetails = isEmbroidery ? embroideryDetailsHtml(prefix, data) : screenPrintDetailsHtml(prefix, data);
+  const garmentNotes = data[`${prefix}garment_notes`];
+  const placementNotes = data[`${prefix}placement_notes`];
+
+  return `<div style="border:1px solid ${TEXT};margin-bottom:16px;">
+    <div style="background:${RUST};color:${CREAM};font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;">
+      Product ${n} — ${isEmbroidery ? 'Embroidery' : 'Screen Print'}
+    </div>
+    <div style="padding:12px;">
       ${infoGridHtml([
-        ['Garment Type', data.garment_style],
-        ['Garment Color', data.garment_color],
-        ['Total Qty', data.total_quantity],
+        ['Garment Type', data[`${prefix}garment_style`]],
+        ['Garment Color', data[`${prefix}garment_color`]],
+        ['Total Qty', data[`${prefix}total_quantity`]],
       ])}
-      ${sizeTableHtml(data)}
-      ${data.garment_notes ? `<div style="font-size:13px;color:${TEXT};margin-top:8px;"><em>Notes:</em> ${esc(data.garment_notes)}</div>` : ''}
+      ${sizeTableHtml(prefix, data)}
+      ${garmentNotes ? `<div style="font-size:13px;color:${TEXT};margin-top:8px;"><em>Garment notes:</em> ${esc(garmentNotes)}</div>` : ''}
+      <div style="margin-top:14px;border-top:1px solid rgba(26,23,20,.12);padding-top:12px;">${decorationDetails}</div>
+      ${placementNotes ? `<div style="font-size:13px;color:${TEXT};margin-top:10px;"><em>Placement/design notes:</em> ${esc(placementNotes)}</div>` : ''}
+      <div style="margin-top:14px;border-top:1px solid rgba(26,23,20,.12);padding-top:12px;">${artworkSubsectionHtml(prefix, data)}</div>
     </div>
   </div>`;
 }
+
+// ── Order-level sections ─────────────────────────────────────────
 
 function finishingBoxHtml(data) {
   const services = getArrayField(data, 'services');
@@ -204,9 +258,9 @@ function finishingBoxHtml(data) {
   return `<div style="border:1px solid ${TEXT};padding:12px;margin-bottom:16px;">
     ${sectionBarHtml('Finishing & Delivery')}
     <div style="padding:12px 4px 0;">
-      <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:${MUTED};margin-bottom:6px;">Additional Services</div>
+      ${caption('Additional Services')}
       ${serviceBoxes}${otherServiceNote}
-      <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:${MUTED};margin:10px 0 6px;">Delivery</div>
+      <div style="margin-top:10px;">${caption('Delivery')}</div>
       ${deliveryBoxes}${shippingNote}
     </div>
   </div>`;
@@ -220,7 +274,7 @@ function specialInstructionsHtml(data) {
   </div>`;
 }
 
-function renderHtml(payload, data) {
+function renderHtml(payload, data, itemNumbers) {
   const topGrid = infoGridHtml([
     ['Client', data.company],
     ['Project', data.project_name],
@@ -231,6 +285,11 @@ function renderHtml(payload, data) {
     ['Event Date', data.event_date],
     ['Prepared By', data.submitted_by],
   ]);
+
+  const productBoxes = itemNumbers
+    .filter((n) => itemHasData(`item${n}_`, data))
+    .map((n) => productBoxHtml(n, data))
+    .join('');
 
   return `<div style="background:${CREAM};padding:24px;font-family:Arial,Helvetica,sans-serif;">
     <table role="presentation" width="100%" style="max-width:640px;margin:0 auto;background:${CREAM};border:1px solid ${TEXT};">
@@ -250,20 +309,7 @@ function renderHtml(payload, data) {
         <td style="padding:18px 20px 4px;">${topGrid}</td>
       </tr>
       <tr>
-        <td style="padding:16px 20px 0;">${printLocationsHtml(data)}</td>
-      </tr>
-      <tr>
-        <td style="padding:0 20px;">
-          <table role="presentation" width="100%">
-            <tr>
-              <td style="width:50%;vertical-align:top;padding-right:8px;">${printDetailsBoxHtml(data)}</td>
-              <td style="width:50%;vertical-align:top;padding-left:8px;">${artworkBoxHtml(data)}</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding:0 20px;">${garmentBoxHtml(data)}</td>
+        <td style="padding:16px 20px 0;">${productBoxes}</td>
       </tr>
       <tr>
         <td style="padding:0 20px;">${finishingBoxHtml(data)}</td>
@@ -277,9 +323,68 @@ function renderHtml(payload, data) {
 
 // ── Plain text ────────────────────────────────────────────────────
 
-function renderText(payload, data) {
-  const line = (label, value) => (value ? `${label}: ${value}` : null);
+function renderProductText(n, data) {
+  const prefix = `item${n}_`;
+  const isEmbroidery = data[`${prefix}decoration_type`] === 'embroidery';
   const mark = (checked) => (checked ? '[x]' : '[ ]');
+  const line = (label, value) => (value ? `${label}: ${value}` : null);
+
+  const sizes = SIZE_FIELDS.map(([field, label]) => `${label}: ${data[`${prefix}${field}`] || '—'}`).join('  ');
+
+  let decorationLines;
+  if (isEmbroidery) {
+    const selected = getArrayField(data, `${prefix}emb_placement`);
+    const placements = Object.entries(EMBROIDERY_PLACEMENT_LABELS)
+      .map(([value, label]) => `${mark(selected.includes(value))} ${label}`)
+      .join('  ');
+    decorationLines = [
+      'PLACEMENT(S)',
+      placements,
+      selected.includes('other') && data[`${prefix}other_emb_placement`] ? `Other: ${data[`${prefix}other_emb_placement`]}` : null,
+      line('Stitch Count', data[`${prefix}stitch_count`]),
+      line('Thread Color(s)', data[`${prefix}thread_colors`]),
+      data[`${prefix}digitizing`] ? `Digitizing: ${DIGITIZING_LABELS[data[`${prefix}digitizing`]] || data[`${prefix}digitizing`]}` : null,
+    ].filter(Boolean).join('\n');
+  } else {
+    const selected = getArrayField(data, `${prefix}print_location`);
+    const locations = Object.entries(PRINT_LOCATION_LABELS)
+      .map(([value, label]) => `${mark(selected.includes(value))} ${label}`)
+      .join('  ');
+    decorationLines = [
+      'PRINT LOCATION(S)',
+      locations,
+      selected.includes('other') && data[`${prefix}other_print_location`] ? `Other: ${data[`${prefix}other_print_location`]}` : null,
+      line('Ink Colors', data[`${prefix}ink_color_count`]),
+      line('Color(s)', data[`${prefix}ink_colors`]),
+    ].filter(Boolean).join('\n');
+  }
+
+  const status = data[`${prefix}artwork_status`];
+  const artworkLines = [
+    ARTWORK_STATUS_LABELS[status] || status || null,
+    data[`${prefix}artwork_reference`] ? `Reference: ${data[`${prefix}artwork_reference`]}` : null,
+    data[`${prefix}artwork_upload`] ? `Uploaded file: ${data[`${prefix}artwork_upload`]}` : null,
+  ].filter(Boolean).join('\n');
+
+  return [
+    `PRODUCT ${n} — ${isEmbroidery ? 'EMBROIDERY' : 'SCREEN PRINT'}`,
+    [
+      line('Garment Type', data[`${prefix}garment_style`]),
+      line('Garment Color', data[`${prefix}garment_color`]),
+      line('Total Qty', data[`${prefix}total_quantity`]),
+    ].filter(Boolean).join('\n'),
+    sizes,
+    data[`${prefix}garment_notes`] ? `Garment notes: ${data[`${prefix}garment_notes`]}` : null,
+    decorationLines,
+    data[`${prefix}placement_notes`] ? `Placement/design notes: ${data[`${prefix}placement_notes`]}` : null,
+    'ARTWORK',
+    artworkLines,
+  ].filter(Boolean).join('\n');
+}
+
+function renderText(payload, data, itemNumbers) {
+  const mark = (checked) => (checked ? '[x]' : '[ ]');
+  const line = (label, value) => (value ? `${label}: ${value}` : null);
 
   const top = [
     line('Client', data.company),
@@ -292,12 +397,10 @@ function renderText(payload, data) {
     line('Prepared By', data.submitted_by),
   ].filter(Boolean).join('\n');
 
-  const selectedLocations = getArrayField(data, 'print_location');
-  const locations = Object.entries(PRINT_LOCATION_LABELS)
-    .map(([value, label]) => `${mark(selectedLocations.includes(value))} ${label}`)
-    .join('  ');
-
-  const sizes = SIZE_FIELDS.map(([field, label]) => `${label}: ${data[field] || '—'}`).join('  ');
+  const products = itemNumbers
+    .filter((n) => itemHasData(`item${n}_`, data))
+    .map((n) => renderProductText(n, data))
+    .join('\n\n');
 
   const selectedServices = getArrayField(data, 'services');
   const services = Object.entries(SERVICE_LABELS)
@@ -312,26 +415,7 @@ function renderText(payload, data) {
 
 ${top}
 
-PRINT LOCATIONS
-${locations}
-${selectedLocations.includes('other') && data.other_print_location ? `Other: ${data.other_print_location}` : ''}
-
-INK & PLACEMENT
-${line('Ink Colors', data.ink_color_count) || ''}
-${line('Color(s)', data.ink_colors) || ''}
-${data.placement_notes ? `Placement notes: ${data.placement_notes}` : ''}
-
-ARTWORK
-${ARTWORK_STATUS_LABELS[data.artwork_status] || data.artwork_status || '—'}
-${data.artwork_reference ? `Reference: ${data.artwork_reference}` : ''}
-${data.artwork_upload ? `Uploaded file: ${data.artwork_upload}` : ''}
-
-GARMENT TYPE & SIZES
-${line('Garment Type', data.garment_style) || ''}
-${line('Garment Color', data.garment_color) || ''}
-${line('Total Qty', data.total_quantity) || ''}
-${sizes}
-${data.garment_notes ? `Notes: ${data.garment_notes}` : ''}
+${products}
 
 FINISHING & DELIVERY
 Services: ${services}
@@ -369,9 +453,11 @@ exports.handler = async (event) => {
   }
 
   data.submitted_date = submittedDate(payload, data);
+  const itemNumbers = discoverItemNumbers(data);
 
   const subjectBits = [data.project_name, data.company, data.contact_name].filter(Boolean);
-  const subject = `Order ${orderNumber(payload)}: ${subjectBits[0] || 'Untitled'}${subjectBits[1] ? ' — ' + subjectBits[1] : ''}`;
+  const productCount = itemNumbers.filter((n) => itemHasData(`item${n}_`, data)).length;
+  const subject = `Order ${orderNumber(payload)}: ${subjectBits[0] || 'Untitled'}${subjectBits[1] ? ' — ' + subjectBits[1] : ''}${productCount > 1 ? ` (${productCount} products)` : ''}`;
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -385,8 +471,8 @@ exports.handler = async (event) => {
         to: [TO_EMAIL],
         reply_to: data.email ? [data.email] : undefined,
         subject,
-        html: renderHtml(payload, data),
-        text: renderText(payload, data),
+        html: renderHtml(payload, data, itemNumbers),
+        text: renderText(payload, data, itemNumbers),
       }),
     });
 
