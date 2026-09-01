@@ -17,6 +17,7 @@ const ARTWORK_STATUS_LABELS = {
 const DELIVERY_METHOD_LABELS = {
   pickup: 'Pickup at Cowdog Print Co.',
   shipping: 'Shipping',
+  local_delivery: 'Local Delivery ($20 flat fee)',
 };
 
 const PRINT_LOCATION_LABELS = {
