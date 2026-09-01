@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Form - Cowdog Print Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0D0B;
+    --rust:   #B8341B;
+    --cream:  #F0EBE0;
+    --warm:   #E8E0D0;
+    --text:   #1A1714;
+    --muted:  #7A6F65;
+    --rule:   rgba(26,23,20,0.12);
+    --font:   'Barlow', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── PASSWORD SCREEN ── */
+  #password-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+  }
+
+  .password-box {
+    background: var(--cream);
+    padding: 3rem;
+    border-radius: 2px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .password-box h1 {
+    font-family: var(--display);
+    font-size: 32px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .password-box p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .password-box input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+
+  .password-box input:focus {
+    outline: none;
+    border-color: var(--rust);
+  }
+
+  .password-box button {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--rust);
+    color: var(--cream);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .password-box button:hover {
+    background: #c93d22;
+  }
+
+  .password-error {
+    color: var(--rust);
+    font-size: 13px;
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  /* ── ORDER FORM PAGE ── */
+  #order-form-page {
+    display: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  nav a.logo {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav ul a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,235,224,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav ul a:hover {
+    color: var(--cream);
+  }
+
+  nav .cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+  }
+
+  nav .cta:hover {
+    background: #c93d22;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.6;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .hero-inner {
+    position: relative;
+    padding: 3.5rem 2.5rem;
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-header h1 {
+    font-family: var(--display);
+    font-size: clamp(36px, 6vw, 52px);
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+
+  .form-header h2 {
+    font-family: var(--display);
+    font-size: clamp(16px, 2.5vw, 20px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-top: 0.5rem;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2.5rem 6rem;
+  }
+
+  .screenprint-order-form fieldset {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1.75rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .screenprint-order-form legend {
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    padding: 0 10px;
+    margin-left: -10px;
+  }
+
+  .screenprint-order-form > form > label,
+  fieldset > label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .screenprint-order-form label span {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .screenprint-order-form input[type="text"],
+  .screenprint-order-form input[type="email"],
+  .screenprint-order-form input[type="tel"],
+  .screenprint-order-form input[type="date"],
+  .screenprint-order-form input[type="number"],
+  .screenprint-order-form input[type="file"],
+  .screenprint-order-form textarea {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px 13px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+  }
+
+  .screenprint-order-form textarea {
+    resize: vertical;
+  }
+
+  .screenprint-order-form input:focus,
+  .screenprint-order-form textarea:focus {
+    outline: none;
+    border-color: var(--rust);
+  }
+
+  .field-grid.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.5rem;
+  }
+
+  .size-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .size-grid label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  .size-grid input {
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  .checkbox-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-group > span {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .checkbox-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    color: var(--text);
+    margin: 0 1.5rem 0.6rem 0;
+  }
+
+  .checkbox-group input[type="checkbox"],
+  .checkbox-group input[type="radio"] {
+    width: auto;
+    margin: 0;
+    accent-color: var(--rust);
+  }
+
+  .form-disclaimer {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .form-submit {
+    display: block;
+    width: 100%;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: var(--display);
+    font-size: 17px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 16px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .form-submit:hover {
+    background: #c93d22;
+  }
+
+  .form-thanks {
+    display: none;
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .form-thanks h3 {
+    font-family: var(--display);
+    font-size: 36px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-thanks p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p,
+  footer a {
+    font-size: 12px;
+    color: rgba(240,235,224,0.2);
+    letter-spacing: 0.08em;
+    margin: 0;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    nav ul {
+      gap: 1rem;
+    }
+
+    .field-grid.two-col {
+      grid-template-columns: 1fr;
+    }
+
+    .size-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="password-box">
+    <h1>Order Form</h1>
+    <p>Enter password to view the order form</p>
+    <input type="password" id="password-input" placeholder="Password">
+    <button onclick="checkPassword()">Enter</button>
+    <div class="password-error" id="password-error">Incorrect password</div>
+  </div>
+</div>
+
+<!-- ORDER FORM PAGE -->
+<div id="order-form-page">
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">Cowdog Print Co.</a>
+    <ul>
+      <li><a href="/index.html" style="opacity: 0.7;">Back to Site</a></li>
+      <li><a href="mailto:info@cowdogprint.co" class="cta">Email Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Columbus, Wisconsin · Water-based inks · Est. 2022</span>
+      <div class="form-header">
+        <h1>Cowdog Print Co.</h1>
+        <h2>Screen Printing Order Form</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <section class="screenprint-order-form">
+      <form id="cd-order-form" name="cowdog-order-form" method="POST" netlify data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+        <input type="hidden" name="form-name" value="cowdog-order-form">
+        <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+        <div class="field-grid two-col">
+          <label>
+            Client / Company
+            <input type="text" name="company">
+          </label>
+
+          <label>
+            Contact Name*
+            <input type="text" name="contact_name" required>
+          </label>
+
+          <label>
+            Email*
+            <input type="email" name="email" required>
+          </label>
+
+          <label>
+            Phone
+            <input type="tel" name="phone">
+          </label>
+        </div>
+
+        <label>
+          Project / Order Name
+          <input type="text" name="project_name">
+        </label>
+
+        <div class="field-grid two-col">
+          <label>
+            Requested Completion Date
+            <input type="date" name="completion_date">
+          </label>
+
+          <label>
+            Event Date <span>(if applicable)</span>
+            <input type="date" name="event_date">
+          </label>
+        </div>
+
+        <fieldset>
+          <legend>Garments</legend>
+
+          <div class="field-grid two-col">
+            <label>
+              Garment Brand / Style
+              <input type="text" name="garment_style">
+            </label>
+
+            <label>
+              Garment Color
+              <input type="text" name="garment_color">
+            </label>
+          </div>
+
+          <label>
+            Total Quantity
+            <input type="number" name="total_quantity" min="0">
+          </label>
+
+          <div class="size-grid">
+            <label>XS<input type="number" name="size_xs" min="0"></label>
+            <label>S<input type="number" name="size_s" min="0"></label>
+            <label>M<input type="number" name="size_m" min="0"></label>
+            <label>L<input type="number" name="size_l" min="0"></label>
+            <label>XL<input type="number" name="size_xl" min="0"></label>
+            <label>2XL<input type="number" name="size_2xl" min="0"></label>
+            <label>3XL<input type="number" name="size_3xl" min="0"></label>
+            <label>4XL<input type="number" name="size_4xl" min="0"></label>
+          </div>
+
+          <label>
+            Additional Garment / Size Notes
+            <textarea name="garment_notes" rows="2"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Print Details</legend>
+
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+
+            <label>
+              <input type="checkbox" name="print_location[]" value="left_chest">
+              Left Chest
+            </label>
+
+            <label>
+              <input type="checkbox" name="print_location[]" value="full_front">
+              Full Front
+            </label>
+
+            <label>
+              <input type="checkbox" name="print_location[]" value="full_back">
+              Full Back
+            </label>
+
+            <label>
+              <input type="checkbox" name="print_location[]" value="sleeve">
+              Sleeve
+            </label>
+
+            <label>
+              <input type="checkbox" name="print_location[]" value="other">
+              Other
+            </label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="ink_colors">
+            </label>
+          </div>
+
+          <label>
+            Garment / Print Placement Notes
+            <textarea name="placement_notes" rows="2"></textarea>
+          </label>
+
+          <div class="checkbox-group">
+            <span>Artwork</span>
+
+            <label>
+              <input type="radio" name="artwork_status" value="provided">
+              Artwork Provided
+            </label>
+
+            <label>
+              <input type="radio" name="artwork_status" value="cowdog_has_artwork">
+              Cowdog Has Artwork
+            </label>
+
+            <label>
+              <input type="radio" name="artwork_status" value="design_needed">
+              Design Work Needed
+            </label>
+
+            <label>
+              <input type="radio" name="artwork_status" value="reorder">
+              Reorder
+            </label>
+          </div>
+
+          <label>
+            Artwork / Design Name or File
+            <input type="text" name="artwork_reference">
+          </label>
+
+          <label>
+            Upload Artwork
+            <input
+              type="file"
+              name="artwork_upload"
+              accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg"
+            >
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Finishing &amp; Delivery</legend>
+
+          <div class="checkbox-group">
+            <span>Additional Services</span>
+
+            <label>
+              <input type="checkbox" name="services[]" value="folding">
+              Folding
+            </label>
+
+            <label>
+              <input type="checkbox" name="services[]" value="bagging">
+              Bagging
+            </label>
+
+            <label>
+              <input type="checkbox" name="services[]" value="relabeling">
+              Relabeling
+            </label>
+
+            <label>
+              <input type="checkbox" name="services[]" value="hangtags">
+              Hangtags
+            </label>
+
+            <label>
+              <input type="checkbox" name="services[]" value="other">
+              Other
+            </label>
+          </div>
+
+          <label>
+            Other Service
+            <input type="text" name="other_service">
+          </label>
+
+          <div class="checkbox-group">
+            <span>Delivery</span>
+
+            <label>
+              <input type="radio" name="delivery_method" value="pickup">
+              Pickup at Cowdog Print Co.
+            </label>
+
+            <label>
+              <input type="radio" name="delivery_method" value="shipping">
+              Shipping
+            </label>
+          </div>
+
+          <label>
+            Shipping Address
+            <textarea name="shipping_address" rows="2"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Order Notes</legend>
+
+          <textarea name="order_notes" rows="4"></textarea>
+        </fieldset>
+
+        <div class="field-grid two-col">
+          <label>
+            Submitted By
+            <input type="text" name="submitted_by">
+          </label>
+
+          <label>
+            Date
+            <input type="date" name="submitted_date">
+          </label>
+        </div>
+
+        <p class="form-disclaimer">
+          By submitting this form, you confirm that the garment styles, colors,
+          quantities, sizes, print locations, and other order details listed above
+          are accurate. Final artwork and pricing will be approved separately
+          before production begins.
+        </p>
+
+        <button type="submit" class="form-submit">Submit Order Form</button>
+      </form>
+
+      <div class="form-thanks" id="cd-order-thanks">
+        <h3>Order received.</h3>
+        <p>We'll follow up to confirm details and pricing before production begins.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Cowdog Print Co. · Columbus, WI</p>
+    <a href="https://instagram.com/cowdogprintco" target="_blank" rel="noopener">@cowdogprintco</a>
+  </footer>
+</div>
+
+<script>
+  const PASSWORD = 'cowdog123';
+
+  function checkPassword() {
+    const input = document.getElementById('password-input');
+    const error = document.getElementById('password-error');
+
+    if (input.value === PASSWORD) {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('order-form-page').style.display = 'block';
+      sessionStorage.setItem('order-form-auth', 'true');
+    } else {
+      error.style.display = 'block';
+      input.value = '';
+    }
+  }
+
+  // Check if already authenticated
+  if (sessionStorage.getItem('order-form-auth') === 'true') {
+    document.getElementById('password-screen').style.display = 'none';
+    document.getElementById('order-form-page').style.display = 'block';
+  }
+
+  // Allow enter key on password
+  document.getElementById('password-input')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  // Form submit - Netlify Forms (multipart, so file uploads are included)
+  const orderForm = document.getElementById('cd-order-form');
+  const orderThanks = document.getElementById('cd-order-thanks');
+
+  orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        body: new FormData(orderForm)
+      });
+
+      if (res.ok) {
+        orderForm.style.display = 'none';
+        orderThanks.style.display = 'block';
+      } else {
+        alert('There was a problem submitting the order form. Please try again or email us directly at info@cowdogprint.co');
+      }
+    } catch (error) {
+      alert('There was a problem submitting the order form. Please try again or email us directly at info@cowdogprint.co');
+    }
+  });
+</script>
+
+</body>
+</html>
