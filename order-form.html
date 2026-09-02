@@ -547,7 +547,786 @@
           </label>
         </div>
 
-        <div id="items-container"></div>
+        <div id="items-container">
+      <fieldset data-item="1">
+        <legend class="item-title">Product 1</legend>
+
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item1_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item1_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item1_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item1_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item1_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item1_size_xs" min="0"></label>
+          <label>S<input type="number" name="item1_size_s" min="0"></label>
+          <label>M<input type="number" name="item1_size_m" min="0"></label>
+          <label>L<input type="number" name="item1_size_l" min="0"></label>
+          <label>XL<input type="number" name="item1_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item1_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item1_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item1_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item1_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item1_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item1_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item1_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item1_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item1_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item1_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item1_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item1_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item1_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item1_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item1_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item1_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item1_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item1_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item1_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item1_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item1_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item1_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item1_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item1_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item1_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item1_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item1_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item1_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item1_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item1_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+
+      <fieldset data-item="2" style="display:none">
+        <legend class="item-title">Product 2</legend>
+
+        <div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="2">Remove this product</button></div>
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item2_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item2_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item2_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item2_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item2_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item2_size_xs" min="0"></label>
+          <label>S<input type="number" name="item2_size_s" min="0"></label>
+          <label>M<input type="number" name="item2_size_m" min="0"></label>
+          <label>L<input type="number" name="item2_size_l" min="0"></label>
+          <label>XL<input type="number" name="item2_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item2_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item2_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item2_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item2_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item2_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item2_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item2_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item2_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item2_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item2_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item2_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item2_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item2_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item2_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item2_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item2_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item2_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item2_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item2_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item2_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item2_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item2_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item2_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item2_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item2_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item2_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item2_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item2_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item2_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item2_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+
+      <fieldset data-item="3" style="display:none">
+        <legend class="item-title">Product 3</legend>
+
+        <div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="3">Remove this product</button></div>
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item3_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item3_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item3_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item3_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item3_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item3_size_xs" min="0"></label>
+          <label>S<input type="number" name="item3_size_s" min="0"></label>
+          <label>M<input type="number" name="item3_size_m" min="0"></label>
+          <label>L<input type="number" name="item3_size_l" min="0"></label>
+          <label>XL<input type="number" name="item3_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item3_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item3_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item3_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item3_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item3_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item3_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item3_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item3_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item3_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item3_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item3_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item3_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item3_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item3_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item3_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item3_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item3_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item3_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item3_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item3_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item3_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item3_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item3_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item3_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item3_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item3_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item3_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item3_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item3_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item3_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+
+      <fieldset data-item="4" style="display:none">
+        <legend class="item-title">Product 4</legend>
+
+        <div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="4">Remove this product</button></div>
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item4_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item4_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item4_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item4_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item4_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item4_size_xs" min="0"></label>
+          <label>S<input type="number" name="item4_size_s" min="0"></label>
+          <label>M<input type="number" name="item4_size_m" min="0"></label>
+          <label>L<input type="number" name="item4_size_l" min="0"></label>
+          <label>XL<input type="number" name="item4_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item4_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item4_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item4_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item4_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item4_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item4_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item4_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item4_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item4_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item4_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item4_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item4_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item4_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item4_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item4_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item4_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item4_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item4_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item4_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item4_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item4_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item4_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item4_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item4_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item4_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item4_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item4_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item4_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item4_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item4_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+
+      <fieldset data-item="5" style="display:none">
+        <legend class="item-title">Product 5</legend>
+
+        <div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="5">Remove this product</button></div>
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item5_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item5_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item5_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item5_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item5_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item5_size_xs" min="0"></label>
+          <label>S<input type="number" name="item5_size_s" min="0"></label>
+          <label>M<input type="number" name="item5_size_m" min="0"></label>
+          <label>L<input type="number" name="item5_size_l" min="0"></label>
+          <label>XL<input type="number" name="item5_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item5_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item5_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item5_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item5_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item5_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item5_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item5_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item5_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item5_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item5_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item5_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item5_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item5_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item5_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item5_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item5_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item5_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item5_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item5_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item5_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item5_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item5_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item5_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item5_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item5_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item5_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item5_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item5_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item5_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item5_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+
+      <fieldset data-item="6" style="display:none">
+        <legend class="item-title">Product 6</legend>
+
+        <div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="6">Remove this product</button></div>
+        <div class="checkbox-group">
+          <span>Decoration Type</span>
+          <label><input type="radio" name="item6_decoration_type" value="screen_print" checked> Screen Print</label>
+          <label><input type="radio" name="item6_decoration_type" value="embroidery"> Embroidery</label>
+        </div>
+
+        <div class="field-grid two-col">
+          <label>
+            Garment Brand / Style
+            <input type="text" name="item6_garment_style">
+          </label>
+
+          <label>
+            Garment Color
+            <input type="text" name="item6_garment_color">
+          </label>
+        </div>
+
+        <label>
+          Total Quantity
+          <input type="number" name="item6_total_quantity" min="0">
+        </label>
+
+        <div class="size-grid">
+          <label>XS<input type="number" name="item6_size_xs" min="0"></label>
+          <label>S<input type="number" name="item6_size_s" min="0"></label>
+          <label>M<input type="number" name="item6_size_m" min="0"></label>
+          <label>L<input type="number" name="item6_size_l" min="0"></label>
+          <label>XL<input type="number" name="item6_size_xl" min="0"></label>
+          <label>2XL<input type="number" name="item6_size_2xl" min="0"></label>
+          <label>3XL<input type="number" name="item6_size_3xl" min="0"></label>
+          <label>4XL<input type="number" name="item6_size_4xl" min="0"></label>
+        </div>
+
+        <label>
+          Additional Garment / Size Notes
+          <textarea name="item6_garment_notes" rows="2"></textarea>
+        </label>
+
+        <div class="decoration-fields" data-type="screen_print">
+          <div class="checkbox-group">
+            <span>Print Location(s)</span>
+            <label><input type="checkbox" name="item6_print_location[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item6_print_location[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item6_print_location[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item6_print_location[]" value="sleeve"> Sleeve</label>
+            <label><input type="checkbox" name="item6_print_location[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Print Location
+            <input type="text" name="item6_other_print_location">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Number of Ink Colors
+              <input type="number" name="item6_ink_color_count" min="1">
+            </label>
+
+            <label>
+              Ink Color(s)
+              <input type="text" name="item6_ink_colors">
+            </label>
+          </div>
+        </div>
+
+        <div class="decoration-fields" data-type="embroidery" style="display:none;">
+          <div class="checkbox-group">
+            <span>Placement(s)</span>
+            <label><input type="checkbox" name="item6_emb_placement[]" value="hat"> Hat</label>
+            <label><input type="checkbox" name="item6_emb_placement[]" value="left_chest"> Left Chest</label>
+            <label><input type="checkbox" name="item6_emb_placement[]" value="full_front"> Full Front</label>
+            <label><input type="checkbox" name="item6_emb_placement[]" value="full_back"> Full Back</label>
+            <label><input type="checkbox" name="item6_emb_placement[]" value="other"> Other</label>
+          </div>
+
+          <label>
+            Other Placement
+            <input type="text" name="item6_other_emb_placement">
+          </label>
+
+          <div class="field-grid two-col">
+            <label>
+              Approx. Stitch Count
+              <input type="text" name="item6_stitch_count" placeholder="e.g. 8,000">
+            </label>
+
+            <label>
+              Thread Color(s)
+              <input type="text" name="item6_thread_colors">
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <span>Digitizing</span>
+            <label><input type="radio" name="item6_digitizing" value="new_design"> New Design (needs digitizing)</label>
+            <label><input type="radio" name="item6_digitizing" value="on_file"> Already Digitized / On File</label>
+            <label><input type="radio" name="item6_digitizing" value="not_sure"> Not Sure</label>
+          </div>
+        </div>
+
+        <label>
+          Placement / Design Notes
+          <textarea name="item6_placement_notes" rows="2"></textarea>
+        </label>
+
+        <div class="checkbox-group">
+          <span>Artwork</span>
+          <label><input type="radio" name="item6_artwork_status" value="provided"> Artwork Provided</label>
+          <label><input type="radio" name="item6_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
+          <label><input type="radio" name="item6_artwork_status" value="design_needed"> Design Work Needed</label>
+          <label><input type="radio" name="item6_artwork_status" value="reorder"> Reorder</label>
+        </div>
+
+        <label>
+          Artwork / Design Name or File
+          <input type="text" name="item6_artwork_reference">
+        </label>
+
+        <label>
+          Upload Artwork
+          <input type="file" name="item6_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
+        </label>
+      </fieldset>
+        </div>
 
         <button type="button" id="add-item-btn" class="add-item-btn">+ Add Another Product</button>
 
@@ -684,174 +1463,63 @@
   });
 
   // ── REPEATABLE PRODUCT ITEMS ──────────────────────────────────
-  const MAX_ITEMS = 6;
+  // All 6 product fieldsets are pre-rendered statically in the HTML (items 2-6
+  // start hidden) rather than created via JS. Netlify Forms only recognizes
+  // fields it sees when it parses the site's HTML at deploy time — fields
+  // injected later via innerHTML/DOM APIs are invisible to that scan and get
+  // silently dropped from submissions. "Add"/"Remove" here just show/hide and
+  // clear pre-existing fieldsets, so every item{n}_* field is always present
+  // in the static markup Netlify sees.
   const itemsContainer = document.getElementById('items-container');
   const addItemBtn = document.getElementById('add-item-btn');
-  let nextItemNumber = 0;
+  const allItemFieldsets = Array.from(itemsContainer.querySelectorAll('fieldset[data-item]'));
+  const MAX_ITEMS = allItemFieldsets.length;
 
-  function itemTemplate(n) {
-    return `
-      <fieldset data-item="${n}">
-        <legend class="item-title">Product ${n}</legend>
-
-        ${n > 1 ? `<div class="item-remove-row"><button type="button" class="remove-item-btn" data-remove="${n}">Remove this product</button></div>` : ''}
-
-        <div class="checkbox-group">
-          <span>Decoration Type</span>
-          <label><input type="radio" name="item${n}_decoration_type" value="screen_print" checked> Screen Print</label>
-          <label><input type="radio" name="item${n}_decoration_type" value="embroidery"> Embroidery</label>
-        </div>
-
-        <div class="field-grid two-col">
-          <label>
-            Garment Brand / Style
-            <input type="text" name="item${n}_garment_style">
-          </label>
-
-          <label>
-            Garment Color
-            <input type="text" name="item${n}_garment_color">
-          </label>
-        </div>
-
-        <label>
-          Total Quantity
-          <input type="number" name="item${n}_total_quantity" min="0">
-        </label>
-
-        <div class="size-grid">
-          <label>XS<input type="number" name="item${n}_size_xs" min="0"></label>
-          <label>S<input type="number" name="item${n}_size_s" min="0"></label>
-          <label>M<input type="number" name="item${n}_size_m" min="0"></label>
-          <label>L<input type="number" name="item${n}_size_l" min="0"></label>
-          <label>XL<input type="number" name="item${n}_size_xl" min="0"></label>
-          <label>2XL<input type="number" name="item${n}_size_2xl" min="0"></label>
-          <label>3XL<input type="number" name="item${n}_size_3xl" min="0"></label>
-          <label>4XL<input type="number" name="item${n}_size_4xl" min="0"></label>
-        </div>
-
-        <label>
-          Additional Garment / Size Notes
-          <textarea name="item${n}_garment_notes" rows="2"></textarea>
-        </label>
-
-        <div class="decoration-fields" data-type="screen_print">
-          <div class="checkbox-group">
-            <span>Print Location(s)</span>
-            <label><input type="checkbox" name="item${n}_print_location[]" value="left_chest"> Left Chest</label>
-            <label><input type="checkbox" name="item${n}_print_location[]" value="full_front"> Full Front</label>
-            <label><input type="checkbox" name="item${n}_print_location[]" value="full_back"> Full Back</label>
-            <label><input type="checkbox" name="item${n}_print_location[]" value="sleeve"> Sleeve</label>
-            <label><input type="checkbox" name="item${n}_print_location[]" value="other"> Other</label>
-          </div>
-
-          <label>
-            Other Print Location
-            <input type="text" name="item${n}_other_print_location">
-          </label>
-
-          <div class="field-grid two-col">
-            <label>
-              Number of Ink Colors
-              <input type="number" name="item${n}_ink_color_count" min="1">
-            </label>
-
-            <label>
-              Ink Color(s)
-              <input type="text" name="item${n}_ink_colors">
-            </label>
-          </div>
-        </div>
-
-        <div class="decoration-fields" data-type="embroidery" style="display:none;">
-          <div class="checkbox-group">
-            <span>Placement(s)</span>
-            <label><input type="checkbox" name="item${n}_emb_placement[]" value="hat"> Hat</label>
-            <label><input type="checkbox" name="item${n}_emb_placement[]" value="left_chest"> Left Chest</label>
-            <label><input type="checkbox" name="item${n}_emb_placement[]" value="full_front"> Full Front</label>
-            <label><input type="checkbox" name="item${n}_emb_placement[]" value="full_back"> Full Back</label>
-            <label><input type="checkbox" name="item${n}_emb_placement[]" value="other"> Other</label>
-          </div>
-
-          <label>
-            Other Placement
-            <input type="text" name="item${n}_other_emb_placement">
-          </label>
-
-          <div class="field-grid two-col">
-            <label>
-              Approx. Stitch Count
-              <input type="text" name="item${n}_stitch_count" placeholder="e.g. 8,000">
-            </label>
-
-            <label>
-              Thread Color(s)
-              <input type="text" name="item${n}_thread_colors">
-            </label>
-          </div>
-
-          <div class="checkbox-group">
-            <span>Digitizing</span>
-            <label><input type="radio" name="item${n}_digitizing" value="new_design"> New Design (needs digitizing)</label>
-            <label><input type="radio" name="item${n}_digitizing" value="on_file"> Already Digitized / On File</label>
-            <label><input type="radio" name="item${n}_digitizing" value="not_sure"> Not Sure</label>
-          </div>
-        </div>
-
-        <label>
-          Placement / Design Notes
-          <textarea name="item${n}_placement_notes" rows="2"></textarea>
-        </label>
-
-        <div class="checkbox-group">
-          <span>Artwork</span>
-          <label><input type="radio" name="item${n}_artwork_status" value="provided"> Artwork Provided</label>
-          <label><input type="radio" name="item${n}_artwork_status" value="cowdog_has_artwork"> Cowdog Has Artwork</label>
-          <label><input type="radio" name="item${n}_artwork_status" value="design_needed"> Design Work Needed</label>
-          <label><input type="radio" name="item${n}_artwork_status" value="reorder"> Reorder</label>
-        </div>
-
-        <label>
-          Artwork / Design Name or File
-          <input type="text" name="item${n}_artwork_reference">
-        </label>
-
-        <label>
-          Upload Artwork
-          <input type="file" name="item${n}_artwork_upload" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg">
-        </label>
-      </fieldset>
-    `;
+  function visibleFieldsets() {
+    return allItemFieldsets.filter((fieldset) => fieldset.style.display !== 'none');
   }
 
   function renumberItemTitles() {
-    itemsContainer.querySelectorAll('fieldset[data-item]').forEach((fieldset, index) => {
+    visibleFieldsets().forEach((fieldset, index) => {
       fieldset.querySelector('.item-title').textContent = `Product ${index + 1}`;
     });
   }
 
   function updateAddButtonState() {
-    const atMax = itemsContainer.children.length >= MAX_ITEMS;
+    const atMax = visibleFieldsets().length >= MAX_ITEMS;
     addItemBtn.disabled = atMax;
     addItemBtn.textContent = atMax ? 'Maximum products reached' : '+ Add Another Product';
   }
 
-  function attachItemListeners(itemEl, n) {
-    const screenBlock = itemEl.querySelector('.decoration-fields[data-type="screen_print"]');
-    const embBlock = itemEl.querySelector('.decoration-fields[data-type="embroidery"]');
+  function clearFieldsetInputs(fieldset) {
+    fieldset.querySelectorAll('input, textarea').forEach((field) => {
+      if (field.type === 'radio' || field.type === 'checkbox') {
+        field.checked = field.type === 'radio' && field.value === 'screen_print' && field.name.endsWith('_decoration_type');
+      } else {
+        field.value = '';
+      }
+    });
+    fieldset.querySelector('.decoration-fields[data-type="screen_print"]').style.display = 'block';
+    fieldset.querySelector('.decoration-fields[data-type="embroidery"]').style.display = 'none';
+  }
 
-    itemEl.querySelectorAll(`input[name="item${n}_decoration_type"]`).forEach((radio) => {
+  function attachItemListeners(fieldset, n) {
+    const screenBlock = fieldset.querySelector('.decoration-fields[data-type="screen_print"]');
+    const embBlock = fieldset.querySelector('.decoration-fields[data-type="embroidery"]');
+
+    fieldset.querySelectorAll(`input[name="item${n}_decoration_type"]`).forEach((radio) => {
       radio.addEventListener('change', () => {
-        const isEmbroidery = itemEl.querySelector(`input[name="item${n}_decoration_type"]:checked`).value === 'embroidery';
+        const isEmbroidery = fieldset.querySelector(`input[name="item${n}_decoration_type"]:checked`).value === 'embroidery';
         screenBlock.style.display = isEmbroidery ? 'none' : 'block';
         embBlock.style.display = isEmbroidery ? 'block' : 'none';
       });
     });
 
-    const removeBtn = itemEl.querySelector('.remove-item-btn');
+    const removeBtn = fieldset.querySelector('.remove-item-btn');
     if (removeBtn) {
       removeBtn.addEventListener('click', () => {
-        itemEl.remove();
+        clearFieldsetInputs(fieldset);
+        fieldset.style.display = 'none';
         renumberItemTitles();
         updateAddButtonState();
       });
@@ -859,20 +1527,17 @@
   }
 
   function addItem() {
-    if (itemsContainer.children.length >= MAX_ITEMS) return;
-    nextItemNumber += 1;
-    const n = nextItemNumber;
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = itemTemplate(n).trim();
-    const itemEl = wrapper.firstElementChild;
-    itemsContainer.appendChild(itemEl);
-    attachItemListeners(itemEl, n);
+    const next = allItemFieldsets.find((fieldset) => fieldset.style.display === 'none');
+    if (!next) return;
+    next.style.display = 'block';
     renumberItemTitles();
     updateAddButtonState();
   }
 
+  allItemFieldsets.forEach((fieldset, index) => attachItemListeners(fieldset, index + 1));
   addItemBtn.addEventListener('click', addItem);
-  addItem();
+  renumberItemTitles();
+  updateAddButtonState();
 
   // Form submit - Netlify Forms (multipart, so file uploads are included)
   const orderForm = document.getElementById('cd-order-form');
