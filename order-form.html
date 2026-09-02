@@ -32,84 +32,7 @@
     overflow-x: hidden;
   }
 
-  /* ── PASSWORD SCREEN ── */
-  #password-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--ink);
-  }
-
-  .password-box {
-    background: var(--cream);
-    padding: 3rem;
-    border-radius: 2px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-  }
-
-  .password-box h1 {
-    font-family: var(--display);
-    font-size: 32px;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    margin-bottom: 1rem;
-  }
-
-  .password-box p {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 2rem;
-  }
-
-  .password-box input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    font-family: var(--font);
-    font-size: 16px;
-    margin-bottom: 1rem;
-  }
-
-  .password-box input:focus {
-    outline: none;
-    border-color: var(--rust);
-  }
-
-  .password-box button {
-    width: 100%;
-    padding: 12px 16px;
-    background: var(--rust);
-    color: var(--cream);
-    border: none;
-    border-radius: 2px;
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .password-box button:hover {
-    background: #c93d22;
-  }
-
-  .password-error {
-    color: var(--rust);
-    font-size: 13px;
-    margin-top: 0.5rem;
-    display: none;
-  }
-
   /* ── ORDER FORM PAGE ── */
-  #order-form-page {
-    display: none;
-  }
 
   /* NAV */
   nav {
@@ -467,17 +390,6 @@
 </style>
 </head>
 <body>
-
-<!-- PASSWORD SCREEN -->
-<div id="password-screen">
-  <div class="password-box">
-    <h1>Order Form</h1>
-    <p>Enter password to view the order form</p>
-    <input type="password" id="password-input" placeholder="Password">
-    <button onclick="checkPassword()">Enter</button>
-    <div class="password-error" id="password-error">Incorrect password</div>
-  </div>
-</div>
 
 <!-- ORDER FORM PAGE -->
 <div id="order-form-page">
@@ -1435,33 +1347,6 @@
 </div>
 
 <script>
-  const PASSWORD = 'cowdog123';
-
-  function checkPassword() {
-    const input = document.getElementById('password-input');
-    const error = document.getElementById('password-error');
-
-    if (input.value === PASSWORD) {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('order-form-page').style.display = 'block';
-      sessionStorage.setItem('order-form-auth', 'true');
-    } else {
-      error.style.display = 'block';
-      input.value = '';
-    }
-  }
-
-  // Check if already authenticated
-  if (sessionStorage.getItem('order-form-auth') === 'true') {
-    document.getElementById('password-screen').style.display = 'none';
-    document.getElementById('order-form-page').style.display = 'block';
-  }
-
-  // Allow enter key on password
-  document.getElementById('password-input')?.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') checkPassword();
-  });
-
   // ── REPEATABLE PRODUCT ITEMS ──────────────────────────────────
   // All 6 product fieldsets are pre-rendered statically in the HTML (items 2-6
   // start hidden) rather than created via JS. Netlify Forms only recognizes
