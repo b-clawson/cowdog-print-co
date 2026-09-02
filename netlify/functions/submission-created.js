@@ -138,7 +138,8 @@ function sectionBarHtml(title) {
 }
 
 function checkboxLineHtml(label, checked) {
-  return `<span style="display:inline-block;margin:0 20px 8px 0;font-size:13px;color:${TEXT};">${checked ? '&#9745;' : '&#9744;'} ${esc(label)}</span>`;
+  const style = checked ? `font-weight:bold;color:${RUST};` : `color:${MUTED};`;
+  return `<span style="display:inline-block;margin:0 20px 8px 0;font-size:13px;${style}">${checked ? '&#9745;' : '&#9744;'} ${esc(label)}</span>`;
 }
 
 function caption(text) {
