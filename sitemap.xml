@@ -20,13 +20,19 @@
   </url>
   <url>
     <loc>https://cowdogprint.co/blog.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://cowdogprint.co/blog-screen-printing-cost.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://cowdogprint.co/blog-water-based-inks.html</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
