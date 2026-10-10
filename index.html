@@ -1701,7 +1701,7 @@
             <div><span class="meta-label">Suggested Min.</span><span class="meta-val">12+ pieces</span></div>
             <div><span class="meta-label">Turnaround</span><span class="meta-val">2–3 weeks</span></div>
           </div>
-          <div class="accs-desc">Premium embroidery for a classic, professional look that lasts. Perfect for hats, polos, jackets, and anything that needs a refined, durable finish. We handle everything from simple text to complex multi-color designs — up to 7 colors and 15,000 stitches per design. Digitizing included with every order.</div>
+          <div class="accs-desc">Premium embroidery for a classic, professional look that lasts. Perfect for hats, polos, jackets, and anything that needs a refined, durable finish. We handle everything from simple text to complex multi-color designs — up to 7 colors and 15,000 stitches per design. One-time digitizing fee per design — never charged again on reorders.</div>
         </div>
       </div>
     </div>
@@ -2188,42 +2188,48 @@
     'front': {
       name: 'Front',
       stitches: 'Up to 8K',
-      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+      prices: { '1-11': 10.00, '12-23': 9.50, '24-47': 9.00, '48-99': 8.50, '100-249': 8.00, '250+': 7.50 },
+      digitizing: 30
     },
     'left-side': {
       name: 'Left Side',
       stitches: 'Up to 8K',
-      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+      prices: { '1-11': 10.00, '12-23': 9.50, '24-47': 9.00, '48-99': 8.50, '100-249': 8.00, '250+': 7.50 },
+      digitizing: 30
     },
     'right-side': {
       name: 'Right Side',
       stitches: 'Up to 8K',
-      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+      prices: { '1-11': 10.00, '12-23': 9.50, '24-47': 9.00, '48-99': 8.50, '100-249': 8.00, '250+': 7.50 },
+      digitizing: 30
     },
     'back': {
       name: 'Back',
       stitches: 'Up to 8K',
-      prices: { '1-11': 10.00, '12-23': 8.50, '24-47': 7.50, '48-99': 7.00, '100-249': 6.50, '250+': 6.00 }
+      prices: { '1-11': 10.00, '12-23': 9.50, '24-47': 9.00, '48-99': 8.50, '100-249': 8.00, '250+': 7.50 },
+      digitizing: 30
     },
     // Apparel placements (single selection)
     'left-chest': {
       name: 'Left Chest',
       stitches: 'Up to 8K',
-      prices: { '1-11': 8.00, '12-23': 7.00, '24-47': 6.50, '48-99': 6.00, '100-249': 5.50, '250+': 5.00 }
+      prices: { '1-11': 8.00, '12-23': 7.00, '24-47': 6.50, '48-99': 6.00, '100-249': 5.50, '250+': 5.00 },
+      digitizing: 30
     },
     'full-front': {
       name: 'Full Front',
       stitches: '8K–15K',
-      prices: { '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00 }
+      prices: { '1-11': 15.00, '12-23': 13.00, '24-47': 11.00, '48-99': 10.00, '100-249': 9.00, '250+': 8.00 },
+      digitizing: 85
     },
     'full-back': {
       name: 'Full Back',
       stitches: '15K–30K',
-      prices: { '1-11': 30.00, '12-23': 25.00, '24-47': 20.00, '48-99': 18.00, '100-249': 16.00, '250+': 15.00 }
+      prices: { '1-11': 30.00, '12-23': 25.00, '24-47': 20.00, '48-99': 18.00, '100-249': 16.00, '250+': 15.00 },
+      digitizing: 150
     }
   };
 
-  const DIGITIZING_FEE = 40.00;
 
   function getEmbroideryQtyBand(qty) {
     if (qty < 12) return '1-11';
@@ -2243,11 +2249,23 @@
   };
 
   const FINISHING = {
-    necktag:     {'48-74':2.00,'75-99':1.60,'100-249':1.35,'250-499':1.10,'500-999':1.00,'1000+':0.90},
-    foldpoly:    {'48-74':1.10,'75-99':1.10,'100-249':1.10,'250-499':1.05,'500-999':1.00,'1000+':0.90},
-    hangtag:     {'48-74':0.55,'75-99':0.55,'100-249':0.55,'250-499':0.50,'500-999':0.45,'1000+':0.40},
-    fulfillment: {'48-74':1.10,'75-99':1.10,'100-249':1.10,'250-499':1.05,'500-999':1.00,'1000+':0.90},
+    necktag:     {'50':2.00,'100':1.60,'150':1.35,'250':1.10,'500':1.00,'750':0.95,'1000+':0.90},
+    foldpoly:    {'50':1.10,'100':1.10,'150':1.10,'250':1.05,'500':1.00,'750':0.95,'1000+':0.90},
+    hangtag:     {'50':0.55,'100':0.55,'150':0.55,'250':0.50,'500':0.45,'750':0.45,'1000+':0.40},
+    fulfillment: {'50':1.10,'100':1.10,'150':1.10,'250':1.05,'500':1.00,'750':0.95,'1000+':0.90},
   };
+
+  function getFinishingBand(qty) {
+    if (qty < 100)  return '50';
+    if (qty < 150)  return '100';
+    if (qty < 250)  return '150';
+    if (qty < 500)  return '250';
+    if (qty < 750)  return '500';
+    if (qty < 1000) return '750';
+    return '1000+';
+  }
+
+  const FLEECE_SURCHARGE = 3.50;
 
   function getQtyBand(qty) {
     if (qty < 75)  return '48-74';
@@ -2379,13 +2397,15 @@
     // Base print cost
     const basePPP = table[band][effectiveColors - 1]; // per piece per location
 
-    // Additional locations: first location included in base; extras add per-color cost
-    // We add $1.00/piece per color for each extra location
-    const extraLocCost = locs > 1 ? (locs - 1) * colors * 1.00 : 0;
+    // Extra locations: 1-color is a flat $1.00/pc; multi-color uses the standard rate table
+    const extraLocRate = effectiveColors === 1 ? 1.00 : STANDARD[band][effectiveColors - 1];
+    const extraLocCost = locs > 1 ? (locs - 1) * extraLocRate : 0;
 
-    // Screen setup: $35/color per location (one-time, divided across qty)
-    const screenSetup = colors * locs * 35;
-    const inkCharge   = colors * locs * 35;
+    const fleeceCost = (garmentType === 'crewneck' || garmentType === 'hoodie') ? FLEECE_SURCHARGE : 0;
+
+    // Setup and ink are per color per location; the dark underbase counts as a color
+    const screenSetup = effectiveColors * locs * 35;
+    const inkCharge   = effectiveColors * locs * 35;
     const setupPPP    = (screenSetup + inkCharge) / qty;
 
     // Puff / specialty inks
@@ -2409,13 +2429,13 @@
     const finishLines = [];
     document.querySelectorAll('input[name="finishing"]').forEach(cb => {
       if (!cb.checked) return;
-      const rate = FINISHING[cb.value][band];
+      const rate = FINISHING[cb.value][getFinishingBand(qty)];
       finishingPPP += rate;
       finishLines.push({name: cb.dataset.label, val: fmt(rate) + '/pc'});
     });
 
     // Subtotal before rush (print costs only)
-    let printPPP = basePPP + extraLocCost + setupPPP + addonPPP + finishingPPP;
+    let printPPP = basePPP + extraLocCost + fleeceCost + setupPPP + addonPPP + finishingPPP;
 
     // Rush
     const rushChecked = document.querySelector('input[value="rush"]').checked;
@@ -2438,7 +2458,8 @@
     html += `<div class="est-line"><span class="est-line-name">${garmentLabels[garmentType]} garment</span><span class="est-line-val">${fmt(garmentCost)}/pc</span></div>`;
     html += `<div class="est-line"><span class="est-line-name">${estPrintSize === 'jumbo' ? 'Jumbo' : 'Standard'} print (${colors} color${colors>1?'s':''}, ×${locs} loc${locs>1?'s':''})</span><span class="est-line-val">${fmt(basePPP)}/pc</span></div>`;
     if (extraLocCost > 0) html += `<div class="est-line est-line-sub"><span class="est-line-name">Extra location charge</span><span class="est-line-val">+${fmt(extraLocCost)}/pc</span></div>`;
-    html += `<div class="est-line est-line-sub"><span class="est-line-name">Screen setup + ink (${colors}×${locs} screens)</span><span class="est-line-val">+${fmt(setupPPP)}/pc</span></div>`;
+    if (fleeceCost > 0) html += `<div class="est-line est-line-sub"><span class="est-line-name">Fleece printing</span><span class="est-line-val">+${fmt(fleeceCost)}/pc</span></div>`;
+    html += `<div class="est-line est-line-sub"><span class="est-line-name">Screen setup + ink (${effectiveColors}×${locs} screens)</span><span class="est-line-val">+${fmt(setupPPP)}/pc</span></div>`;
     addonLines.forEach(l => html += `<div class="est-line est-line-sub"><span class="est-line-name">${l.name}</span><span class="est-line-val">${l.val}</span></div>`);
     finishLines.forEach(l => html += `<div class="est-line est-line-sub"><span class="est-line-name">${l.name}</span><span class="est-line-val">${l.val}</span></div>`);
     if (rushChecked) html += `<div class="est-line est-line-sub"><span class="est-line-name">Rush production (+30%)</span><span class="est-line-val">+${fmt(rushAdd)}/pc</span></div>`;
@@ -2506,8 +2527,8 @@
       });
     });
 
-    // Digitizing fee (waived at 100+)
-    const digitizingTotal = qty >= 100 ? 0 : DIGITIZING_FEE;
+    // One-time digitizing: only the highest placement fee is charged
+    const digitizingTotal = Math.max(...placementData.map(p => p.data.digitizing));
     const digitizingPPP = digitizingTotal / qty;
 
     // Total per piece
@@ -2531,11 +2552,7 @@
       });
     }
 
-    if (digitizingTotal > 0) {
-      html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee (one-time)</span><span class="est-line-val">+${fmt(digitizingPPP)}/pc</span></div>`;
-    } else {
-      html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee</span><span class="est-line-val">Waived at 100+</span></div>`;
-    }
+    html += `<div class="est-line est-line-sub"><span class="est-line-name">Digitizing fee (one-time, $${digitizingTotal})</span><span class="est-line-val">+${fmt(digitizingPPP)}/pc</span></div>`;
 
     breakdown.innerHTML = html;
     totalEl.textContent = fmtTotal(grandTotal);
